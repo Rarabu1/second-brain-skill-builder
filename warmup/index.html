@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hello, Terminal</title>
+<meta name="description" content="A friendly, hands-on introduction to the macOS terminal. Nine exercises, about twenty minutes, no setup required.">
+<style>
+  :root {
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --ink: #0a0a0a;
+    --ink-1: #18181b;
+    --ink-2: #52525b;
+    --ink-3: #a1a1aa;
+    --rule: #e4e4e7;
+    --rule-soft: #f1f1f4;
+    --accent: #2563eb;
+    --accent-soft: #dbeafe;
+    --accent-deep: #1d4ed8;
+    --good: #16a34a;
+    --good-soft: #dcfce7;
+    --warn: #d97706;
+    --term-bg: #0d1117;
+    --term-ink: #e6edf3;
+    --term-dim: #7d8590;
+    --term-prompt: #58a6ff;
+    --term-ok: #56d364;
+    --term-err: #ff7b72;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink-1); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+  body { line-height: 1.55; font-size: 16px; }
+  ::selection { background: var(--accent-soft); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-deep); text-decoration: underline; }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px 120px; }
+
+  /* Hero */
+  header.hero { padding: 96px 0 56px; }
+  header.hero .badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em; color: var(--accent); background: var(--accent-soft); padding: 6px 12px; border-radius: 999px; margin-bottom: 24px; }
+  header.hero .badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  header.hero h1 { font-size: 52px; line-height: 1.05; margin: 0 0 20px; letter-spacing: -0.025em; font-weight: 700; color: var(--ink); }
+  header.hero p.lede { font-size: 19px; color: var(--ink-2); margin: 0 0 28px; max-width: 56ch; line-height: 1.5; }
+  header.hero .meta { display: flex; gap: 24px; font-family: var(--mono); font-size: 13px; color: var(--ink-2); }
+  header.hero .meta span { display: inline-flex; align-items: center; gap: 6px; }
+  header.hero .meta span::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--ink-3); }
+
+  /* Sticky progress */
+  .progress-wrap { position: sticky; top: 0; background: rgba(250, 250, 250, 0.85); backdrop-filter: saturate(180%) blur(12px); -webkit-backdrop-filter: saturate(180%) blur(12px); padding: 14px 0; border-bottom: 1px solid var(--rule); z-index: 50; margin-bottom: 56px; }
+  .progress { display: flex; align-items: center; gap: 16px; font-family: var(--mono); font-size: 12px; color: var(--ink-2); }
+  .progress .bar { flex: 1; height: 3px; background: var(--rule); border-radius: 2px; overflow: hidden; }
+  .progress .bar > span { display: block; height: 100%; background: var(--accent); width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 2px; }
+  .progress .pct { font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 500; }
+
+  /* Sections */
+  section { margin: 80px 0; }
+  section .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; margin: 0 0 12px; font-weight: 500; }
+  section h2 { font-size: 34px; line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.02em; font-weight: 700; color: var(--ink); }
+  section .sub { font-size: 17px; color: var(--ink-2); margin: 0 0 36px; max-width: 60ch; }
+  section h3 { font-size: 22px; margin: 48px 0 8px; letter-spacing: -0.01em; font-weight: 600; }
+  p { margin: 0 0 16px; max-width: 64ch; color: var(--ink-1); }
+  code, kbd { font-family: var(--mono); }
+  p code, li code, label code { background: var(--rule-soft); color: var(--ink); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; border: 1px solid var(--rule); }
+  kbd { background: var(--surface); color: var(--ink); padding: 2px 7px; border-radius: 4px; font-size: 0.85em; border: 1px solid var(--rule); box-shadow: 0 1px 0 var(--rule); font-weight: 500; }
+
+  /* Terminal */
+  .terminal-shell { background: var(--term-bg); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 12px 32px -8px rgba(0,0,0,0.18); margin: 24px 0 12px; border: 1px solid #21262d; }
+  .terminal-titlebar { background: #161b22; padding: 10px 14px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #21262d; }
+  .terminal-titlebar .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .terminal-titlebar .dot.r { background: #ff5f56; }
+  .terminal-titlebar .dot.y { background: #ffbd2e; }
+  .terminal-titlebar .dot.g { background: #27c93f; }
+  .terminal-titlebar .label { margin-left: 12px; color: var(--term-dim); font-family: var(--mono); font-size: 12px; }
+  .terminal-body { padding: 20px 22px; font-family: var(--mono); font-size: 13.5px; line-height: 1.6; color: var(--term-ink); min-height: 280px; max-height: 460px; overflow-y: auto; }
+  .terminal-body::-webkit-scrollbar { width: 8px; }
+  .terminal-body::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+  .terminal-body .line { white-space: pre-wrap; word-break: break-word; }
+  .terminal-body .prompt { color: var(--term-prompt); font-weight: 500; }
+  .terminal-body .dim { color: var(--term-dim); }
+  .terminal-body .err { color: var(--term-err); }
+  .terminal-body .ok { color: var(--term-ok); }
+  .terminal-body .dir { color: var(--term-prompt); }
+  .terminal-input-row { display: flex; align-items: center; background: var(--term-bg); padding: 0 22px 20px; font-family: var(--mono); font-size: 13.5px; }
+  .terminal-input-row .prompt { color: var(--term-prompt); margin-right: 10px; white-space: nowrap; font-weight: 500; }
+  .terminal-input-row input { flex: 1; background: transparent; border: 0; outline: 0; color: var(--term-ink); font-family: var(--mono); font-size: 13.5px; padding: 0; caret-color: var(--term-prompt); }
+  .term-controls { display: flex; gap: 8px; margin: 8px 0 0; }
+  .btn { background: var(--surface); border: 1px solid var(--rule); color: var(--ink-1); font-family: var(--sans); font-size: 13px; padding: 7px 14px; border-radius: 7px; cursor: pointer; font-weight: 500; transition: all 0.15s; }
+  .btn:hover { border-color: var(--ink-3); background: var(--rule-soft); }
+  .btn.primary { background: var(--ink); color: white; border-color: var(--ink); }
+  .btn.primary:hover { background: var(--ink-1); }
+
+  /* Exercises */
+  .exercise { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 24px 28px; margin: 20px 0; transition: border-color 0.2s; }
+  .exercise.done { border-color: var(--good); background: linear-gradient(0deg, var(--good-soft) 0%, transparent 30%); }
+  .exercise .label { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 10px; font-weight: 500; }
+  .exercise .label .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rule); transition: background 0.2s; }
+  .exercise.done .label .dot { background: var(--good); }
+  .exercise.done .label .check { color: var(--good); font-weight: 600; margin-left: auto; }
+  .exercise.done .label .check::before { content: "✓ done"; }
+  .exercise h4 { font-size: 18px; margin: 0 0 8px; font-weight: 600; color: var(--ink); letter-spacing: -0.005em; }
+  .exercise p { margin: 0 0 12px; font-size: 15px; color: var(--ink-1); }
+  .exercise .hint { font-size: 13px; color: var(--ink-2); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--rule); }
+
+  /* Real-terminal panel */
+  .real { background: linear-gradient(135deg, var(--accent-soft) 0%, #eef2ff 100%); border: 1px solid #c7d2fe; border-radius: 14px; padding: 28px 30px; margin: 40px 0; }
+  .real .label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-deep); margin: 0 0 8px; font-weight: 600; }
+  .real h3 { font-size: 22px; margin: 0 0 12px; color: var(--ink); font-weight: 700; }
+  .real p { font-size: 15px; }
+  .real p code { background: white; border-color: #c7d2fe; }
+  .copy-block { background: var(--term-bg); color: var(--term-ink); font-family: var(--mono); font-size: 13px; padding: 16px 18px; border-radius: 8px; position: relative; margin: 14px 0; line-height: 1.6; }
+  .copy-block pre { margin: 0; white-space: pre-wrap; }
+  .copy-block button { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.1); color: var(--term-ink); border: 0; font-family: var(--sans); font-size: 11px; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-weight: 500; letter-spacing: 0.04em; }
+  .copy-block button:hover { background: rgba(255,255,255,0.18); }
+  .copy-block button.copied { background: var(--good); color: white; }
+  .check-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; }
+  .check-row input[type="checkbox"] { margin-top: 4px; accent-color: var(--accent); width: 16px; height: 16px; cursor: pointer; }
+  .check-row label { font-size: 15px; cursor: pointer; color: var(--ink-1); }
+
+  /* Footer */
+  footer { margin-top: 120px; padding-top: 32px; border-top: 1px solid var(--rule); color: var(--ink-2); font-size: 14px; }
+  footer p { color: var(--ink-2); }
+
+  @media (max-width: 640px) {
+    header.hero h1 { font-size: 38px; }
+    header.hero { padding: 64px 0 40px; }
+    section h2 { font-size: 28px; }
+    .exercise { padding: 20px; }
+    .real { padding: 22px; }
+    .terminal-body { font-size: 12.5px; padding: 16px; }
+    header.hero .meta { flex-wrap: wrap; gap: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <span class="badge">terminal basics</span>
+  <h1>Hello, Terminal.</h1>
+  <p class="lede">A short, hands-on introduction to the command line. Nine exercises in a safe in-browser sandbox, then a quick run through the real thing. No prior knowledge, no setup, nothing to install.</p>
+  <div class="meta">
+    <span>9 exercises</span>
+    <span>~20 minutes</span>
+    <span>nothing installed</span>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress">
+    <span id="progressLabel">0 of 9</span>
+    <div class="bar"><span id="progressFill"></span></div>
+    <span class="pct" id="progressPct">0%</span>
+  </div>
+</div>
+
+<section id="intro">
+  <p class="eyebrow">Why bother</p>
+  <h2>The terminal is just text in, text out.</h2>
+  <p>It's a window into the same files and folders you already use. You type a command, the computer prints back a result. That's the whole thing.</p>
+  <p>It feels intimidating because it looks like the movies, but nothing you type below can affect your computer &mdash; this is a simulator that runs entirely in your browser. Once a command feels familiar here, the real one is identical.</p>
+</section>
+
+<section id="sandbox">
+  <p class="eyebrow">Module 01</p>
+  <h2>The sandbox</h2>
+  <p class="sub">Type into the box below the terminal and press <kbd>Enter</kbd>. Try <code>help</code> any time to see what commands are available.</p>
+
+  <div class="terminal-shell">
+    <div class="terminal-titlebar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="label">you@mac &mdash; ~</span>
+    </div>
+    <div class="terminal-body" id="term"></div>
+  </div>
+  <div class="terminal-input-row">
+    <span class="prompt" id="promptLabel">you@mac ~ ›</span>
+    <input id="termInput" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="terminal input">
+  </div>
+  <div class="term-controls">
+    <button class="btn" onclick="termReset()">Reset</button>
+    <button class="btn" onclick="termHelp()">Show commands</button>
+  </div>
+
+  <div class="exercise" data-ex="1">
+    <p class="label"><span class="dot"></span>Exercise 1 — say hello<span class="check"></span></p>
+    <h4>Type <code>echo "hello world"</code> and press Enter.</h4>
+    <p><code>echo</code> simply prints whatever you give it back to the screen. It's the universal "first command" in any new environment &mdash; a quick sanity check that the system is listening.</p>
+    <p class="hint">The quotes group the words together. You'd get the same result without them here, but quotes matter when your text has special characters.</p>
+  </div>
+
+  <div class="exercise" data-ex="2">
+    <p class="label"><span class="dot"></span>Exercise 2 — who is logged in<span class="check"></span></p>
+    <h4>Type <code>whoami</code> and press Enter.</h4>
+    <p>This tells you which user the terminal is acting as. On your own laptop it's always you, but on a server or remote machine it's how you confirm who you're working as.</p>
+  </div>
+
+  <div class="exercise" data-ex="3">
+    <p class="label"><span class="dot"></span>Exercise 3 — what's today<span class="check"></span></p>
+    <h4>Type <code>date</code> and press Enter.</h4>
+    <p>Prints the current date and time. Looks trivial, but it's a useful confirmation that the machine's clock matches what you expect &mdash; especially when files have wrong timestamps.</p>
+  </div>
+
+  <div class="exercise" data-ex="4">
+    <p class="label"><span class="dot"></span>Exercise 4 — print the calendar<span class="check"></span></p>
+    <h4>Type <code>cal</code> and press Enter.</h4>
+    <p>This prints the current month as a calendar. A small, charming command that has shipped with Unix since the 1970s. Useful, occasionally; delightful, often.</p>
+  </div>
+
+  <div class="exercise" data-ex="5">
+    <p class="label"><span class="dot"></span>Exercise 5 — where am I<span class="check"></span></p>
+    <h4>Type <code>pwd</code> and press Enter.</h4>
+    <p><code>pwd</code> stands for "print working directory." Every terminal is always sitting inside some folder. This tells you which.</p>
+    <p class="hint">You should see a path starting with <code>/Users/you</code>. That's the simulator's home folder.</p>
+  </div>
+
+  <div class="exercise" data-ex="6">
+    <p class="label"><span class="dot"></span>Exercise 6 — what's here<span class="check"></span></p>
+    <h4>Type <code>ls</code> and press Enter.</h4>
+    <p><code>ls</code> lists what's in the current folder &mdash; the same thing you'd see if you opened it in Finder. Folders show in blue.</p>
+  </div>
+
+  <div class="exercise" data-ex="7">
+    <p class="label"><span class="dot"></span>Exercise 7 — move into a folder<span class="check"></span></p>
+    <h4>Type <code>cd Documents</code>, then <code>ls</code>.</h4>
+    <p><code>cd</code> means "change directory." Think of it as double-clicking a folder in Finder. The prompt updates to show your new location.</p>
+    <p class="hint">To go back up one level, type <code>cd ..</code> &mdash; two dots mean "the folder above this one."</p>
+  </div>
+
+  <div class="exercise" data-ex="8">
+    <p class="label"><span class="dot"></span>Exercise 8 — jump home<span class="check"></span></p>
+    <h4>Type <code>cd ~</code> (or just <code>cd</code>) and press Enter.</h4>
+    <p>The tilde <code>~</code> is shorthand for your home folder. From anywhere, this gets you back. Useful when you've wandered deep into a folder tree and want to start fresh.</p>
+  </div>
+
+  <div class="exercise" data-ex="9">
+    <p class="label"><span class="dot"></span>Exercise 9 — find a file anywhere<span class="check"></span></p>
+    <h4>Type <code>find ~ -name "*.pdf"</code> and press Enter.</h4>
+    <p>This searches your entire home folder for files ending in <code>.pdf</code>. The <code>*</code> is a wildcard that matches anything. <code>find</code> is the single most useful command for "I know I have that file somewhere but I forget where."</p>
+    <p class="hint">Try a few variations: <code>find ~ -name "*.jpg"</code>, or <code>find ~/Downloads -name "*.pdf"</code> to search only one folder.</p>
+  </div>
+</section>
+
+<section id="real">
+  <p class="eyebrow">Module 02</p>
+  <h2>Now do it for real.</h2>
+  <p class="sub">You've practiced the moves. Time to run them on your actual machine. Same commands, same outputs &mdash; just real files this time.</p>
+
+  <div class="real">
+    <p class="label">Step 1 — Open Terminal</p>
+    <h3>Press <kbd>⌘</kbd> + <kbd>Space</kbd>, type <em>Terminal</em>, press <kbd>Enter</kbd>.</h3>
+    <p>A window opens with a prompt that looks like the one above. You're now in your real home folder. Nothing here can hurt anything as long as you stick to the commands you've already practiced &mdash; they only read and look around, they never change or delete.</p>
+  </div>
+
+  <div class="real">
+    <p class="label">Step 2 — Run these, one by one</p>
+    <h3>Copy each line, paste it into Terminal, press <kbd>Enter</kbd>.</h3>
+
+    <div class="copy-block">
+      <button onclick="copyBlock(this)">Copy</button>
+      <pre>echo "hello world"
+whoami
+date
+cal
+pwd
+ls</pre>
+    </div>
+
+    <p>Each one should feel familiar. The output is real this time &mdash; your actual username, today's actual date, the contents of your real home folder.</p>
+
+    <div class="check-row">
+      <input type="checkbox" id="real1">
+      <label for="real1">I ran the first six commands on my real terminal.</label>
+    </div>
+  </div>
+
+  <div class="real">
+    <p class="label">Step 3 — Find a file you actually own</p>
+    <h3>The payoff exercise.</h3>
+    <p>Try finding every PDF in your home folder. On most laptops, this finds a surprising number of them &mdash; tax forms, receipts, articles you saved and forgot about.</p>
+
+    <div class="copy-block">
+      <button onclick="copyBlock(this)">Copy</button>
+      <pre>find ~ -name "*.pdf"</pre>
+    </div>
+
+    <p>Swap the extension to look for other things: <code>"*.jpg"</code> for photos, <code>"*.zip"</code> for archives, <code>"*resume*"</code> to find anything with the word "resume" in its name.</p>
+
+    <div class="copy-block">
+      <button onclick="copyBlock(this)">Copy</button>
+      <pre>find ~ -name "*resume*"</pre>
+    </div>
+
+    <p>If you see permission errors scroll by, ignore them &mdash; they're folders the system protects. Your results are still in there.</p>
+
+    <div class="check-row">
+      <input type="checkbox" id="real2">
+      <label for="real2">I found a real file on my computer using <code>find</code>.</label>
+    </div>
+  </div>
+</section>
+
+<section id="wrap-up">
+  <p class="eyebrow">That's it</p>
+  <h2>You can use a terminal now.</h2>
+  <p>Nine commands isn't everything, but it's a real foundation. <code>echo</code>, <code>date</code>, <code>cal</code>, <code>whoami</code>, <code>pwd</code>, <code>ls</code>, <code>cd</code>, <code>find</code>, and <code>clear</code> &mdash; that's most of what people actually type day to day.</p>
+  <p>Everything else builds from the same pattern: type the name of a tool, give it some inputs, press Enter, read the output. The commands you don't know yet work exactly the same way as the ones you do.</p>
+  <p>If you want to keep going, the next useful commands are <code>mkdir</code> (make a folder), <code>cp</code> (copy a file), <code>mv</code> (move or rename), and <code>grep</code> (search inside files). Same pattern, slightly more powerful.</p>
+</section>
+
+<footer>
+  <p>An introduction to the terminal. Built to be shared.</p>
+</footer>
+
+</div>
+
+<script>
+// ---------- Simulated filesystem ----------
+const FS = {
+  '/Users/you': {
+    type: 'dir',
+    children: {
+      'Desktop': { type: 'dir', children: {
+        'screenshot.png': { type: 'file', content: '[binary image data]' },
+        'todo.txt': { type: 'file', content: '- buy milk\n- call mom\n- learn the terminal\n' }
+      }},
+      'Documents': { type: 'dir', children: {
+        'taxes-2024.pdf': { type: 'file', content: '[PDF: 2024 tax return]' },
+        'taxes-2025.pdf': { type: 'file', content: '[PDF: 2025 tax return]' },
+        'resume.pdf': { type: 'file', content: '[PDF: your resume]' },
+        'cover-letter.docx': { type: 'file', content: '[Word document]' },
+        'notes': { type: 'dir', children: {
+          'ideas.txt': { type: 'file', content: 'A list of ideas you had once.\n' },
+          'meeting-notes.md': { type: 'file', content: '# Meeting notes\n\n- discussed Q2 plans\n' }
+        }}
+      }},
+      'Downloads': { type: 'dir', children: {
+        'invoice-march.pdf': { type: 'file', content: '[PDF invoice]' },
+        'invoice-april.pdf': { type: 'file', content: '[PDF invoice]' },
+        'vacation-photo.jpg': { type: 'file', content: '[image]' },
+        'installer.dmg': { type: 'file', content: '[disk image]' }
+      }},
+      'Music': { type: 'dir', children: {
+        'playlist.m3u': { type: 'file', content: '#EXTM3U\n' }
+      }},
+      'Pictures': { type: 'dir', children: {
+        'beach.jpg': { type: 'file', content: '[image]' },
+        'family.jpg': { type: 'file', content: '[image]' }
+      }}
+    }
+  }
+};
+
+let cwd = '/Users/you';
+const HOME = '/Users/you';
+const term = document.getElementById('term');
+const termInput = document.getElementById('termInput');
+const promptLabel = document.getElementById('promptLabel');
+
+function resolvePath(p) {
+  if (!p || p === '~') return HOME;
+  if (p.startsWith('~/')) p = HOME + '/' + p.slice(2);
+  if (!p.startsWith('/')) p = cwd + '/' + p;
+  const parts = p.split('/').filter(Boolean);
+  const stack = [];
+  for (const part of parts) {
+    if (part === '.') continue;
+    if (part === '..') stack.pop();
+    else stack.push(part);
+  }
+  return '/' + stack.join('/');
+}
+
+function getNode(path) {
+  if (path === '/Users/you') return FS['/Users/you'];
+  if (!path.startsWith('/Users/you/')) return null;
+  const rel = path.slice('/Users/you/'.length);
+  const parts = rel.split('/');
+  let node = FS['/Users/you'];
+  for (const part of parts) {
+    if (!node.children || !node.children[part]) return null;
+    node = node.children[part];
+  }
+  return node;
+}
+
+function shortPath(p) {
+  if (p === HOME) return '~';
+  if (p.startsWith(HOME + '/')) return '~/' + p.slice(HOME.length + 1);
+  return p;
+}
+
+function termWrite(html, cls) {
+  const div = document.createElement('div');
+  div.className = 'line' + (cls ? ' ' + cls : '');
+  div.innerHTML = html;
+  term.appendChild(div);
+  term.scrollTop = term.scrollHeight;
+}
+
+function updatePrompt() {
+  promptLabel.textContent = 'you@mac ' + shortPath(cwd) + ' ›';
+}
+
+function termIntro() {
+  term.innerHTML = '';
+  termWrite('<span class="dim">A safe in-browser shell. Nothing you type here can affect your real computer.</span>');
+  termWrite('<span class="dim">Try <span class="ok">echo "hello world"</span> to start, or <span class="ok">help</span> to see all available commands.</span>');
+  updatePrompt();
+}
+
+function termReset() {
+  cwd = HOME;
+  for (const k of Object.keys(exDone)) delete exDone[k];
+  document.querySelectorAll('.exercise').forEach(e => e.classList.remove('done'));
+  updateProgress();
+  termIntro();
+  termInput.focus();
+}
+
+function termHelp() {
+  termWrite('<span class="dim">Available: echo, whoami, date, cal, pwd, ls, cd, cat, find, clear, help</span>');
+}
+
+const exDone = {};
+function markExercise(n) {
+  if (exDone[n]) return;
+  exDone[n] = true;
+  const el = document.querySelector('[data-ex="' + n + '"]');
+  if (el) {
+    el.classList.add('done');
+    // gentle scroll attention only if user is near the section
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = document.querySelectorAll('.exercise').length;
+  const done = document.querySelectorAll('.exercise.done').length;
+  const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+  document.getElementById('progressLabel').textContent = done + ' of ' + total;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// ---------- Command implementations ----------
+function parseArgs(input) {
+  // Simple parser: tokens separated by whitespace, with double-quote grouping.
+  const out = [];
+  let cur = '';
+  let inQ = false;
+  for (let i = 0; i < input.length; i++) {
+    const c = input[i];
+    if (c === '"') { inQ = !inQ; continue; }
+    if (!inQ && /\s/.test(c)) {
+      if (cur.length) { out.push(cur); cur = ''; }
+    } else {
+      cur += c;
+    }
+  }
+  if (cur.length) out.push(cur);
+  return out;
+}
+
+function cmdEcho(args) {
+  termWrite(escapeHtml(args.join(' ')));
+  markExercise('1');
+}
+
+function cmdWhoami() {
+  termWrite('you');
+  markExercise('2');
+}
+
+function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+function cmdDate() {
+  const d = new Date();
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'local';
+  const out = days[d.getDay()] + ' ' + months[d.getMonth()] + ' ' + pad(d.getDate()) + ' ' +
+              pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()) + ' ' +
+              tz + ' ' + d.getFullYear();
+  termWrite(out);
+  markExercise('3');
+}
+
+function cmdCal() {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  const today = d.getDate();
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const title = monthNames[month] + ' ' + year;
+  // Center title over 20-char week-row
+  const headerWidth = 20;
+  const titlePad = Math.max(0, Math.floor((headerWidth - title.length) / 2));
+  let out = ' '.repeat(titlePad) + title + '\n';
+  out += 'Su Mo Tu We Th Fr Sa\n';
+  const firstDay = new Date(year, month, 1).getDay(); // 0..6
+  const lastDate = new Date(year, month + 1, 0).getDate();
+  let line = '   '.repeat(firstDay);
+  let escapedLines = [];
+  for (let day = 1; day <= lastDate; day++) {
+    const dayStr = day < 10 ? ' ' + day : '' + day;
+    if (day === today) {
+      line += '<span class="ok">' + dayStr + '</span> ';
+    } else {
+      line += dayStr + ' ';
+    }
+    if ((firstDay + day) % 7 === 0) {
+      escapedLines.push(line.trimEnd());
+      line = '';
+    }
+  }
+  if (line.trim().length) escapedLines.push(line.trimEnd());
+  // Render: header + week rows. Escape the static text but not our <span> wrapper.
+  const headerLines = out.split('\n').slice(0, 2).map(l => escapeHtml(l)).join('\n');
+  termWrite(headerLines + '\n' + escapedLines.join('\n'));
+  markExercise('4');
+}
+
+function cmdPwd() {
+  termWrite(escapeHtml(cwd));
+  markExercise('5');
+}
+
+function cmdLs(args) {
+  const target = args[0] ? resolvePath(args[0]) : cwd;
+  const node = getNode(target);
+  if (!node) { termWrite('ls: no such file or directory: ' + escapeHtml(args[0] || target), 'err'); return; }
+  if (node.type !== 'dir') { termWrite(escapeHtml(target.split('/').pop())); return; }
+  const items = Object.keys(node.children).sort((a, b) => a.localeCompare(b));
+  if (items.length === 0) { termWrite('<span class="dim">(empty)</span>'); return; }
+  const cells = items.map(name => {
+    const child = node.children[name];
+    if (child.type === 'dir') return '<span class="dir">' + escapeHtml(name) + '/</span>';
+    return escapeHtml(name);
+  });
+  termWrite(cells.join('   '));
+  markExercise('6');
+}
+
+function cmdCd(args) {
+  if (!args[0] || args[0] === '~') { cwd = HOME; updatePrompt(); markExercise('8'); return; }
+  const target = resolvePath(args[0]);
+  const node = getNode(target);
+  if (!node) { termWrite('cd: no such file or directory: ' + escapeHtml(args[0]), 'err'); return; }
+  if (node.type !== 'dir') { termWrite('cd: not a directory: ' + escapeHtml(args[0]), 'err'); return; }
+  cwd = target;
+  updatePrompt();
+  if (cwd !== HOME) markExercise('7');
+  if (args[0].includes('~') && cwd === HOME) markExercise('8');
+}
+
+function cmdCat(args) {
+  if (!args[0]) { termWrite('cat: missing file name', 'err'); return; }
+  const target = resolvePath(args[0]);
+  const node = getNode(target);
+  if (!node) { termWrite('cat: no such file: ' + escapeHtml(args[0]), 'err'); return; }
+  if (node.type !== 'file') { termWrite('cat: ' + escapeHtml(args[0]) + ': is a directory', 'err'); return; }
+  termWrite(escapeHtml(node.content));
+}
+
+function globToRegex(glob) {
+  let r = '^';
+  for (const c of glob) {
+    if (c === '*') r += '.*';
+    else if (c === '?') r += '.';
+    else if ('.+^$()|[]{}\\'.includes(c)) r += '\\' + c;
+    else r += c;
+  }
+  return new RegExp(r + '$', 'i');
+}
+
+function walkFind(startPath, pattern) {
+  const results = [];
+  const startNode = getNode(startPath);
+  if (!startNode) return null;
+  const re = pattern ? globToRegex(pattern) : null;
+  function walk(path, node) {
+    const base = path.split('/').pop();
+    if (!re || re.test(base)) results.push(path);
+    if (node.type === 'dir') {
+      const names = Object.keys(node.children).sort();
+      for (const n of names) {
+        walk(path + '/' + n, node.children[n]);
+      }
+    }
+  }
+  walk(startPath, startNode);
+  return results;
+}
+
+function cmdFind(args) {
+  // Supports: find <path>, find <path> -name "<pattern>"
+  if (args.length === 0) { termWrite('find: missing path. Try <span class="ok">find ~ -name "*.pdf"</span>', 'err'); return; }
+  const startArg = args[0];
+  const startPath = resolvePath(startArg);
+  let pattern = null;
+  const nameIdx = args.indexOf('-name');
+  if (nameIdx !== -1 && args[nameIdx + 1]) pattern = args[nameIdx + 1];
+  const results = walkFind(startPath, pattern);
+  if (results === null) { termWrite('find: ' + escapeHtml(startArg) + ': no such file or directory', 'err'); return; }
+  if (results.length === 0) { termWrite('<span class="dim">(no matches)</span>'); markExercise('9'); return; }
+  // Render with ~ shorthand to match user's mental model
+  const lines = results.map(p => escapeHtml(shortPath(p))).join('\n');
+  termWrite(lines);
+  markExercise('9');
+}
+
+function runCommand(raw) {
+  const input = raw.trim();
+  termWrite('<span class="prompt">you@mac ' + escapeHtml(shortPath(cwd)) + ' ›</span> ' + escapeHtml(input));
+  if (!input) return;
+  const args = parseArgs(input);
+  const cmd = args.shift();
+  switch (cmd) {
+    case 'echo': cmdEcho(args); break;
+    case 'whoami': cmdWhoami(); break;
+    case 'date': cmdDate(); break;
+    case 'cal': cmdCal(); break;
+    case 'pwd': cmdPwd(); break;
+    case 'ls': cmdLs(args); break;
+    case 'cd': cmdCd(args); break;
+    case 'cat': cmdCat(args); break;
+    case 'find': cmdFind(args); break;
+    case 'clear': term.innerHTML = ''; break;
+    case 'help': termHelp(); break;
+    case 'man': termWrite('<span class="dim">man opens a command\'s manual page. Not simulated here — try it in your real terminal: <span class="ok">man ls</span>. Press q to exit.</span>'); break;
+    case 'exit': termWrite('<span class="dim">(this is a simulator — there is nothing to exit)</span>'); break;
+    default:
+      termWrite(escapeHtml(cmd) + ': command not found. Try <span class="ok">help</span>.', 'err');
+  }
+}
+
+termInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    const v = termInput.value;
+    termInput.value = '';
+    runCommand(v);
+  }
+});
+
+// Click anywhere on the terminal body refocuses input
+document.querySelector('.terminal-shell').addEventListener('click', () => termInput.focus());
+
+termIntro();
+updateProgress();
+
+// ---------- Copy blocks ----------
+function copyBlock(btn) {
+  const pre = btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1400);
+  }).catch(() => {});
+}
+
+// ---------- Persist real-terminal checkboxes ----------
+document.querySelectorAll('.check-row input[type="checkbox"]').forEach(cb => {
+  const stored = JSON.parse(localStorage.getItem('hello_term_real') || '{}');
+  if (stored[cb.id]) cb.checked = true;
+  cb.addEventListener('change', () => {
+    const s = JSON.parse(localStorage.getItem('hello_term_real') || '{}');
+    s[cb.id] = cb.checked;
+    localStorage.setItem('hello_term_real', JSON.stringify(s));
+  });
+});
+
+termInput.focus();
+</script>
+</body>
+</html>

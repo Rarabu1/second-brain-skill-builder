@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Second Brain Skill Builder</title>
+<meta name="description" content="Two short, hands-on lessons that get you from never-touched-a-terminal to a working Second Brain in an afternoon. Built to be shared.">
+<meta property="og:title" content="Second Brain Skill Builder">
+<meta property="og:description" content="A pair of interactive lessons. Twenty minutes for the warmup. About an hour for the full system.">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --surface-2: #f4f4f5;
+    --ink: #0a0a0a;
+    --ink-1: #18181b;
+    --ink-2: #52525b;
+    --ink-3: #a1a1aa;
+    --rule: #e4e4e7;
+    --rule-soft: #f1f1f4;
+    --accent: #2563eb;
+    --accent-soft: #dbeafe;
+    --accent-deep: #1d4ed8;
+    --term-bg: #0d1117;
+    --term-ink: #e6edf3;
+    --term-prompt: #58a6ff;
+    --term-ok: #56d364;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink-1); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+  body { line-height: 1.55; font-size: 16px; min-height: 100vh; display: flex; flex-direction: column; }
+  ::selection { background: var(--accent-soft); }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 28px; width: 100%; }
+
+  /* Hero */
+  header.hero { padding: 112px 0 64px; }
+  header.hero .badge { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); background: var(--accent-soft); padding: 6px 14px; border-radius: 999px; margin-bottom: 28px; font-weight: 500; }
+  header.hero .badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  header.hero h1 { font-size: 64px; line-height: 1.02; margin: 0 0 22px; letter-spacing: -0.03em; font-weight: 700; color: var(--ink); max-width: 14ch; }
+  header.hero p.lede { font-size: 20px; color: var(--ink-2); margin: 0 0 32px; max-width: 56ch; line-height: 1.5; }
+  header.hero .meta { display: flex; gap: 28px; font-family: var(--mono); font-size: 13px; color: var(--ink-2); flex-wrap: wrap; }
+  header.hero .meta span { display: inline-flex; align-items: center; gap: 6px; }
+  header.hero .meta span::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--ink-3); }
+
+  /* Lesson cards */
+  .lessons { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 0 0 80px; }
+  .lesson { position: relative; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--rule); border-radius: 16px; padding: 32px 32px 28px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
+  .lesson:hover { transform: translateY(-2px); border-color: var(--accent); box-shadow: 0 12px 32px -12px rgba(37, 99, 235, 0.18); }
+  .lesson::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent) 0%, #60a5fa 100%); opacity: 0; transition: opacity 0.2s; }
+  .lesson:hover::before { opacity: 1; }
+  .lesson .step { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .lesson .step .num { background: var(--accent-soft); color: var(--accent-deep); padding: 3px 8px; border-radius: 4px; font-size: 10px; }
+  .lesson h2 { font-size: 28px; margin: 0 0 12px; letter-spacing: -0.015em; font-weight: 700; color: var(--ink); line-height: 1.15; }
+  .lesson p.desc { font-size: 15px; color: var(--ink-2); margin: 0 0 24px; line-height: 1.55; flex: 1; }
+  .lesson .stats { display: flex; gap: 16px; font-family: var(--mono); font-size: 12px; color: var(--ink-2); margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--rule-soft); }
+  .lesson .stats span { display: inline-flex; align-items: center; gap: 6px; }
+  .lesson .stats span::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--ink-3); }
+  .lesson .cta { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 500; color: var(--accent); transition: gap 0.2s; }
+  .lesson:hover .cta { gap: 12px; color: var(--accent-deep); }
+  .lesson .cta .arrow { font-family: var(--mono); }
+
+  /* Lesson 1: terminal vibe accent */
+  .lesson.terminal .preview { background: var(--term-bg); border-radius: 8px; padding: 12px 14px; margin: 0 0 24px; font-family: var(--mono); font-size: 12px; color: var(--term-ink); line-height: 1.65; border: 1px solid #21262d; }
+  .lesson.terminal .preview .prompt { color: var(--term-prompt); }
+  .lesson.terminal .preview .ok { color: var(--term-ok); }
+  .lesson.terminal .preview .dim { color: #7d8590; }
+
+  /* Lesson 2: doc vibe accent */
+  .lesson.guide .preview { background: var(--surface-2); border-radius: 8px; padding: 14px 16px; margin: 0 0 24px; font-size: 12.5px; color: var(--ink-2); line-height: 1.65; border: 1px solid var(--rule); }
+  .lesson.guide .preview .chapter { display: flex; align-items: center; gap: 10px; padding: 4px 0; }
+  .lesson.guide .preview .chapter .n { font-family: var(--mono); font-size: 10px; color: var(--ink-3); width: 24px; }
+  .lesson.guide .preview .chapter .t { color: var(--ink-1); font-weight: 500; }
+  .lesson.guide .preview .chapter.done .t { color: var(--accent); }
+  .lesson.guide .preview .chapter .check { margin-left: auto; color: var(--accent); font-size: 11px; }
+
+  /* How to use */
+  .how { padding: 56px 0 80px; border-top: 1px solid var(--rule); }
+  .how .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; margin: 0 0 14px; font-weight: 500; }
+  .how h3 { font-size: 28px; margin: 0 0 12px; letter-spacing: -0.015em; font-weight: 700; color: var(--ink); }
+  .how p.sub { font-size: 16px; color: var(--ink-2); margin: 0 0 36px; max-width: 56ch; }
+  .how .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .how .step { padding: 0; }
+  .how .step .n { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 600; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .how .step h4 { font-size: 16px; margin: 0 0 8px; font-weight: 600; color: var(--ink); }
+  .how .step p { font-size: 14px; color: var(--ink-2); margin: 0; line-height: 1.55; }
+
+  /* Footer */
+  footer { margin-top: auto; padding: 48px 0 56px; border-top: 1px solid var(--rule); }
+  footer .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+  footer p { font-size: 13px; color: var(--ink-2); margin: 0; }
+  footer .mark { font-family: var(--mono); font-size: 12px; color: var(--ink-3); letter-spacing: 0.04em; }
+
+  @media (max-width: 740px) {
+    header.hero h1 { font-size: 44px; }
+    header.hero { padding: 72px 0 48px; }
+    .lessons { grid-template-columns: 1fr; }
+    .lesson { padding: 26px 24px 22px; }
+    .how .steps { grid-template-columns: 1fr; gap: 28px; }
+    .how h3 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="hero">
+  <span class="badge">skill builder</span>
+  <h1>Build Your Second Brain.</h1>
+  <p class="lede">Two short, hands-on lessons. The first removes the terminal from the list of things you're afraid of. The second walks you through a working Second Brain you can use the same day. Built to be shared in training.</p>
+  <div class="meta">
+    <span>2 lessons</span>
+    <span>~80 minutes total</span>
+    <span>nothing to install for the warmup</span>
+  </div>
+</header>
+
+<section class="lessons">
+  <a class="lesson terminal" href="warmup/">
+    <div class="step"><span class="num">01</span><span>Warmup</span></div>
+    <h2>Hello, Terminal.</h2>
+    <div class="preview" aria-hidden="true">
+      <div><span class="prompt">you@mac ~ ›</span> echo "hello world"</div>
+      <div>hello world</div>
+      <div><span class="prompt">you@mac ~ ›</span> find ~ -name <span class="ok">"*.pdf"</span></div>
+      <div class="dim">~/Documents/taxes-2025.pdf</div>
+      <div class="dim">~/Downloads/invoice-april.pdf</div>
+    </div>
+    <p class="desc">Nine exercises in an in-browser sandbox, then the same commands on your real machine. Built for anyone who's never opened Terminal.app and isn't sure why they should.</p>
+    <div class="stats">
+      <span>9 exercises</span>
+      <span>~20 minutes</span>
+      <span>nothing installed</span>
+    </div>
+    <span class="cta">Start the warmup <span class="arrow">→</span></span>
+  </a>
+
+  <a class="lesson guide" href="setup/">
+    <div class="step"><span class="num">02</span><span>System</span></div>
+    <h2>The five-chapter setup.</h2>
+    <div class="preview" aria-hidden="true">
+      <div class="chapter done"><span class="n">01</span><span class="t">The Foundation</span><span class="check">✓</span></div>
+      <div class="chapter done"><span class="n">02</span><span class="t">Memory + First Project</span><span class="check">✓</span></div>
+      <div class="chapter"><span class="n">03</span><span class="t">Morning Autopilot</span></div>
+      <div class="chapter"><span class="n">04</span><span class="t">Meeting Prep</span></div>
+      <div class="chapter"><span class="n">05</span><span class="t">Automation</span></div>
+    </div>
+    <p class="desc">Five chapters that walk you through the full system: PARA folders, persistent memory, morning triage, meeting prep, and automated briefs. Designed around Obsidian + Claude Code, with Cowork where it earns its keep.</p>
+    <div class="stats">
+      <span>5 chapters</span>
+      <span>~1 hour</span>
+      <span>copy-paste prompts</span>
+    </div>
+    <span class="cta">Open the guide <span class="arrow">→</span></span>
+  </a>
+</section>
+
+<section class="how">
+  <p class="eyebrow">How to use this</p>
+  <h3>Linear if you're new. Skip around if you're not.</h3>
+  <p class="sub">The two lessons are self-contained. Do them in order, or jump to the one that matches where you are. Each one ends with something you can actually use.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="n">If you've never opened Terminal</div>
+      <h4>Start with the warmup.</h4>
+      <p>Twenty minutes in a safe sandbox removes the only barrier most knowledge workers ever hit with the setup guide.</p>
+    </div>
+    <div class="step">
+      <div class="n">If you live in a terminal already</div>
+      <h4>Skip straight to the setup.</h4>
+      <p>Chapter 1 takes about ten minutes. By chapter 3 you'll have a working morning triage routine reading your real email and chat.</p>
+    </div>
+    <div class="step">
+      <div class="n">If you're running a training</div>
+      <h4>Send people here.</h4>
+      <p>One URL covers both lessons. Each chapter has a progress checkbox so attendees can pick up later from where they paused.</p>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <p>A companion to <em>Build Your Second Brain with Claude</em>. Share freely.</p>
+      <span class="mark">second brain · skill builder</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

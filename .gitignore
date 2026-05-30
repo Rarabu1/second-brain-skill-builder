@@ -1,0 +1,15 @@
+# Deny everything by default
+*
+
+# Allow root-level files
+!index.html
+!README.md
+!.gitignore
+
+# Allow warmup/ and its contents
+!warmup/
+!warmup/**
+
+# Allow setup/ and its contents
+!setup/
+!setup/**
