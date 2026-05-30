@@ -1,0 +1,1162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personalize Your Second Brain</title>
+<meta name="description" content="Answer five questions about your work and get personalized vault files ready to drop into Obsidian.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F3F5F8;
+    --paper-2: #E8ECF2;
+    --paper-3: #DDE2EB;
+    --ink: #0D1218;
+    --ink-2: #3A4356;
+    --ink-3: #7B8294;
+    --rule: #D3D8E1;
+    --accent: #1B3A6B;
+    --accent-2: #2A4F8C;
+    --accent-soft: rgba(27, 58, 107, 0.5);
+    --accent-dim: rgba(27, 58, 107, 0.08);
+    --terminal-bg: #0C1119;
+    --terminal-green: #93D85A;
+    --terminal-amber: #F0C84A;
+    --terminal-text: #DCD6C7;
+
+    /* Legacy aliases */
+    --bg: var(--paper);
+    --surface: var(--paper-2);
+    --surface-2: var(--paper-2);
+    --ink-1: var(--ink);
+    --rule-soft: rgba(211, 216, 225, 0.5);
+    --accent-deep: var(--accent-2);
+    --good: var(--accent);
+    --good-soft: var(--accent-dim);
+    --term-bg: var(--terminal-bg);
+    --term-ink: var(--terminal-text);
+    --term-dim: #6b6557;
+
+    --sans: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
+    --serif: 'Newsreader', Georgia, serif;
+    --italic: 'Fraunces', Georgia, serif;
+    --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+  body { font-family: var(--serif); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; line-height: 1.55; font-size: 15.5px; min-height: 100vh; display: flex; flex-direction: column; }
+  ::selection { background: var(--accent-dim); color: var(--ink); }
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-soft); transition: border-color 0.2s; }
+  a:hover { border-color: var(--accent); }
+  em { font-family: var(--italic); font-style: italic; font-variation-settings: 'opsz' 24, 'wght' 500; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px 96px; width: 100%; }
+  p { margin: 0 0 16px; color: var(--ink-2); font-family: var(--serif); }
+  code { font-family: var(--mono); background: var(--paper-2); padding: 2px 6px; border-radius: 2px; font-size: 0.88em; border: 0.5px solid var(--rule); color: var(--ink); }
+
+  /* Site header */
+  .site-header { padding: 22px 0; border-bottom: 0.5px solid var(--rule); }
+  .site-header .header-inner { max-width: 720px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .wordmark { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; border-bottom: 0; }
+  .wordmark .mark { position: relative; width: 24px; height: 24px; border: 1.5px solid var(--ink); display: inline-flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--ink); letter-spacing: 0.04em; }
+  .wordmark .mark::after { content: ""; position: absolute; top: -2.5px; right: -2.5px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+  .wordmark-text { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); }
+  .issue { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+
+  /* Hero */
+  header.hero { padding: 72px 0 48px; }
+  header.hero .eyebrow-hero { display: inline-flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 28px; }
+  header.hero .eyebrow-hero::before { content: ""; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
+  header.hero h1 {
+    font-family: var(--sans);
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 96, 'wght' 800;
+    font-weight: 800;
+    font-size: clamp(48px, 11vw, 76px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    margin: 0 0 24px;
+    max-width: 14ch;
+  }
+  header.hero h1 em {
+    font-family: var(--italic);
+    font-variation-settings: 'opsz' 96, 'wght' 700;
+    font-style: italic;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  header.hero p.lede { font-family: var(--serif); font-size: 19px; line-height: 1.55; color: var(--ink-2); margin: 0 0 32px; max-width: 580px; }
+  header.hero .meta { display: flex; flex-wrap: wrap; gap: 32px; padding: 18px 0; border-top: 0.5px solid var(--rule); border-bottom: 0.5px solid var(--rule); }
+  header.hero .meta span { font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.04em; }
+
+  /* Progress */
+  .progress-wrap { position: sticky; top: 0; background: rgba(243, 245, 248, 0.92); backdrop-filter: saturate(180%) blur(12px); -webkit-backdrop-filter: saturate(180%) blur(12px); padding: 14px 0; border-bottom: 0.5px solid var(--rule); z-index: 50; margin-bottom: 48px; }
+  .progress { display: flex; align-items: center; gap: 14px; font-family: var(--mono); font-size: 10px; color: var(--ink-3); letter-spacing: 0.14em; text-transform: uppercase; }
+  .progress .pills { display: flex; gap: 6px; flex: 1; }
+  .progress .pill { flex: 1; height: 2px; background: var(--rule); transition: background 0.4s, opacity 0.4s; }
+  .progress .pill.done { background: var(--accent); }
+  .progress .pill.active { background: var(--accent); opacity: 0.55; }
+  .progress .step-label { white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--accent); }
+
+  /* Wizard steps */
+  .step-wrap { display: none; }
+  .step-wrap.active { display: block; }
+  .step-wrap .eyebrow { display: inline-flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+  .step-wrap .eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
+  .step-wrap h2 {
+    font-family: var(--sans);
+    font-variation-settings: 'opsz' 48, 'wght' 700;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin: 0 0 10px;
+  }
+  .step-wrap .sub { font-family: var(--serif); font-size: 17px; line-height: 1.55; color: var(--ink-2); margin: 0 0 32px; max-width: 60ch; }
+
+  /* Form fields */
+  .field { margin-bottom: 22px; }
+  .field label { display: block; font-family: var(--sans); font-variation-settings: 'opsz' 18, 'wght' 600; font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.005em; }
+  .field .hint { font-family: var(--serif); font-size: 13.5px; font-style: italic; color: var(--ink-3); margin-bottom: 8px; line-height: 1.5; }
+  .field input[type="text"],
+  .field select,
+  .field textarea { width: 100%; background: var(--paper-2); border: 0.5px solid var(--rule); border-radius: 4px; padding: 10px 14px; font-family: var(--serif); font-size: 15px; color: var(--ink); outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+  .field input[type="text"]:focus,
+  .field select:focus,
+  .field textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+  .field textarea { resize: vertical; min-height: 78px; line-height: 1.55; }
+  .field select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237B8294' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-color: var(--paper-2); padding-right: 36px; cursor: pointer; font-family: var(--serif); }
+  .field input.optional { border-style: dashed; }
+  .field-error { font-family: var(--mono); font-size: 11px; color: #b91c1c; margin-top: 5px; display: none; letter-spacing: 0.04em; }
+  input.invalid, textarea.invalid, select.invalid { border-color: #b91c1c !important; }
+  .req { color: var(--accent); margin-left: 2px; font-family: var(--mono); font-size: 11px; vertical-align: super; }
+  .opt { color: var(--ink-3); font-family: var(--mono); font-size: 11px; font-weight: 400; margin-left: 6px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* Radio groups */
+  .radio-group { display: flex; flex-direction: column; gap: 8px; }
+  .radio-row { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 0.5px solid var(--rule); border-radius: 4px; cursor: pointer; transition: border-color 0.15s, background 0.15s; background: var(--paper-2); }
+  .radio-row:hover { border-color: var(--accent-soft); background: var(--paper-3); }
+  .radio-row input[type="radio"] { margin-top: 3px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0; }
+  .radio-row .rl { font-family: var(--serif); font-size: 15px; color: var(--ink-2); line-height: 1.5; }
+  .radio-row .rl strong { color: var(--ink); font-weight: 600; }
+  .radio-row:has(input:checked) { border-color: var(--accent); background: var(--accent-dim); }
+  .radio-row:has(input:checked) .rl { color: var(--ink); }
+  .radio-inline { flex-direction: row; flex-wrap: wrap; gap: 8px; }
+  .radio-inline .radio-row { flex: 1; min-width: 120px; }
+
+  /* Checkbox chips */
+  .checkbox-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .check-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border: 0.5px solid var(--rule); border-radius: 2px; cursor: pointer; font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; transition: all 0.15s; user-select: none; background: var(--paper-2); }
+  .check-chip:hover { border-color: var(--accent-soft); color: var(--ink); }
+  .check-chip input[type="checkbox"] { accent-color: var(--accent); cursor: pointer; }
+  .check-chip:has(input:checked) { border-color: var(--accent); background: var(--accent-dim); color: var(--accent); font-weight: 600; }
+
+  /* Repeatable slots */
+  .slot { background: var(--paper-2); border: 0.5px solid var(--rule); border-radius: 4px; padding: 18px 20px; margin-bottom: 12px; }
+  .slot .slot-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .slot .slot-lbl { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--ink-3); font-weight: 500; }
+  .slot .slot-rm { background: none; border: none; color: var(--ink-3); cursor: pointer; font-size: 20px; line-height: 1; padding: 0 2px; }
+  .slot .slot-rm:hover { color: var(--accent); }
+  .slot .field { margin-bottom: 10px; }
+  .slot .field:last-child { margin-bottom: 0; }
+  .slot .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .add-btn { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--accent); background: none; border: 0.5px dashed var(--accent-soft); border-radius: 2px; padding: 8px 14px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.08em; text-transform: uppercase; }
+  .add-btn:hover { background: var(--accent-dim); border-color: var(--accent); }
+
+  /* Navigation */
+  .nav { display: flex; align-items: center; justify-content: space-between; margin-top: 40px; padding-top: 24px; border-top: 0.5px solid var(--rule); }
+  .nav .back-btn { background: none; border: none; font-family: var(--mono); font-size: 11px; color: var(--ink-3); cursor: pointer; padding: 0; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.15s; }
+  .nav .back-btn:hover { color: var(--accent); }
+  .btn { background: transparent; border: 0.5px solid var(--rule); color: var(--ink); font-family: var(--mono); font-size: 11px; padding: 10px 18px; border-radius: 2px; cursor: pointer; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.15s; }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); font-size: 11px; padding: 11px 22px; }
+  .btn.primary:hover { background: var(--accent); border-color: var(--accent); color: white; }
+  .btn.generate { background: var(--accent); color: var(--paper); border-color: var(--accent); font-size: 11px; padding: 12px 26px; }
+  .btn.generate:hover { background: var(--accent-2); border-color: var(--accent-2); }
+
+  /* Output */
+  #output { display: none; }
+  .output-hero { background: var(--accent-dim); border: 0.5px solid var(--accent-soft); border-radius: 4px; padding: 28px 32px; margin-bottom: 36px; position: relative; border-left: 2px solid var(--accent); }
+  .output-hero h2 { font-family: var(--sans); font-variation-settings: 'opsz' 36, 'wght' 700; margin: 0 0 8px; font-size: 28px; color: var(--ink); letter-spacing: -0.025em; font-weight: 700; line-height: 1.1; }
+  .output-hero p { margin: 0; font-family: var(--serif); font-size: 15.5px; color: var(--ink-2); max-width: 60ch; }
+  .file-block { margin: 0 0 32px; }
+  .file-path-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+  .file-path-tag { font-family: var(--mono); font-size: 12px; color: var(--ink); background: var(--paper-2); border: 0.5px solid var(--rule); padding: 5px 10px; border-radius: 2px; font-weight: 500; letter-spacing: 0.02em; }
+  .file-path-tag .path-dim { color: var(--ink-3); }
+  .copy-block { background: var(--terminal-bg); color: var(--terminal-text); font-family: var(--mono); font-size: 12.5px; padding: 16px 18px; border-radius: 6px; position: relative; line-height: 1.7; }
+  .copy-block pre { margin: 0; white-space: pre-wrap; word-break: break-word; max-height: 340px; overflow-y: auto; font-family: var(--mono); }
+  .copy-block pre::-webkit-scrollbar { width: 6px; }
+  .copy-block pre::-webkit-scrollbar-thumb { background: #21262d; border-radius: 3px; }
+  .copybtn { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.08); color: var(--terminal-text); border: 0; font-family: var(--mono); font-size: 10px; padding: 4px 9px; border-radius: 2px; cursor: pointer; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
+  .copybtn:hover { background: rgba(255,255,255,0.16); }
+  .copybtn.copied { background: var(--terminal-green); color: var(--terminal-bg); }
+
+  /* Claude Code prompt accordion */
+  .cc-section { margin-top: 44px; }
+  details.cc-details { border: 0.5px solid var(--rule); border-radius: 4px; overflow: hidden; background: var(--paper-2); }
+  details.cc-details summary { padding: 14px 18px; cursor: pointer; font-family: var(--serif); font-size: 15px; font-weight: 500; list-style: none; display: flex; align-items: center; gap: 10px; color: var(--ink); user-select: none; }
+  details.cc-details summary::-webkit-details-marker { display: none; }
+  details.cc-details summary::before { content: "▸"; font-family: var(--mono); color: var(--ink-3); transition: transform 0.2s; display: inline-block; }
+  details.cc-details[open] summary::before { transform: rotate(90deg); }
+  details.cc-details summary .tag { font-family: var(--mono); font-size: 10px; color: var(--accent); background: var(--accent-dim); padding: 3px 8px; border-radius: 2px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  details.cc-details .cc-body { padding: 0 18px 18px; }
+  details.cc-details .cc-body > p { font-family: var(--serif); font-size: 14px; color: var(--ink-2); margin: 0 0 14px; }
+
+  /* Restart */
+  .restart-row { margin-top: 44px; padding-top: 28px; border-top: 0.5px solid var(--rule); }
+  .restart-row p { font-family: var(--serif); font-size: 14px; color: var(--ink-3); margin-bottom: 12px; }
+
+  /* Footer */
+  footer { margin-top: auto; padding: 32px 0 48px; border-top: 0.5px solid var(--rule); }
+  footer p { font-family: var(--serif); font-size: 14px; color: var(--ink-3); margin: 0; }
+  footer em { font-family: var(--italic); font-style: italic; color: var(--ink-2); }
+  footer a { color: var(--ink-2); }
+
+  /* Motion */
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .rise { animation: rise 0.7s ease-out backwards; }
+  .d1 { animation-delay: 0.05s; }
+  .d2 { animation-delay: 0.12s; }
+  .d3 { animation-delay: 0.2s; }
+  .d4 { animation-delay: 0.28s; }
+  .d5 { animation-delay: 0.36s; }
+
+  @media (max-width: 480px) {
+    .wrap { padding: 0 20px 72px; }
+    .site-header .header-inner { padding: 0 20px; }
+    header.hero h1 { font-size: clamp(40px, 13vw, 60px); }
+    header.hero { padding: 48px 0 32px; }
+    header.hero p.lede { font-size: 17px; }
+    header.hero .meta { gap: 22px; }
+    .step-wrap h2 { font-size: 26px; }
+    .slot .row2 { grid-template-columns: 1fr; }
+    .radio-inline { flex-direction: column; }
+    .nav .back-btn { display: none; }
+    .wordmark-text { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="header-inner">
+    <a class="wordmark rise d1" href="../">
+      <div class="mark">SB</div>
+      <span class="wordmark-text">Skill Builder</span>
+    </a>
+    <span class="issue rise d1">Field Manual &middot; Personalize</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow-hero rise d2">5 questions &middot; custom vault files</div>
+  <h1 class="rise d3">Your Setup, <em>Your</em> Way.</h1>
+  <p class="lede rise d4">Answer five questions about your work, your people, and your style. Get a personalized CLAUDE.md, soul.md, and daily routine files ready to drop into Obsidian.</p>
+  <div class="meta rise d5">
+    <span>5 STEPS</span>
+    <span>~5 MIN</span>
+    <span>NO ACCOUNT</span>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress">
+    <span class="step-label" id="stepLabel">Step 1 of 5</span>
+    <div class="pills">
+      <span class="pill active" data-pill="1"></span>
+      <span class="pill" data-pill="2"></span>
+      <span class="pill" data-pill="3"></span>
+      <span class="pill" data-pill="4"></span>
+      <span class="pill" data-pill="5"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     STEP 1 — About You
+     ============================================================ -->
+<div class="step-wrap active" id="step1">
+  <p class="eyebrow">Step 1 of 5</p>
+  <h2>About you.</h2>
+  <p class="sub">The basics that anchor everything. Claude reads this at the start of every session to calibrate its assumptions about your role and context.</p>
+
+  <div class="field">
+    <label>Your name <span class="req">*</span></label>
+    <input type="text" id="name" placeholder="e.g., Alex Reyes" autocomplete="name">
+    <p class="field-error" id="err-name">Required.</p>
+  </div>
+
+  <div class="field">
+    <label>Job title / role <span class="req">*</span></label>
+    <input type="text" id="role" placeholder="e.g., Senior Product Manager, Policy Director, Engineering Lead">
+    <p class="field-error" id="err-role">Required.</p>
+  </div>
+
+  <div class="field">
+    <label>Organization type</label>
+    <select id="orgType">
+      <option value="">Select one (optional)</option>
+      <option value="tech">Technology</option>
+      <option value="finance">Finance / Banking</option>
+      <option value="government">Government / Policy</option>
+      <option value="healthcare">Healthcare</option>
+      <option value="consulting">Consulting / Advisory</option>
+      <option value="nonprofit">Nonprofit</option>
+      <option value="startup">Startup</option>
+      <option value="other">Other</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Location <span class="opt">(optional)</span></label>
+    <input type="text" id="location" class="optional" placeholder="e.g., Washington, DC" autocomplete="off">
+  </div>
+
+  <div class="field">
+    <label>In one or two sentences, what's your main professional focus? <span class="req">*</span></label>
+    <div class="hint">Be specific. "I run a team of six engineers migrating a monolith to microservices" beats "I work in tech." The more Claude knows, the less you repeat yourself.</div>
+    <textarea id="focus" rows="3" placeholder="e.g., I design intelligence-sharing programs between technology platforms and financial institutions to combat scams and fraud."></textarea>
+    <p class="field-error" id="err-focus">Required.</p>
+  </div>
+
+  <div class="nav">
+    <span></span>
+    <button class="btn primary" onclick="nextStep(1)">Continue &rarr;</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     STEP 2 — Your Work
+     ============================================================ -->
+<div class="step-wrap" id="step2">
+  <p class="eyebrow">Step 2 of 5</p>
+  <h2>Your work.</h2>
+  <p class="sub">Active projects and ongoing responsibilities. Add at least one project — you'll get a dedicated CLAUDE.md file for it. You can always add more directly in Obsidian later.</p>
+
+  <div id="projectsContainer">
+    <div class="slot" id="proj0">
+      <div class="slot-header">
+        <span class="slot-lbl">Project 1</span>
+      </div>
+      <div class="field">
+        <label>Project name <span class="req">*</span></label>
+        <input type="text" id="proj0-name" placeholder="e.g., Q3 Repositioning, Auth Migration, UK Partner Onboarding">
+        <p class="field-error" id="err-proj0">Add at least one project name.</p>
+      </div>
+      <div class="slot row2" style="background:none;border:none;padding:0;margin:0;">
+        <div class="field">
+          <label>One-line description <span class="req">*</span></label>
+          <input type="text" id="proj0-desc" placeholder="e.g., Brand work for new audience segment">
+          <p class="field-error" id="err-proj0-desc">Required.</p>
+        </div>
+        <div class="field">
+          <label>Current phase <span class="opt">(optional)</span></label>
+          <input type="text" id="proj0-phase" placeholder="e.g., legal review, drafting, shipping">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="add-btn" id="addProjectBtn" onclick="addProject()">+ Add another project</button>
+
+  <div class="field" style="margin-top:28px;">
+    <label>Ongoing responsibilities <span class="opt">(optional)</span></label>
+    <div class="hint">Things without an end date — roles, recurring tasks. One per line or comma-separated.</div>
+    <textarea id="responsibilities" rows="3" placeholder="e.g., partner management, weekly team syncs, quarterly reporting, stakeholder communications"></textarea>
+  </div>
+
+  <div class="nav">
+    <button class="back-btn" onclick="goToStep(1)">&larr; Back</button>
+    <button class="btn primary" onclick="nextStep(2)">Continue &rarr;</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     STEP 3 — Your People
+     ============================================================ -->
+<div class="step-wrap" id="step3">
+  <p class="eyebrow">Step 3 of 5</p>
+  <h2>Your people.</h2>
+  <p class="sub">Key colleagues Claude should know about. This prevents the most common mistake: mixing up people with similar names, or drafting for the wrong person entirely. Skip this step if you prefer to add contacts later.</p>
+
+  <div id="contactsContainer">
+    <div class="slot" id="contact0">
+      <div class="slot-header"><span class="slot-lbl">Contact 1</span></div>
+      <div class="row2">
+        <div class="field">
+          <label>Full name</label>
+          <input type="text" id="contact0-name" placeholder="e.g., Maria Chen">
+        </div>
+        <div class="field">
+          <label>Role</label>
+          <input type="text" id="contact0-role" placeholder="e.g., Legal Counsel">
+        </div>
+      </div>
+      <div class="field">
+        <label>Notes <span class="opt">(optional)</span></label>
+        <input type="text" id="contact0-notes" placeholder="e.g., prefers async, responds faster on chat than email">
+      </div>
+    </div>
+    <div class="slot" id="contact1">
+      <div class="slot-header">
+        <span class="slot-lbl">Contact 2</span>
+        <button class="slot-rm" onclick="removeSlot('contact',1)" title="Remove">&times;</button>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Full name</label>
+          <input type="text" id="contact1-name" placeholder="e.g., James Okafor">
+        </div>
+        <div class="field">
+          <label>Role</label>
+          <input type="text" id="contact1-role" placeholder="e.g., Engineering Lead">
+        </div>
+      </div>
+      <div class="field">
+        <label>Notes <span class="opt">(optional)</span></label>
+        <input type="text" id="contact1-notes" placeholder="e.g., weekly Thursday sync, communicates better in writing">
+      </div>
+    </div>
+  </div>
+  <button class="add-btn" id="addContactBtn" onclick="addContact()">+ Add another contact</button>
+
+  <div class="nav">
+    <button class="back-btn" onclick="goToStep(2)">&larr; Back</button>
+    <button class="btn primary" onclick="nextStep(3)">Continue &rarr;</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     STEP 4 — Your Language
+     ============================================================ -->
+<div class="step-wrap" id="step4">
+  <p class="eyebrow">Step 4 of 5</p>
+  <h2>Your language.</h2>
+  <p class="sub">Terms, programs, or acronyms Claude might get wrong. This is the highest-value thing you can add. Every term you define here is a hallucination you'll never have to correct. Skip if your work uses standard terminology.</p>
+
+  <div id="termsContainer">
+    <div class="slot" id="term0">
+      <div class="slot-header"><span class="slot-lbl">Term 1</span></div>
+      <div class="row2">
+        <div class="field">
+          <label>Term or acronym</label>
+          <input type="text" id="term0-term" placeholder="e.g., LIFTOFF">
+        </div>
+        <div class="field">
+          <label>What it actually means</label>
+          <input type="text" id="term0-def" placeholder="e.g., new merchant onboarding campaign. NOT a product launch">
+        </div>
+      </div>
+    </div>
+    <div class="slot" id="term1">
+      <div class="slot-header">
+        <span class="slot-lbl">Term 2</span>
+        <button class="slot-rm" onclick="removeSlot('term',1)" title="Remove">&times;</button>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Term or acronym</label>
+          <input type="text" id="term1-term" placeholder="e.g., The migration">
+        </div>
+        <div class="field">
+          <label>What it actually means</label>
+          <input type="text" id="term1-def" placeholder="e.g., monolith to microservices work. NOT last year's database migration">
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="add-btn" id="addTermBtn" onclick="addTerm()">+ Add another term</button>
+
+  <div class="nav">
+    <button class="back-btn" onclick="goToStep(3)">&larr; Back</button>
+    <button class="btn primary" onclick="nextStep(4)">Continue &rarr;</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     STEP 5 — Your Style
+     ============================================================ -->
+<div class="step-wrap" id="step5">
+  <p class="eyebrow">Step 5 of 5</p>
+  <h2>Your style.</h2>
+  <p class="sub">How Claude should behave and what tools it should know about. These shape your soul.md and morning brief.</p>
+
+  <div class="field">
+    <label>When you have a bad idea, how should Claude respond?</label>
+    <div class="radio-group">
+      <label class="radio-row">
+        <input type="radio" name="directness" value="challenge" checked>
+        <span class="rl"><strong>Tell me I'm wrong.</strong> Challenge the idea directly, explain why, offer the better path. No softening.</span>
+      </label>
+      <label class="radio-row">
+        <input type="radio" name="directness" value="suggest">
+        <span class="rl"><strong>Flag it and suggest alternatives.</strong> Point out the issue clearly, give me options. Don't insist.</span>
+      </label>
+      <label class="radio-row">
+        <input type="radio" name="directness" value="affirm">
+        <span class="rl"><strong>Lead with what's working.</strong> Note concerns gently, but stay supportive.</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="field" style="margin-top:28px;">
+    <label>Do you use dry, deadpan sarcasm?</label>
+    <div class="hint">If yes, Claude will read for intent rather than surface text when you frame a win as a gripe or a complaint casually.</div>
+    <div class="radio-group radio-inline">
+      <label class="radio-row">
+        <input type="radio" name="sarcasm" value="yes" checked>
+        <span class="rl"><strong>Yes</strong> &mdash; read for intent</span>
+      </label>
+      <label class="radio-row">
+        <input type="radio" name="sarcasm" value="sometimes">
+        <span class="rl"><strong>Sometimes</strong> &mdash; use context</span>
+      </label>
+      <label class="radio-row">
+        <input type="radio" name="sarcasm" value="no">
+        <span class="rl"><strong>No</strong> &mdash; take me literally</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="field" style="margin-top:28px;">
+    <label>Tools you live in <span class="opt">(select all that apply)</span></label>
+    <div class="hint">These go into your morning brief routine and MCP setup notes.</div>
+    <div class="checkbox-group">
+      <label class="check-chip"><input type="checkbox" name="tools" value="gmail"> Gmail</label>
+      <label class="check-chip"><input type="checkbox" name="tools" value="gcal"> Google Calendar</label>
+      <label class="check-chip"><input type="checkbox" name="tools" value="slack"> Slack</label>
+      <label class="check-chip"><input type="checkbox" name="tools" value="teams"> Microsoft Teams</label>
+      <label class="check-chip"><input type="checkbox" name="tools" value="github"> GitHub</label>
+      <label class="check-chip"><input type="checkbox" name="tools" value="gdrive"> Google Drive</label>
+      <label class="check-chip"><input type="checkbox" name="tools" value="outlook"> Outlook</label>
+      <label class="check-chip"><input type="checkbox" name="tools" value="notion"> Notion</label>
+    </div>
+  </div>
+
+  <div class="field" style="margin-top:28px;">
+    <label>Primary operating system</label>
+    <div class="radio-group radio-inline">
+      <label class="radio-row">
+        <input type="radio" name="os" value="mac" checked>
+        <span class="rl">Mac</span>
+      </label>
+      <label class="radio-row">
+        <input type="radio" name="os" value="windows">
+        <span class="rl">Windows</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="back-btn" onclick="goToStep(4)">&larr; Back</button>
+    <button class="btn generate" onclick="generateFiles()">Generate my files &rarr;</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     OUTPUT
+     ============================================================ -->
+<div id="output">
+  <div class="output-hero">
+    <h2>Your files are ready.</h2>
+    <p>Copy each file and save it at the path shown, starting from your vault root. Or use the Claude Code prompt at the bottom to write everything at once.</p>
+  </div>
+
+  <div id="outputFiles"></div>
+
+  <div class="cc-section">
+    <details class="cc-details">
+      <summary>
+        <span class="tag">claude code</span>
+        Paste this into Claude Code instead &mdash; writes all files at once
+      </summary>
+      <div class="cc-body">
+        <p>Open Claude Code in your vault folder, paste the prompt below, and Claude will create all files in the right places.</p>
+        <div class="copy-block">
+          <button class="copybtn" id="ccCopyBtn" onclick="copyFromPre('ccPre', this)">Copy</button>
+          <pre id="ccPre"></pre>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="restart-row">
+    <p>Want to start over with different answers?</p>
+    <button class="btn" onclick="restart()">Start over</button>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding-bottom:0;">
+    <p>A companion to <em>Build Your Second Brain with Claude</em>. <a href="../">Back to all lessons.</a></p>
+    <span style="font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:0.14em;text-transform:uppercase;">Field Manual &middot; Personalize</span>
+  </div>
+</footer>
+
+<script>
+// ============================================================
+// STATE
+// ============================================================
+let currentStep = 1;
+const TOTAL_STEPS = 5;
+let projCount = 1, contactCount = 2, termCount = 2;
+const MAX_PROJ = 5, MAX_CONTACT = 5, MAX_TERM = 8;
+const fileContents = {};
+
+const TOOL_LABELS = {
+  gmail: 'Gmail', gcal: 'Google Calendar', slack: 'Slack',
+  teams: 'Microsoft Teams', github: 'GitHub', gdrive: 'Google Drive',
+  outlook: 'Outlook / Exchange', notion: 'Notion'
+};
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function goToStep(n) {
+  document.getElementById('step' + currentStep).classList.remove('active');
+  currentStep = n;
+  document.getElementById('step' + currentStep).classList.add('active');
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress() {
+  document.getElementById('stepLabel').textContent = 'Step ' + currentStep + ' of ' + TOTAL_STEPS;
+  for (let i = 1; i <= TOTAL_STEPS; i++) {
+    const p = document.querySelector('[data-pill="' + i + '"]');
+    p.className = 'pill' + (i < currentStep ? ' done' : i === currentStep ? ' active' : '');
+  }
+}
+
+function nextStep(from) {
+  if (!validateStep(from)) return;
+  goToStep(from + 1);
+}
+
+// ============================================================
+// VALIDATION
+// ============================================================
+function validateStep(step) {
+  let ok = true;
+  function req(id, errId) {
+    const el = document.getElementById(id);
+    const err = errId ? document.getElementById(errId) : null;
+    if (!el) return;
+    const v = el.value.trim();
+    if (!v) {
+      el.classList.add('invalid');
+      if (err) err.style.display = 'block';
+      ok = false;
+    } else {
+      el.classList.remove('invalid');
+      if (err) err.style.display = 'none';
+    }
+  }
+  if (step === 1) { req('name', 'err-name'); req('role', 'err-role'); req('focus', 'err-focus'); }
+  if (step === 2) { req('proj0-name', 'err-proj0'); req('proj0-desc', 'err-proj0-desc'); }
+  return ok;
+}
+
+// ============================================================
+// DYNAMIC SLOTS
+// ============================================================
+function addProject() {
+  if (projCount >= MAX_PROJ) return;
+  const n = projCount++;
+  const c = document.getElementById('projectsContainer');
+  const d = document.createElement('div');
+  d.className = 'slot'; d.id = 'proj' + n;
+  d.innerHTML =
+    '<div class="slot-header"><span class="slot-lbl">Project ' + (n+1) + '</span>' +
+    '<button class="slot-rm" onclick="removeSlot(\'proj\',' + n + ')" title="Remove">&times;</button></div>' +
+    '<div class="field"><label>Project name</label>' +
+    '<input type="text" id="proj' + n + '-name" placeholder="e.g., Series B Prep"></div>' +
+    '<div class="slot row2" style="background:none;border:none;padding:0;margin:0;">' +
+    '<div class="field"><label>One-line description</label>' +
+    '<input type="text" id="proj' + n + '-desc" placeholder="e.g., Readiness pack for fundraising"></div>' +
+    '<div class="field"><label>Current phase <span class="opt">(optional)</span></label>' +
+    '<input type="text" id="proj' + n + '-phase" placeholder="e.g., pipeline analysis"></div></div>';
+  c.appendChild(d);
+  if (projCount >= MAX_PROJ) document.getElementById('addProjectBtn').style.display = 'none';
+}
+
+function addContact() {
+  if (contactCount >= MAX_CONTACT) return;
+  const n = contactCount++;
+  const c = document.getElementById('contactsContainer');
+  const d = document.createElement('div');
+  d.className = 'slot'; d.id = 'contact' + n;
+  d.innerHTML =
+    '<div class="slot-header"><span class="slot-lbl">Contact ' + (n+1) + '</span>' +
+    '<button class="slot-rm" onclick="removeSlot(\'contact\',' + n + ')" title="Remove">&times;</button></div>' +
+    '<div class="row2">' +
+    '<div class="field"><label>Full name</label><input type="text" id="contact' + n + '-name" placeholder="e.g., Sarah Kim"></div>' +
+    '<div class="field"><label>Role</label><input type="text" id="contact' + n + '-role" placeholder="e.g., Product Manager"></div></div>' +
+    '<div class="field"><label>Notes <span class="opt">(optional)</span></label>' +
+    '<input type="text" id="contact' + n + '-notes" placeholder="e.g., leads Q3 launch, weekly Friday sync"></div>';
+  c.appendChild(d);
+  if (contactCount >= MAX_CONTACT) document.getElementById('addContactBtn').style.display = 'none';
+}
+
+function addTerm() {
+  if (termCount >= MAX_TERM) return;
+  const n = termCount++;
+  const c = document.getElementById('termsContainer');
+  const d = document.createElement('div');
+  d.className = 'slot'; d.id = 'term' + n;
+  d.innerHTML =
+    '<div class="slot-header"><span class="slot-lbl">Term ' + (n+1) + '</span>' +
+    '<button class="slot-rm" onclick="removeSlot(\'term\',' + n + ')" title="Remove">&times;</button></div>' +
+    '<div class="row2">' +
+    '<div class="field"><label>Term or acronym</label><input type="text" id="term' + n + '-term" placeholder=""></div>' +
+    '<div class="field"><label>What it actually means</label><input type="text" id="term' + n + '-def" placeholder=""></div></div>';
+  c.appendChild(d);
+  if (termCount >= MAX_TERM) document.getElementById('addTermBtn').style.display = 'none';
+}
+
+function removeSlot(prefix, n) {
+  const el = document.getElementById(prefix + n);
+  if (el) el.remove();
+  const btnId = 'add' + prefix.charAt(0).toUpperCase() + prefix.slice(1) + 'Btn';
+  // map prefix to button id
+  const map = { proj: 'addProjectBtn', contact: 'addContactBtn', term: 'addTermBtn' };
+  const btn = document.getElementById(map[prefix]);
+  if (btn) btn.style.display = '';
+}
+
+// ============================================================
+// DATA COLLECTION
+// ============================================================
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function collectData() {
+  const d = {
+    name: val('name'),
+    role: val('role'),
+    orgType: val('orgType'),
+    location: val('location'),
+    focus: val('focus'),
+    projects: [],
+    responsibilities: val('responsibilities'),
+    contacts: [],
+    terms: [],
+    directness: (document.querySelector('input[name="directness"]:checked') || {}).value || 'challenge',
+    sarcasm: (document.querySelector('input[name="sarcasm"]:checked') || {}).value || 'yes',
+    tools: [...document.querySelectorAll('input[name="tools"]:checked')].map(e => e.value),
+    os: (document.querySelector('input[name="os"]:checked') || {}).value || 'mac'
+  };
+
+  for (let i = 0; i < projCount; i++) {
+    const n = val('proj' + i + '-name');
+    if (!n) continue;
+    d.projects.push({ name: n, desc: val('proj' + i + '-desc'), phase: val('proj' + i + '-phase') });
+  }
+  for (let i = 0; i < contactCount; i++) {
+    const n = val('contact' + i + '-name');
+    if (!n) continue;
+    d.contacts.push({ name: n, role: val('contact' + i + '-role'), notes: val('contact' + i + '-notes') });
+  }
+  for (let i = 0; i < termCount; i++) {
+    const t = val('term' + i + '-term');
+    if (!t) continue;
+    d.terms.push({ term: t, def: val('term' + i + '-def') });
+  }
+  return d;
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function slugify(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+function firstName(name) { return name.split(' ')[0]; }
+
+// ============================================================
+// FILE GENERATORS
+// ============================================================
+
+function genCLAUDEmd(d) {
+  const projRows = d.projects.map((p, i) =>
+    '| ' + (i+1) + ' | [' + p.name + '](01_projects/' + pad2(i+1) + '_' + slugify(p.name) + '/CLAUDE.md) | ' + p.desc + ' |'
+  ).join('\n');
+
+  const contactRows = d.contacts.length
+    ? d.contacts.map(c => '| ' + c.name + ' | ' + c.role + ' | ' + (c.notes || '') + ' |').join('\n')
+    : '|      |      |       |';
+
+  const domainSection = d.terms.length
+    ? d.terms.map(t => '- **' + t.term + '**: ' + t.def).join('\n')
+    : '_(Add internal program names, acronyms, or role-specific terms that Claude might confuse. Be explicit about what things are NOT.)_';
+
+  const toolNote = d.tools.length
+    ? '\n- Your connected tools: ' + d.tools.map(t => TOOL_LABELS[t] || t).join(', ') + '.'
+    : '';
+
+  const locationLine = d.location ? '\n- **Location**: ' + d.location : '';
+  const respSection = d.responsibilities
+    ? '\n\n### Ongoing responsibilities\n\n' + d.responsibilities
+    : '';
+
+  return '# CLAUDE.md\n\n' +
+'This file is auto-loaded at the start of every Claude Code session. It tells Claude who I am, how my workspace is organized, and how I want to collaborate.\n\n' +
+'---\n\n' +
+'## About Me\n\n' +
+'**' + d.name + ', ' + d.role + '**' + locationLine + '\n\n' +
+d.focus + respSection + '\n\n' +
+'---\n\n' +
+'## Workspace\n\n' +
+'This vault is organized with the PARA method.\n\n' +
+'### Top-level folders\n\n' +
+'```\n' +
+'workspace/\n' +
+'├── CLAUDE.md                 # This file\n' +
+'├── soul.md                   # Personality config (auto-loaded via SessionStart hook)\n' +
+'│\n' +
+'├── 00_inbox/                 # Capture landing zone\n' +
+'│   ├── notes/\n' +
+'│   │   └── follow_ups.md\n' +
+'│   ├── triage/               # Daily triage files land here\n' +
+'│   └── incubator/\n' +
+'│\n' +
+'├── 01_projects/              # Active, time-bound work\n' +
+'├── 02_areas/                 # Ongoing responsibilities\n' +
+'│   └── routines/             # morning_brief.md and other routines live here\n' +
+'├── 03_resources/             # Reference material\n' +
+'│   ├── corrections.md\n' +
+'│   ├── meetings/\n' +
+'│   └── people/\n' +
+'├── 04_archives/              # Completed work\n' +
+'└── 05_reports/               # Generated outputs\n' +
+'```\n\n' +
+'### File naming\n\n' +
+'- Folders: zero-padded number + underscore + snake_case (e.g., `01_projects`)\n' +
+'- Notes: `YYYY_MM_DD_title.md`\n' +
+'- People files: `firstname_lastname.md` (in `03_resources/people/`)\n' +
+'- Meeting notes: `YYYY_MM_DD_topic.md` (in `03_resources/meetings/`)\n\n' +
+'---\n\n' +
+'## Active Projects\n\n' +
+'| # | Project | Description |\n' +
+'|---|---------|-------------|\n' +
+projRows + '\n\n' +
+'## Completed Projects\n\n' +
+'| # | Project | Description |\n' +
+'|---|---------|-------------|\n' +
+'| _(empty)_ | | |\n\n' +
+'---\n\n' +
+'## Personality\n\n' +
+'Read `soul.md` at session start for voice and interaction rules.\n\n' +
+'---\n\n' +
+'## AI Agent Instructions\n\n' +
+'- Be direct and concise. Avoid unnecessary words.\n' +
+'- Ask clarifying questions before making assumptions about intent.\n' +
+'- Be proactive. Suggest improvements and anticipate next steps.\n' +
+'- Challenge flawed ideas. No flattery, no excessive agreement.\n' +
+'- When working on a project, read the project-level `CLAUDE.md` first.' + toolNote + '\n\n' +
+'### Output tracking\n\n' +
+'- When creating a deliverable, log it in the project\'s Key Documents table immediately.\n' +
+'- When sending for review, add it to Pending Review.\n' +
+'- When review completes, update the entry status.\n\n' +
+'### Session-Start Routine\n\n' +
+'At session start, offer to run the morning brief. If I say "morning brief", "catch me up", or "what did I miss" — read `02_areas/routines/morning_brief.md` and execute it.\n\n' +
+'### Communication Rules\n\n' +
+'- When summarizing threads, only include what others said and action items directed at me. Never summarize what I said or did.\n' +
+'- Before sending any outbound message, show a verification block and wait for explicit confirmation:\n' +
+'  ```\n' +
+'  VERIFY: Channel=[name], To=[recipients], Tone=[exec/peer/external]\n' +
+'  ```\n\n' +
+'---\n\n' +
+'## Key Contacts\n\n' +
+'| Name | Role | Notes |\n' +
+'|------|------|-------|\n' +
+contactRows + '\n\n' +
+'---\n\n' +
+'## Domain Knowledge\n\n' +
+domainSection + '\n\n' +
+'---\n\n' +
+'## Core Rules\n\n' +
+'- When a factual detail is corrected, apply it immediately and never repeat the error. Persist important corrections to `03_resources/corrections.md`.\n';
+}
+
+function genSoulmd(d) {
+  const pushback = {
+    challenge: 'Challenge bad ideas directly. Don\'t sugarcoat, don\'t hedge, don\'t ask leading questions. State what\'s wrong, state why, offer the better path. Respect through honesty, not softness.',
+    suggest: 'Point out issues clearly and suggest a better path. Flag concerns directly, offer options rather than insisting. No sugarcoating, but give space to decide.',
+    affirm: 'Lead with what\'s working. Note concerns clearly and offer alternatives, but stay supportive. Reserve strong pushback for clear mistakes.'
+  }[d.directness];
+
+  const sarcasmBlock = d.sarcasm === 'no' ? '' :
+    '\n## Sarcasm\n\n' + (d.sarcasm === 'yes'
+      ? firstName(d.name) + ' uses dry, deadpan sarcasm. If a good outcome is framed as a complaint, or a complaint is framed casually, read for intent rather than surface text.'
+      : 'Occasionally uses dry humor. Use context to distinguish genuine complaints from casual framing. When unsure, surface the ambiguity rather than guessing.') + '\n';
+
+  return '# soul.md\n\n' +
+'Loaded at session start. Defines voice and behavior for this collaboration.\n\n' +
+'---\n\n' +
+'## Core Identity\n\n' +
+'Calm, precise, conversational. A collaborator, not a chatbot. Personality comes through naturally but never overshadows the work. The sharpest person in the room who doesn\'t need to prove it.\n\n' +
+'## Voice\n\n' +
+'- Measured and confident. No hedging, no filler, no theatrics.\n' +
+'- Conversational. Natural back-and-forth, not robotic output.\n' +
+'- Adapt formality to context: casual when brainstorming, professional when drafting for external audiences.\n' +
+'- Short sentences land points. Longer ones carry nuance. Vary the rhythm.\n\n' +
+'## Pushback\n\n' +
+pushback + '\n\n' +
+'## Proactivity\n\n' +
+'Unsolicited suggestions welcome. If there\'s a better approach, a missed opportunity, or a structural improvement, surface it. Don\'t wait to be asked. Keep suggestions substantive. Don\'t nitpick.\n\n' +
+'## Drafting\n\n' +
+'When writing on ' + firstName(d.name) + '\'s behalf, write the full draft in their voice. Flag 2-3 choice points where they might want a different angle. Don\'t ask permission mid-draft.\n\n' +
+'## Uncertainty\n\n' +
+'When something is unknown or unverifiable, say so and ask whether to dig deeper. Don\'t speculate without marking it. Don\'t fill gaps with confident-sounding guesses.\n' +
+sarcasmBlock + '\n' +
+'## Hard Rules — Never Do These\n\n' +
+'- **No sycophancy.** Never say "Great question!", "Absolutely!", or any variant. Just respond.\n' +
+'- **No over-explaining.** Match the user\'s level.\n' +
+'- **No asking permission for obvious next steps.** If the task implies a follow-on, do it.\n' +
+'- **No fake empathy.** Never say "I understand how frustrating..." Just address the problem.\n' +
+'- **No throat-clearing.** Skip "Let me help you with that," "Sure thing!". Start with the substance.\n' +
+'- **No emojis** unless explicitly requested.\n\n' +
+'## What Good Looks Like\n\n' +
+'- Stating a problem plainly and offering a solution in the same breath.\n' +
+'- Catching something missed and flagging it without being asked.\n' +
+'- Writing a full draft that sounds like ' + firstName(d.name) + ', then noting where they might want to adjust.\n' +
+'- Saying "I don\'t know — want me to look into it?" instead of guessing.\n' +
+'- Doing the next obvious thing without being told.\n';
+}
+
+function genCorrectionsmd() {
+  return '---\ntitle: Corrections\ntype: reference\n---\n\n' +
+'# Corrections\n\n' +
+'Persistent factual corrections. When Claude gets a detail wrong, append it here and ask Claude to save a memory so it never repeats.\n\n' +
+'---\n\n' +
+'## Names\n\n' +
+'_(empty)_\n\n' +
+'## Programs and Acronyms\n\n' +
+'_(empty)_\n\n' +
+'## Framing Rules\n\n' +
+'_(empty)_\n\n' +
+'## Org Relationships\n\n' +
+'_(empty)_\n';
+}
+
+function genProjectCLAUDEmd(proj) {
+  const phaseNote = proj.phase ? '\n\nCurrent phase: **' + proj.phase + '**' : '';
+  return '---\ntype: project\nstatus: active\n---\n\n' +
+'# ' + proj.name + '\n\n' +
+proj.desc + phaseNote + '\n\n' +
+'## Overview\n\n' +
+'_(Expand: what success looks like, why it matters, key constraints and stakeholders.)_\n\n' +
+'## Current Status\n\n' +
+'- [ ] Scoping / kickoff\n- [ ] In progress\n- [ ] Review / approval\n- [ ] Complete\n\n' +
+'## Key Documents\n\n' +
+'| Document | Description | Status |\n|----------|-------------|--------|\n| | | |\n\n' +
+'## Pending Review\n\n' +
+'| Document | Sent to | Sent on | Status |\n|----------|---------|---------|--------|\n| | | | |\n\n' +
+'## Key Stakeholders\n\n' +
+'| Person | Role |\n|--------|------|\n| | |\n\n' +
+'## Next Actions\n\n- [ ] \n';
+}
+
+function genMorningBrief(d) {
+  const hasChat = d.tools.includes('slack') || d.tools.includes('teams');
+  const hasEmail = d.tools.includes('gmail') || d.tools.includes('outlook');
+  const hasCal = d.tools.includes('gcal');
+  const chatTool = d.tools.includes('slack') ? 'Slack' : d.tools.includes('teams') ? 'Microsoft Teams' : 'your chat tool';
+  const emailTool = d.tools.includes('gmail') ? 'Gmail' : d.tools.includes('outlook') ? 'Outlook' : 'your email';
+  const calTool = hasCal ? 'Google Calendar' : 'your calendar';
+
+  const projNames = d.projects.map((p, i) =>
+    '  - `01_projects/' + pad2(i+1) + '_' + slugify(p.name) + '/CLAUDE.md`'
+  ).join('\n');
+
+  const chatStep = hasChat ? (
+'### Step 1: Chat Triage\n\n' +
+'Use the ' + chatTool + ' MCP to list all conversations with unread messages.\n\n' +
+'**Classify each thread:**\n' +
+'- **Action Required** — ALL three must be true: I am the bottleneck, there is a concrete action I can take now, and delay creates real cost.\n' +
+'- **FYI** — useful context, but I\'m not blocking anyone.\n' +
+'- **Skip** — noise, automated messages, low-signal threads.\n\n' +
+'**Output format (Action Required items first, cap at 5):**\n' +
+'- **Person/channel**: 2-3 sentence summary. [link if available]\n' +
+'  - *Suggested response*\n' +
+'  - Why: [why I\'m the bottleneck + cost of delay]\n\n') : '';
+
+  const emailStep = hasEmail ? (
+'### Step ' + (hasChat ? '2' : '1') + ': Email Triage\n\n' +
+'Use the ' + emailTool + ' MCP to list unread messages. Skip newsletters, automated notifications, and calendar invites.\n\n' +
+'Read the full body of emails from known contacts, manager chain, or external partners.\n\n' +
+'Same classification framework as chat. Additional signal: emails from manager chain or external partners expecting a reply are likely Action Required.\n\n' +
+'Flag any unanswered emails older than 48 hours.\n\n') : '';
+
+  const calStep = hasCal ? (
+'### Step ' + (hasChat && hasEmail ? '3' : hasChat || hasEmail ? '2' : '1') + ': Calendar\n\n' +
+'Use the ' + calTool + ' MCP to pull today\'s events.\n\n' +
+'- List today\'s meetings with attendees\n' +
+'- Flag meetings in the next 2 hours that need prep\n' +
+'- Note any external-partner meetings (higher prep priority)\n\n') : '';
+
+  let stepNum = (hasChat ? 1 : 0) + (hasEmail ? 1 : 0) + (hasCal ? 1 : 0) + 1;
+
+  const followupStep =
+'### Step ' + stepNum + ': Follow-ups\n\n' +
+'Read `00_inbox/notes/follow_ups.md`. Surface any overdue items.\n\n';
+  stepNum++;
+
+  const projPulseStep =
+'### Step ' + stepNum + ': Project Pulse\n\n' +
+'For each active project, scan the project CLAUDE.md for:\n' +
+'- Pending reviews stale more than 3 days\n' +
+'- Upcoming deadlines\n' +
+'- Items where I am the bottleneck\n\n' +
+'Cap at 5 items total across all projects.\n\n' +
+'Active project files:\n' + projNames + '\n\n';
+
+  const toolsNote = d.tools.length
+    ? 'Requires MCP connectors for: ' + d.tools.map(t => TOOL_LABELS[t] || t).join(', ') + '. Install with `claude mcp add <name>` if not yet configured.\n\n'
+    : '';
+
+  return '# Morning Brief\n\n' +
+'Triggered by: "morning brief", "catch me up", "what did I miss"\n\n' +
+(toolsNote) +
+'## Execution Order\n\n' +
+'Run all steps sequentially.\n\n' +
+chatStep +
+emailStep +
+calStep +
+followupStep +
+projPulseStep +
+'## Output Format\n\n' +
+'Write output to `00_inbox/triage/YYYY_MM_DD.md` as Obsidian checkboxes:\n\n' +
+'```\n' +
+'### Action Required (max 5, all sources combined)\n' +
+'- [ ] Source — what\'s needed\n' +
+'      Why: bottleneck + cost of delay\n' +
+'      Suggested: specific action\n\n' +
+(hasChat ? '### Chat (FYI only)\n- [ ] Person — summary\n\n' : '') +
+(hasEmail ? '### Email (FYI only)\n- [ ] Sender — summary\n\n' : '') +
+(hasCal ? '### Calendar\nTime | Meeting | Flags\n\n' : '') +
+'### Follow-ups and Project Pulse\nOne line per item.\n' +
+'```\n\n' +
+'## Cross-Session Continuity\n\n' +
+'- If today\'s triage file already exists, read it first and skip items already handled.\n' +
+'- Read yesterday\'s file for unresolved items.\n' +
+'- Run a fresh scan, deduplicate, and append new items only.\n' +
+'- Items marked done are never re-surfaced.\n\n' +
+'## Variants\n\n' +
+'- **Midday** ("midday check"): ' + (hasChat ? chatTool + ' last 4h' : '') + (hasChat && hasCal ? ' + ' : '') + (hasCal ? 'afternoon calendar only' : '') + '\n' +
+'- **EOD** ("wrap up", "eod"): ' + (hasChat ? chatTool + ' last 4h' : '') + (hasChat && hasCal ? ' + ' : '') + (hasCal ? 'tomorrow calendar' : '') + ' + session notes\n';
+}
+
+function genClaudeCodePrompt(files) {
+  let p = 'Create these vault files for me. Write each one exactly as shown — preserve all formatting, newlines, and whitespace.\n\n';
+  files.forEach(f => {
+    p += '<file path="' + f.path + '">\n' + f.content + '\n</file>\n\n';
+  });
+  p += 'After creating all files, confirm what was written and note any placeholder sections I should fill in.';
+  return p;
+}
+
+// ============================================================
+// GENERATE + RENDER
+// ============================================================
+function generateFiles() {
+  const d = collectData();
+
+  const files = [
+    { path: 'CLAUDE.md', content: genCLAUDEmd(d) },
+    { path: 'soul.md', content: genSoulmd(d) },
+    { path: '03_resources/corrections.md', content: genCorrectionsmd() },
+    { path: '02_areas/routines/morning_brief.md', content: genMorningBrief(d) }
+  ];
+  d.projects.forEach((p, i) => {
+    files.push({
+      path: '01_projects/' + pad2(i+1) + '_' + slugify(p.name) + '/CLAUDE.md',
+      content: genProjectCLAUDEmd(p)
+    });
+  });
+
+  // Render output blocks
+  const container = document.getElementById('outputFiles');
+  container.innerHTML = '';
+  Object.keys(fileContents).forEach(k => delete fileContents[k]);
+
+  files.forEach((f, i) => {
+    const key = 'k' + i;
+    fileContents[key] = f.content;
+
+    const parts = f.path.split('/');
+    const fname = parts.pop();
+    const dir = parts.length ? parts.join('/') + '/' : '';
+    const safeContent = f.content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+    const block = document.createElement('div');
+    block.className = 'file-block';
+    block.innerHTML =
+      '<div class="file-path-row">' +
+      '<span class="file-path-tag"><span class="path-dim">' + escHtml(dir) + '</span>' + escHtml(fname) + '</span>' +
+      '</div>' +
+      '<div class="copy-block">' +
+      '<button class="copybtn" onclick="copyKey(\'' + key + '\', this)">Copy</button>' +
+      '<pre>' + safeContent + '</pre>' +
+      '</div>';
+    container.appendChild(block);
+  });
+
+  // Claude Code prompt
+  document.getElementById('ccPre').textContent = genClaudeCodePrompt(files);
+
+  // Show output
+  for (let i = 1; i <= TOTAL_STEPS; i++) document.getElementById('step' + i).classList.remove('active');
+  document.querySelector('.progress-wrap').style.display = 'none';
+  document.getElementById('output').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ============================================================
+// COPY
+// ============================================================
+function copyKey(key, btn) {
+  const content = fileContents[key] || '';
+  navigator.clipboard.writeText(content).then(() => flash(btn)).catch(() => {});
+}
+
+function copyFromPre(preId, btn) {
+  const content = document.getElementById(preId).textContent;
+  navigator.clipboard.writeText(content).then(() => flash(btn)).catch(() => {});
+}
+
+function flash(btn) {
+  const orig = btn.textContent;
+  btn.textContent = 'Copied';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1400);
+}
+
+// ============================================================
+// RESTART
+// ============================================================
+function restart() {
+  document.getElementById('output').style.display = 'none';
+  document.querySelector('.progress-wrap').style.display = '';
+  currentStep = 1;
+  updateProgress();
+  document.getElementById('step1').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
