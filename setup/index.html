@@ -223,7 +223,7 @@
   <p class="lede">A practical roadmap for turning Claude into a persistent collaborator that knows your work, triages your communications, preps your meetings, and manages your projects. Five chapters. Stop whenever the value-to-effort ratio drops for you.</p>
   <div class="meta">
     <span>5 chapters</span>
-    <span>Obsidian + Claude Code as default</span>
+    <span><a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a> + <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a> as default</span>
     <span>Cowork where it earns its keep</span>
   </div>
   <p class="skip">In a hurry? <a href="#quickstart">Skip to Quick Start.</a></p>
@@ -250,12 +250,12 @@
 
   <div class="preface">
     <div class="item">
-      <h4>1. Obsidian</h4>
-      <p>Free markdown editor. Your vault is just a folder of <code>.md</code> files &mdash; nothing proprietary. Install the <strong>Terminal</strong> community plugin to get an integrated terminal pane, plus <strong>Tasks</strong> for checkbox tracking and (optional) <strong>Dataview</strong> for live queries over your files.</p>
+      <h4>1. <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a></h4>
+      <p>Free markdown editor. Your vault is just a folder of <code>.md</code> files &mdash; nothing proprietary. From <a href="https://obsidian.md/plugins" target="_blank" rel="noopener noreferrer">Community Plugins</a>, install <strong>Terminal</strong> (integrated terminal pane), <strong>Tasks</strong> (checkbox tracking), and optional <strong>Dataview</strong> (live queries over your files).</p>
     </div>
     <div class="item">
-      <h4>2. Claude Code, installed and ready</h4>
-      <p><code>npm install -g @anthropic-ai/claude-code</code>, or use the installer at claude.com. From Obsidian's Terminal pane, <code>cd</code> into your vault and run <code>claude</code>. You're now in a session that can read and write every file in the vault. Obsidian's file watcher picks up changes instantly &mdash; you'll see new files appear in the explorer as Claude writes them.</p>
+      <h4>2. <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a>, installed and ready</h4>
+      <p><code>npm install -g @anthropic-ai/claude-code</code>, or <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">download the installer</a>. From Obsidian's Terminal pane, <code>cd</code> into your vault and run <code>claude</code>. You're now in a session that can read and write every file in the vault. Obsidian's file watcher picks up changes instantly &mdash; you'll see new files appear in the explorer as Claude writes them.</p>
     </div>
     <div class="item">
       <h4>3. MCPs for the tools you live in</h4>
@@ -268,7 +268,7 @@
   </div>
 
   <div class="callout">
-    <strong>First-time setup:</strong> Install Obsidian, open your vault, enable the Terminal plugin, install Claude Code, then in the terminal pane run <code>cd /path/to/vault && claude</code>. Install MCPs for Gmail, Calendar, and your chat tool. You're ready for Chapter 1.
+    <strong>First-time setup:</strong> Install <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a>, open your vault, enable the Terminal plugin, install <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a>, then in the terminal pane run <code>cd /path/to/vault && claude</code>. Install MCPs for Gmail, Calendar, and your chat tool. You're ready for Chapter 1.
   </div>
 </section>
 
@@ -980,7 +980,7 @@ Also create midday (12:00) and EOD (17:30) variants.</pre>
 
     <h4>A live "Today" view, the Obsidian way</h4>
     <p>You won't get a self-refreshing dashboard out of plain Claude Code &mdash; static HTML it writes won't re-query MCPs when you open it. Two patterns give you most of the value:</p>
-    <p><strong>Option 1: Dataview query.</strong> If you've installed the Dataview plugin, you can write a query that aggregates across your vault &mdash; today's calendar items pulled from meeting files, all unchecked Action Required items across triage files, all pending reviews across project files. The view re-runs every time Obsidian renders the note. No MCP calls, no daemon &mdash; just your local files.</p>
+    <p><strong>Option 1: Dataview query.</strong> If you've installed the <a href="https://obsidian.md/plugins?id=dataview" target="_blank" rel="noopener noreferrer">Dataview plugin</a>, you can write a query that aggregates across your vault &mdash; today's calendar items pulled from meeting files, all unchecked Action Required items across triage files, all pending reviews across project files. The view re-runs every time Obsidian renders the note. No MCP calls, no daemon &mdash; just your local files.</p>
 
     <details class="prompt-card">
       <summary>
@@ -1320,8 +1320,8 @@ Why this meeting happened.
   <p class="eyebrow">Quick Start</p>
   <h2>If you read this far and just want to start.</h2>
   <ol style="font-size:16px;line-height:1.7;color:var(--ink-1);margin:24px 0;">
-    <li>Install Obsidian. Open (or create) your vault. Install the <strong>Terminal</strong>, <strong>Tasks</strong>, and (optional) <strong>Dataview</strong> community plugins.</li>
-    <li>Install Claude Code: <code>npm install -g @anthropic-ai/claude-code</code>.</li>
+    <li>Install <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a>. Open (or create) your vault. Install the <strong>Terminal</strong>, <strong>Tasks</strong>, and (optional) <strong>Dataview</strong> <a href="https://obsidian.md/plugins" target="_blank" rel="noopener noreferrer">community plugins</a>.</li>
+    <li>Install <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a>: <code>npm install -g @anthropic-ai/claude-code</code>.</li>
     <li>In Obsidian's terminal pane, <code>cd</code> into your vault and run <code>claude</code>.</li>
     <li>Install the MCPs you need: <code>claude mcp add gmail</code>, <code>claude mcp add calendar</code>, <code>claude mcp add slack</code> (read-only scopes).</li>
     <li>Paste the <a href="#chapter-1">Chapter 1 prompt</a>. Fill in About Me, Key Contacts, and Domain Knowledge.</li>
