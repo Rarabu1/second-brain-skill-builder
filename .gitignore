@@ -18,6 +18,10 @@
 !personalize/
 !personalize/**
 
+# Allow prompts/ and its contents
+!prompts/
+!prompts/**
+
 # wrangler files
 .wrangler
 .dev.vars*

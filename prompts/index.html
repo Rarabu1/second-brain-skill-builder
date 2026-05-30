@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompts That Work &middot; Second Brain Skill Builder</title>
+<meta name="description" content="Six layers that make any prompt work. Learn the framework, then build one in The Brief.">
+<meta property="og:title" content="Prompts That Work &middot; Second Brain Skill Builder">
+<meta property="og:description" content="Six layers that make any prompt work. Learn the framework, then build one in The Brief.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F3F5F8;
+    --paper-2: #E8ECF2;
+    --paper-3: #DDE2EB;
+    --ink: #0D1218;
+    --ink-2: #3A4356;
+    --ink-3: #7B8294;
+    --rule: #D3D8E1;
+    --accent: #1B3A6B;
+    --accent-2: #2A4F8C;
+    --accent-soft: rgba(27, 58, 107, 0.5);
+    --accent-dim: rgba(27, 58, 107, 0.08);
+    --terminal-bg: #0C1119;
+    --terminal-green: #93D85A;
+    --terminal-amber: #F0C84A;
+    --terminal-text: #DCD6C7;
+    --sans: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
+    --serif: 'Newsreader', Georgia, serif;
+    --italic: 'Fraunces', Georgia, serif;
+    --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+  body { font-family: var(--serif); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; min-height: 100vh; display: flex; flex-direction: column; }
+  ::selection { background: var(--accent-dim); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+  p { font-family: var(--serif); font-size: 15.5px; line-height: 1.55; color: var(--ink-2); margin: 0 0 16px; }
+  em { font-family: var(--italic); font-style: italic; font-variation-settings: 'opsz' 24, 'wght' 500; }
+
+  .wrap { max-width: 720px; width: 100%; margin: 0 auto; padding: 0 24px; }
+
+  /* ============================================================
+     SITE HEADER
+     ============================================================ */
+  .site-header { padding: 22px 0; border-bottom: 0.5px solid var(--rule); }
+  .site-header .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .wordmark { display: inline-flex; align-items: center; gap: 10px; }
+  .wordmark .mark { position: relative; width: 24px; height: 24px; border: 1.5px solid var(--ink); display: inline-flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--ink); letter-spacing: 0.04em; }
+  .wordmark .mark::after { content: ""; position: absolute; top: -2.5px; right: -2.5px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+  .wordmark-text { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); }
+  .issue { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+
+  /* ============================================================
+     SUBNAV
+     ============================================================ */
+  .subnav { padding: 11px 0; border-bottom: 0.5px solid var(--rule); }
+  .subnav-back { font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+  .subnav-back:hover { color: var(--accent); }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  header.hero { padding: 72px 0 48px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 28px; }
+  .eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
+  h1.headline { font-family: var(--sans); font-optical-sizing: auto; font-variation-settings: 'opsz' 96, 'wght' 800; font-weight: 800; font-size: clamp(48px, 11vw, 88px); line-height: 0.95; letter-spacing: -0.035em; color: var(--ink); margin: 0 0 28px; max-width: 16ch; }
+  .lede { font-family: var(--serif); font-size: 19px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 560px; }
+
+  /* ============================================================
+     SECTION LABELS + HEADINGS
+     ============================================================ */
+  .section-label { display: flex; align-items: center; gap: 14px; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); margin: 64px 0 24px; }
+  .section-label::after { content: ""; flex: 1; height: 0.5px; background: var(--rule); }
+  h2.section-head { font-family: var(--sans); font-variation-settings: 'opsz' 48, 'wght' 700; font-weight: 700; font-size: 28px; line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); margin: 0 0 16px; }
+
+  /* ============================================================
+     COMPARE: BEFORE / AFTER
+     ============================================================ */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 16px; }
+  .compare-block { border: 0.5px solid var(--rule); border-radius: 4px; padding: 16px 18px; }
+  .compare-block.before { background: var(--paper-2); }
+  .compare-block.after { background: var(--paper-3); }
+  .compare-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 10px; }
+  .compare-text { font-family: var(--mono); font-size: 12.5px; line-height: 1.65; color: var(--ink); }
+  .compare-note { font-family: var(--italic); font-size: 15px; font-style: italic; font-variation-settings: 'opsz' 24, 'wght' 400; color: var(--ink-3); margin: 0 0 32px; }
+
+  /* ============================================================
+     FIELD NOTE (CALLOUT)
+     ============================================================ */
+  .field-note { padding: 14px 18px; margin: 0 0 0; border-left: 2px solid var(--accent); background: linear-gradient(90deg, var(--accent-dim) 0%, rgba(255,255,255,0) 70%); }
+  .field-note-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; }
+  .field-note-text { font-family: var(--italic); font-style: italic; font-variation-settings: 'opsz' 24, 'wght' 400; font-size: 15px; line-height: 1.55; color: var(--ink-2); margin: 0; }
+
+  /* ============================================================
+     FOUR QUESTIONS
+     ============================================================ */
+  .questions { list-style: none; padding: 0; margin: 0 0 8px; }
+  .q-item { display: flex; gap: 20px; padding: 22px 0; border-bottom: 0.5px solid var(--rule); }
+  .q-item:first-child { border-top: 0.5px solid var(--rule); }
+  .q-num { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--accent); letter-spacing: 0.04em; min-width: 22px; padding-top: 2px; flex-shrink: 0; }
+  .q-lead { font-family: var(--sans); font-variation-settings: 'opsz' 24, 'wght' 700; font-weight: 700; font-size: 17px; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin: 0 0 8px; }
+  .q-body p { margin: 0; font-size: 15px; }
+
+  /* ============================================================
+     SIX LAYERS TABLE
+     ============================================================ */
+  .layers-wrap { overflow-x: auto; margin: 0 0 32px; -webkit-overflow-scrolling: touch; }
+  .layers-table { width: 100%; border-collapse: collapse; min-width: 540px; }
+  .layers-table th { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); padding: 8px 12px; border-bottom: 1px solid var(--rule); text-align: left; }
+  .layers-table td { font-family: var(--serif); font-size: 14.5px; padding: 13px 12px; border-bottom: 0.5px solid var(--rule); color: var(--ink-2); vertical-align: top; }
+  .layers-table tr:last-child td { border-bottom: 0; }
+  .layers-table .ln { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--accent); white-space: nowrap; }
+  .layers-table .lreq { font-family: var(--mono); font-size: 11px; white-space: nowrap; }
+  .layers-table .lreq.yes { color: var(--ink); font-weight: 600; }
+  .layers-table .lreq.no { color: var(--ink-3); }
+  .layers-table .lex { font-family: var(--mono); font-size: 11px; color: var(--ink-3); line-height: 1.6; }
+
+  /* ============================================================
+     EXAMPLE PROMPTS
+     ============================================================ */
+  .ex-grid { display: flex; flex-direction: column; gap: 16px; margin: 0 0 56px; }
+  .ex-card { border: 0.5px solid var(--rule); border-radius: 4px; overflow: hidden; }
+  .ex-card-head { padding: 11px 18px; background: var(--paper-2); border-bottom: 0.5px solid var(--rule); display: flex; align-items: baseline; gap: 12px; }
+  .ex-task-type { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); }
+  .ex-title { font-family: var(--sans); font-variation-settings: 'opsz' 24, 'wght' 600; font-size: 15px; font-weight: 600; color: var(--ink); }
+  .ex-body { background: var(--terminal-bg); padding: 18px 20px; font-family: var(--mono); font-size: 12px; line-height: 1.75; color: var(--terminal-text); white-space: pre-wrap; }
+  .ex-body .lc { color: #5a5248; }
+
+  /* ============================================================
+     CTA CARD
+     ============================================================ */
+  .cta-card { display: block; background: var(--accent); border-radius: 6px; padding: 32px 28px; margin: 0 0 80px; transition: background 0.25s, transform 0.25s; }
+  .cta-card:hover { background: var(--accent-2); transform: translateY(-1px); }
+  .cta-card-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin: 0 0 12px; }
+  .cta-card-title { font-family: var(--sans); font-variation-settings: 'opsz' 48, 'wght' 800; font-size: 32px; line-height: 1.05; letter-spacing: -0.025em; color: #fff; margin: 0 0 10px; }
+  .cta-card-desc { font-family: var(--serif); font-size: 15.5px; line-height: 1.5; color: rgba(255,255,255,0.75); margin: 0 0 24px; }
+  .cta-card-link { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.4); padding-bottom: 3px; transition: gap 0.25s; }
+  .cta-card:hover .cta-card-link { gap: 14px; }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer { margin-top: auto; padding: 40px 0 48px; border-top: 0.5px solid var(--rule); }
+  .footer-text { font-family: var(--serif); font-size: 14px; color: var(--ink-3); margin: 0; text-align: center; }
+  .footer-text em { font-family: var(--italic); font-variation-settings: 'opsz' 24, 'wght' 500; font-style: italic; color: var(--ink-2); }
+
+  /* ============================================================
+     MOTION
+     ============================================================ */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .rise { animation: rise 0.7s ease-out backwards; }
+  .d1 { animation-delay: 0.05s; }
+  .d2 { animation-delay: 0.12s; }
+  .d3 { animation-delay: 0.2s; }
+  .d4 { animation-delay: 0.28s; }
+  .d5 { animation-delay: 0.36s; }
+
+  /* ============================================================
+     MOBILE
+     ============================================================ */
+  @media (max-width: 480px) {
+    .wrap { padding: 0 20px; }
+    header.hero { padding: 48px 0 36px; }
+    h1.headline { font-size: clamp(40px, 13vw, 64px); }
+    .lede { font-size: 17px; }
+    .compare { grid-template-columns: 1fr; }
+    .site-header { padding: 16px 0; }
+    .wordmark-text { display: none; }
+    .cta-card-title { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="wrap">
+    <div class="header-inner">
+      <a href="../" class="wordmark rise d1">
+        <div class="mark">SB</div>
+        <span class="wordmark-text">Skill Builder</span>
+      </a>
+      <span class="issue rise d1">Field Manual &middot; Vol. 01</span>
+    </div>
+  </div>
+</div>
+
+<div class="subnav">
+  <div class="wrap">
+    <a class="subnav-back" href="../">&larr; All modules</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="eyebrow rise d2">Module 04 &middot; Technique</div>
+  <h1 class="headline rise d3">Prompts that work.</h1>
+  <p class="lede rise d4">Most prompts fail before the AI reads them. Not because the model is wrong. Because the request doesn't give it enough to do the task right.</p>
+</header>
+
+<section class="rise d5">
+
+  <div class="section-label">The gap</div>
+  <h2 class="section-head">Vague in, vague out.</h2>
+  <p>The same prompt from two different people produces two different outputs. Not because Claude is inconsistent. Because the same words mean different things depending on what you're actually trying to do.</p>
+
+  <div class="compare">
+    <div class="compare-block before">
+      <div class="compare-label">Before</div>
+      <div class="compare-text">Write me a meeting summary.</div>
+    </div>
+    <div class="compare-block after">
+      <div class="compare-label">After</div>
+      <div class="compare-text">You're a concise executive writer. Summarize this transcript into 5 bullet points of decisions made and 3 open action items. Format as a Slack message, under 200 words. Skip anything that's just socializing. Here's the transcript: [paste]</div>
+    </div>
+  </div>
+  <p class="compare-note">The difference is 47 words. One gives the AI a job. The other gives it a guess.</p>
+
+  <div class="field-note">
+    <div class="field-note-label">The rule</div>
+    <p class="field-note-text">Every vague word in your prompt is a decision you're handing to the AI. Specificity scales directly with output quality.</p>
+  </div>
+
+</section>
+
+<section>
+  <div class="section-label">Before you type</div>
+  <h2 class="section-head">Four questions.</h2>
+  <p>Not all of these are relevant every time. But when a draft misses, it's usually because one of them got skipped.</p>
+
+  <ol class="questions">
+    <li class="q-item">
+      <span class="q-num">01</span>
+      <div class="q-body">
+        <div class="q-lead">What does done look like?</div>
+        <p>Not the task: the output. "Give me 5 bullets, each under 20 words, one decision per bullet" is a different instruction than "write me a summary." Both technically ask for the same thing. One of them works.</p>
+      </div>
+    </li>
+    <li class="q-item">
+      <span class="q-num">02</span>
+      <div class="q-body">
+        <div class="q-lead">Who's reading this?</div>
+        <p>The AI calibrates tone, length, and what to include around the audience. "For my director" changes the output more than almost anything else you could add.</p>
+      </div>
+    </li>
+    <li class="q-item">
+      <span class="q-num">03</span>
+      <div class="q-body">
+        <div class="q-lead">What does the AI not know that matters?</div>
+        <p>Background context, domain specifics, or constraints that aren't obvious from the task. Think about what you'd say walking a colleague through it right before you handed it off.</p>
+      </div>
+    </li>
+    <li class="q-item">
+      <span class="q-num">04</span>
+      <div class="q-body">
+        <div class="q-lead">What would you reject?</div>
+        <p>Think backwards. Name one or two outputs you'd immediately discard. That boundary is often the most useful constraint you can write.</p>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<section>
+  <div class="section-label">The framework</div>
+  <h2 class="section-head">Six layers.</h2>
+  <p>Every good prompt is assembled from some combination of six things. Not all six, every time. Role is usually optional. Objective is not.</p>
+
+  <div class="layers-wrap">
+    <table class="layers-table">
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>What it does</th>
+          <th>Required</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="ln">Role</td>
+          <td>Tells Claude who to be for this task</td>
+          <td class="lreq no">No</td>
+          <td class="lex">"You're a direct executive editor."</td>
+        </tr>
+        <tr>
+          <td class="ln">Objective</td>
+          <td>States what needs to be done</td>
+          <td class="lreq yes">Yes</td>
+          <td class="lex">"Summarize this transcript into 5 decisions and 3 action items."</td>
+        </tr>
+        <tr>
+          <td class="ln">Context</td>
+          <td>Supplies background the AI doesn't have</td>
+          <td class="lreq no">No</td>
+          <td class="lex">"This is for a director who wasn't in the meeting."</td>
+        </tr>
+        <tr>
+          <td class="ln">Structure</td>
+          <td>Shapes the output format</td>
+          <td class="lreq no">No</td>
+          <td class="lex">"Format as a Slack message, under 200 words."</td>
+        </tr>
+        <tr>
+          <td class="ln">Constraints</td>
+          <td>Names what to exclude or avoid</td>
+          <td class="lreq no">No</td>
+          <td class="lex">"Skip socializing and meta-commentary."</td>
+        </tr>
+        <tr>
+          <td class="ln">Data</td>
+          <td>The material to work with</td>
+          <td class="lreq no">No</td>
+          <td class="lex">"Here's the transcript: [paste]"</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">In practice</div>
+  <h2 class="section-head">Three assembled prompts.</h2>
+  <p>Each one labeled by layer so the pattern is visible. This is what The Brief produces in annotated view.</p>
+
+  <div class="ex-grid">
+
+    <div class="ex-card">
+      <div class="ex-card-head">
+        <span class="ex-task-type">Task</span>
+        <span class="ex-title">Email draft</span>
+      </div>
+      <div class="ex-body"><span class="lc">// Role</span>
+You're a direct, professional communicator who writes concise emails.
+
+<span class="lc">// Objective</span>
+Draft a follow-up email to a vendor after a meeting where we agreed to pilot their product.
+
+<span class="lc">// Context</span>
+The meeting was positive. They offered a 30-day trial. I need to confirm scope and get a contract started.
+
+<span class="lc">// Structure</span>
+Three paragraphs max. Include a subject line.
+
+<span class="lc">// Constraints</span>
+No filler phrases. No "I hope this email finds you well."</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-card-head">
+        <span class="ex-task-type">Task</span>
+        <span class="ex-title">Research summary</span>
+      </div>
+      <div class="ex-body"><span class="lc">// Objective</span>
+Summarize the key arguments for and against mandatory AI disclosure requirements in financial services.
+
+<span class="lc">// Context</span>
+Writing a policy brief for a non-technical audience. Assume they know finance but not AI regulation.
+
+<span class="lc">// Structure</span>
+Two sections: arguments for, arguments against. Three bullets each, one sentence per bullet.
+
+<span class="lc">// Constraints</span>
+No citations needed. No academic language.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-card-head">
+        <span class="ex-task-type">Task</span>
+        <span class="ex-title">Document review</span>
+      </div>
+      <div class="ex-body"><span class="lc">// Role</span>
+You're a senior policy editor who values precision and plain language.
+
+<span class="lc">// Objective</span>
+Review this draft and flag any claims that are overstated, vague, or that could embarrass the organization.
+
+<span class="lc">// Context</span>
+This is going to a regulator who will be looking for precision. Any hedge or overstatement will be noticed.
+
+<span class="lc">// Constraints</span>
+Don't rewrite. Annotate with line numbers and a one-sentence explanation per flag.
+
+<span class="lc">// Data</span>
+[paste document]</div>
+    </div>
+
+  </div>
+</section>
+
+<a class="cta-card" href="builder/">
+  <div class="cta-card-label">Next: the tool</div>
+  <div class="cta-card-title">The Brief.</div>
+  <p class="cta-card-desc">Fill in what you know. The Brief assembles the layers into a structured, copyable prompt. Annotated or clean.</p>
+  <span class="cta-card-link">Open The Brief <span>&rarr;</span></span>
+</a>
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p class="footer-text">A companion to <em>Build Your Second Brain with Claude</em>. Share freely.</p>
+  </div>
+</footer>
+
+</body>
+</html>

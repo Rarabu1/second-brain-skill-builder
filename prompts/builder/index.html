@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Brief &middot; Second Brain Skill Builder</title>
+<meta name="description" content="Fill in what you know. The Brief assembles the layers into a structured, copyable prompt.">
+<meta property="og:title" content="The Brief &middot; Second Brain Skill Builder">
+<meta property="og:description" content="Fill in what you know. The Brief assembles the layers into a structured, copyable prompt.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F3F5F8;
+    --paper-2: #E8ECF2;
+    --paper-3: #DDE2EB;
+    --ink: #0D1218;
+    --ink-2: #3A4356;
+    --ink-3: #7B8294;
+    --rule: #D3D8E1;
+    --accent: #1B3A6B;
+    --accent-2: #2A4F8C;
+    --accent-soft: rgba(27, 58, 107, 0.5);
+    --accent-dim: rgba(27, 58, 107, 0.08);
+    --terminal-bg: #0C1119;
+    --terminal-text: #DCD6C7;
+    --sans: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
+    --serif: 'Newsreader', Georgia, serif;
+    --italic: 'Fraunces', Georgia, serif;
+    --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+  body { font-family: var(--serif); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; min-height: 100vh; display: flex; flex-direction: column; }
+  ::selection { background: var(--accent-dim); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+  p { font-family: var(--serif); font-size: 15.5px; line-height: 1.55; color: var(--ink-2); margin: 0 0 16px; }
+  em { font-family: var(--italic); font-style: italic; font-variation-settings: 'opsz' 24, 'wght' 500; }
+
+  .wrap { max-width: 720px; width: 100%; margin: 0 auto; padding: 0 24px; }
+
+  /* ============================================================
+     SITE HEADER
+     ============================================================ */
+  .site-header { padding: 22px 0; border-bottom: 0.5px solid var(--rule); }
+  .site-header .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .wordmark { display: inline-flex; align-items: center; gap: 10px; }
+  .wordmark .mark { position: relative; width: 24px; height: 24px; border: 1.5px solid var(--ink); display: inline-flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--ink); letter-spacing: 0.04em; }
+  .wordmark .mark::after { content: ""; position: absolute; top: -2.5px; right: -2.5px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+  .wordmark-text { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); }
+  .issue { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+
+  /* ============================================================
+     SUBNAV
+     ============================================================ */
+  .subnav { padding: 11px 0; border-bottom: 0.5px solid var(--rule); }
+  .subnav-back { font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+  .subnav-back:hover { color: var(--accent); }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  header.hero { padding: 64px 0 40px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 24px; }
+  .eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
+  h1.headline { font-family: var(--sans); font-optical-sizing: auto; font-variation-settings: 'opsz' 96, 'wght' 800; font-weight: 800; font-size: clamp(44px, 10vw, 80px); line-height: 0.95; letter-spacing: -0.035em; color: var(--ink); margin: 0 0 22px; }
+  .hero-sub { font-family: var(--serif); font-size: 17px; line-height: 1.5; color: var(--ink-3); margin: 0; }
+
+  /* ============================================================
+     LAYOUT: TWO-COLUMN ON WIDE
+     ============================================================ */
+  .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; padding: 0 0 80px; }
+  .col-form {}
+  .col-output {}
+
+  /* ============================================================
+     FORM
+     ============================================================ */
+  .form-section-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); display: flex; align-items: center; gap: 10px; margin: 0 0 24px; }
+  .form-section-label::after { content: ""; flex: 1; height: 0.5px; background: var(--rule); }
+
+  .field-group { margin: 0 0 22px; }
+  .field-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 5px; }
+  .field-label { font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: 0.04em; color: var(--ink); }
+  .field-badge { font-family: var(--mono); font-size: 9px; font-weight: 500; padding: 2px 7px; border-radius: 2px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .field-badge.required { background: var(--accent-dim); color: var(--accent); }
+  .field-badge.optional { background: var(--paper-3); color: var(--ink-3); }
+  .field-hint { font-family: var(--serif); font-size: 13px; color: var(--ink-3); margin: 0 0 8px; line-height: 1.45; }
+  .field-textarea, .field-input {
+    width: 100%;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 10px 13px;
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.2s, background 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .field-textarea:focus, .field-input:focus { border-color: var(--accent); background: #fff; }
+  .field-textarea::placeholder, .field-input::placeholder { color: var(--ink-3); opacity: 0.7; }
+
+  /* ============================================================
+     OUTPUT
+     ============================================================ */
+  .output-sticky { position: sticky; top: 24px; }
+  .output-section-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); display: flex; align-items: center; gap: 10px; margin: 0 0 14px; }
+  .output-section-label::after { content: ""; flex: 1; height: 0.5px; background: var(--rule); }
+
+  .output-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 10px; }
+  .view-toggle { display: inline-flex; background: var(--paper-3); border-radius: 3px; padding: 2px; gap: 2px; }
+  .toggle-btn { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 10px; border: none; background: transparent; color: var(--ink-3); border-radius: 2px; cursor: pointer; transition: background 0.15s, color 0.15s; }
+  .toggle-btn.active { background: var(--paper); color: var(--accent); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+  .copy-btn { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 13px; border: 1px solid var(--rule); border-radius: 3px; background: var(--paper); color: var(--ink-2); cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; white-space: nowrap; }
+  .copy-btn:hover { background: var(--paper-3); border-color: var(--accent-soft); color: var(--accent); }
+  .copy-btn.copied { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+  .copy-btn:disabled { opacity: 0.4; cursor: default; }
+
+  .output-block { background: var(--terminal-bg); border-radius: 6px; overflow: hidden; }
+  .output-pre {
+    display: block;
+    padding: 20px 20px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.75;
+    color: var(--terminal-text);
+    white-space: pre-wrap;
+    word-break: break-word;
+    min-height: 240px;
+    margin: 0;
+  }
+  .output-pre .layer-comment { color: #4e4740; }
+  .output-placeholder { font-family: var(--italic); font-size: 14px; font-style: italic; font-variation-settings: 'opsz' 24, 'wght' 400; color: #4e4740; padding: 56px 20px; text-align: center; }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer { margin-top: auto; padding: 40px 0 48px; border-top: 0.5px solid var(--rule); }
+  .footer-text { font-family: var(--serif); font-size: 14px; color: var(--ink-3); margin: 0; text-align: center; }
+  .footer-text em { font-family: var(--italic); font-variation-settings: 'opsz' 24, 'wght' 500; font-style: italic; color: var(--ink-2); }
+
+  /* ============================================================
+     MOTION
+     ============================================================ */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .rise { animation: rise 0.7s ease-out backwards; }
+  .d1 { animation-delay: 0.05s; }
+  .d2 { animation-delay: 0.12s; }
+  .d3 { animation-delay: 0.2s; }
+  .d4 { animation-delay: 0.28s; }
+
+  /* ============================================================
+     MOBILE: single column below 640px
+     ============================================================ */
+  @media (max-width: 640px) {
+    .main-grid { grid-template-columns: 1fr; gap: 32px; }
+    .output-sticky { position: static; }
+    .site-header { padding: 16px 0; }
+    .wordmark-text { display: none; }
+    header.hero { padding: 48px 0 32px; }
+    h1.headline { font-size: clamp(36px, 11vw, 56px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="wrap">
+    <div class="header-inner">
+      <a href="../../" class="wordmark rise d1">
+        <div class="mark">SB</div>
+        <span class="wordmark-text">Skill Builder</span>
+      </a>
+      <span class="issue rise d1">Field Manual &middot; Vol. 01</span>
+    </div>
+  </div>
+</div>
+
+<div class="subnav">
+  <div class="wrap">
+    <a class="subnav-back" href="../">&larr; Prompts</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero rise d2">
+  <div class="eyebrow">The Brief &middot; Prompt builder</div>
+  <h1 class="headline">The Brief.</h1>
+  <p class="hero-sub">Fill in what you know. Skip what you don't. The layers assemble into a single copyable prompt.</p>
+</header>
+
+<div class="main-grid rise d3">
+
+  <!-- ==================== FORM ==================== -->
+  <div class="col-form">
+    <div class="form-section-label">Your brief</div>
+
+    <div class="field-group">
+      <div class="field-header">
+        <label class="field-label" for="f-objective">Objective</label>
+        <span class="field-badge required">Required</span>
+      </div>
+      <p class="field-hint">What do you need Claude to do?</p>
+      <textarea class="field-textarea" id="f-objective" rows="4" placeholder="e.g., Summarize this transcript into 5 bullet points of decisions made and 3 open action items."></textarea>
+    </div>
+
+    <div class="field-group">
+      <div class="field-header">
+        <label class="field-label" for="f-role">Role</label>
+        <span class="field-badge optional">Optional</span>
+      </div>
+      <p class="field-hint">Who should Claude be for this task?</p>
+      <input class="field-input" type="text" id="f-role" placeholder="e.g., You're a direct executive editor.">
+    </div>
+
+    <div class="field-group">
+      <div class="field-header">
+        <label class="field-label" for="f-context">Context</label>
+        <span class="field-badge optional">Optional</span>
+      </div>
+      <p class="field-hint">What would you tell a colleague before handing them this task?</p>
+      <textarea class="field-textarea" id="f-context" rows="3" placeholder="e.g., This is for a director who wasn't in the meeting. The audience knows the domain but not the internal history."></textarea>
+    </div>
+
+    <div class="field-group">
+      <div class="field-header">
+        <label class="field-label" for="f-structure">Structure</label>
+        <span class="field-badge optional">Optional</span>
+      </div>
+      <p class="field-hint">How should the output be shaped?</p>
+      <textarea class="field-textarea" id="f-structure" rows="3" placeholder="e.g., Format as a Slack message, under 200 words. Use bullets, not paragraphs."></textarea>
+    </div>
+
+    <div class="field-group">
+      <div class="field-header">
+        <label class="field-label" for="f-constraints">Constraints</label>
+        <span class="field-badge optional">Optional</span>
+      </div>
+      <p class="field-hint">What should it avoid?</p>
+      <textarea class="field-textarea" id="f-constraints" rows="3" placeholder="e.g., Skip anything that's just socializing. No jargon. No hedging language."></textarea>
+    </div>
+
+    <div class="field-group">
+      <div class="field-header">
+        <label class="field-label" for="f-data">Data</label>
+        <span class="field-badge optional">Optional</span>
+      </div>
+      <p class="field-hint">Any examples, source material, or content to include?</p>
+      <textarea class="field-textarea" id="f-data" rows="5" placeholder="e.g., Here's the transcript: [paste content here]"></textarea>
+    </div>
+  </div>
+
+  <!-- ==================== OUTPUT ==================== -->
+  <div class="col-output">
+    <div class="output-sticky">
+      <div class="output-section-label">Your prompt</div>
+
+      <div class="output-toolbar">
+        <div class="view-toggle" role="group" aria-label="View mode">
+          <button class="toggle-btn active" id="btn-anno" onclick="setView('annotated')">Annotated</button>
+          <button class="toggle-btn" id="btn-clean" onclick="setView('clean')">Clean</button>
+        </div>
+        <button class="copy-btn" id="copy-btn" onclick="copyPrompt()" disabled>Copy prompt</button>
+      </div>
+
+      <div class="output-block">
+        <div class="output-placeholder" id="output-placeholder">Fill in the Objective to build your prompt.</div>
+        <pre class="output-pre" id="output-pre" style="display:none" aria-live="polite"></pre>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main-grid -->
+
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p class="footer-text">A companion to <em>Build Your Second Brain with Claude</em>. Share freely.</p>
+  </div>
+</footer>
+
+<script>
+  const OUTPUT_ORDER = ['role', 'objective', 'context', 'structure', 'constraints', 'data'];
+
+  const LAYER_LABELS = {
+    role: 'Role',
+    objective: 'Objective',
+    context: 'Context',
+    structure: 'Structure',
+    constraints: 'Constraints',
+    data: 'Data'
+  };
+
+  let currentView = 'annotated';
+
+  function escHtml(s) {
+    return s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
+  function getFilledLayers() {
+    const parts = [];
+    for (const key of OUTPUT_ORDER) {
+      const el = document.getElementById('f-' + key);
+      const v = el ? el.value.trim() : '';
+      if (v) parts.push({ key, label: LAYER_LABELS[key], value: v });
+    }
+    return parts;
+  }
+
+  function render() {
+    const pre = document.getElementById('output-pre');
+    const placeholder = document.getElementById('output-placeholder');
+    const copyBtn = document.getElementById('copy-btn');
+    const parts = getFilledLayers();
+    const hasObjective = document.getElementById('f-objective').value.trim();
+
+    if (!hasObjective || parts.length === 0) {
+      pre.style.display = 'none';
+      placeholder.style.display = 'block';
+      copyBtn.disabled = true;
+      return;
+    }
+
+    pre.style.display = 'block';
+    placeholder.style.display = 'none';
+    copyBtn.disabled = false;
+
+    if (currentView === 'annotated') {
+      let html = '';
+      for (let i = 0; i < parts.length; i++) {
+        if (i > 0) html += '\n\n';
+        html += '<span class="layer-comment">// ' + escHtml(parts[i].label) + '</span>\n' + escHtml(parts[i].value);
+      }
+      pre.innerHTML = html;
+    } else {
+      pre.textContent = parts.map(function(p) { return p.value; }).join('\n\n');
+    }
+  }
+
+  function setView(view) {
+    currentView = view;
+    document.getElementById('btn-anno').classList.toggle('active', view === 'annotated');
+    document.getElementById('btn-clean').classList.toggle('active', view === 'clean');
+    render();
+  }
+
+  function copyPrompt() {
+    const pre = document.getElementById('output-pre');
+    if (!pre || pre.style.display === 'none') return;
+    const text = pre.textContent;
+    if (!text) return;
+
+    navigator.clipboard.writeText(text).then(function() {
+      const btn = document.getElementById('copy-btn');
+      const prev = btn.textContent;
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(function() {
+        btn.textContent = prev;
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(function() {
+      /* fallback for environments without clipboard API */
+      const ta = document.createElement('textarea');
+      ta.value = pre.textContent;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try { document.execCommand('copy'); } catch(e) {}
+      document.body.removeChild(ta);
+    });
+  }
+
+  /* Wire up all inputs */
+  document.querySelectorAll('.field-textarea, .field-input').forEach(function(el) {
+    el.addEventListener('input', render);
+  });
+
+  render();
+</script>
+</body>
+</html>

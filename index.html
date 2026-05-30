@@ -141,6 +141,12 @@
   .chapter-row.done .ch-name { color: var(--accent); }
   .chapter-row .ch-check { color: var(--accent); font-size: 11px; }
 
+  /* Prompt preview (inside lesson card) */
+  .prompt-preview { background: var(--terminal-bg); border-radius: 4px; padding: 13px 15px; margin: 0 0 22px; }
+  .prompt-preview .pp-line { font-family: var(--mono); font-size: 11.5px; line-height: 1.75; }
+  .prompt-preview .pp-line.anno { color: #4e4740; }
+  .prompt-preview .pp-line.txt { color: #DCD6C7; }
+
   /* Personalize preview (inside lesson card) */
   .perso-rows { background: var(--paper); border: 0.5px solid var(--rule); border-radius: 4px; padding: 12px 16px; margin: 0 0 22px; }
   .perso-row { display: flex; align-items: baseline; gap: 10px; padding: 4px 0; border-bottom: 0.5px solid var(--rule); font-family: var(--mono); font-size: 11px; }
@@ -225,10 +231,10 @@
 <header class="hero">
   <div class="eyebrow rise d2">A working second brain in an afternoon</div>
   <h1 class="headline rise d3">Build Your <em>Second</em> Brain.</h1>
-  <p class="lede rise d4">Two hands-on lessons and a personal file generator. The first removes the terminal from the list of things you're afraid of. The second walks you through a full setup. The third builds your vault files from your own answers.</p>
+  <p class="lede rise d4">Two hands-on lessons, a personal file generator, and a prompt-writing guide. From never-touched-a-terminal to a working Second Brain in an afternoon.</p>
   <div class="stats rise d5">
-    <div class="stat"><span class="stat-num">03</span><span class="stat-label">tools</span></div>
-    <div class="stat"><span class="stat-num">~90</span><span class="stat-label">minutes total</span></div>
+    <div class="stat"><span class="stat-num">04</span><span class="stat-label">modules</span></div>
+    <div class="stat"><span class="stat-num">~105</span><span class="stat-label">minutes total</span></div>
     <div class="stat"><span class="stat-num">00</span><span class="stat-label">installs for warmup</span></div>
   </div>
 </header>
@@ -307,6 +313,29 @@
       <span class="lesson-cta">Personalize my setup <span>&rarr;</span></span>
     </a>
 
+    <a class="lesson-card" href="prompts/">
+      <div class="lesson-card-header">
+        <span class="lesson-num">04</span>
+        <span class="lesson-label">Prompts</span>
+      </div>
+      <h2 class="lesson-title">Prompts that work.</h2>
+      <div class="prompt-preview" aria-hidden="true">
+        <div class="pp-line anno">// Objective</div>
+        <div class="pp-line txt">Summarize this transcript into 5 decisions and 3 action items.</div>
+        <div class="pp-line anno">// Structure</div>
+        <div class="pp-line txt">Format as a Slack message, under 200 words.</div>
+        <div class="pp-line anno">// Constraints</div>
+        <div class="pp-line txt">Skip socializing and meta-commentary.</div>
+      </div>
+      <p class="lesson-desc">Six layers that make any prompt work. Learn the framework, then use The Brief to build a structured prompt for your next task.</p>
+      <div class="lesson-meta">
+        <span class="lesson-meta-item">6 layers</span>
+        <span class="lesson-meta-item">~15 min</span>
+        <span class="lesson-meta-item">any task type</span>
+      </div>
+      <span class="lesson-cta">Learn the pattern <span>&rarr;</span></span>
+    </a>
+
   </div>
 
   <div class="field-note">
@@ -340,7 +369,12 @@
     <div class="how-item">
       <div class="how-trigger">If you're running a training</div>
       <h4>Send people here.</h4>
-      <p>One URL covers all three tools. Have attendees start with the warmup, then personalize before setting up &mdash; it makes the setup guide concrete.</p>
+      <p>One URL covers all four modules. Have attendees start with the warmup, then personalize before the setup guide &mdash; it makes the system concrete.</p>
+    </div>
+    <div class="how-item" style="grid-column: span 2;">
+      <div class="how-trigger">If your prompts keep missing the mark</div>
+      <h4>Go to the prompt guide.</h4>
+      <p>The gap between a good prompt and a vague one is usually one of six layers. The framework takes fifteen minutes to learn. The Brief builds one for your next task.</p>
     </div>
   </div>
 </section>
