@@ -45,6 +45,12 @@
   .wrap { max-width: 1080px; width: 100%; margin: 0 auto; padding: 0 24px; }
   .content-col { max-width: 720px; margin: 0 auto; }
 
+  /* Quick CTA */
+  .quick-cta { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 13px 18px; background: var(--accent-dim); border: 0.5px solid var(--accent-soft); border-radius: 4px; margin: 0 0 0; flex-wrap: wrap; }
+  .quick-cta-label { font-family: var(--serif); font-size: 14.5px; color: var(--ink-2); margin: 0; max-width: none; }
+  .quick-cta-link { font-family: var(--mono); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--accent-soft); padding-bottom: 2px; transition: gap 0.2s, border-color 0.2s; }
+  .quick-cta-link:hover { gap: 13px; border-color: var(--accent); }
+
   /* ============================================================
      SITE HEADER
      ============================================================ */
@@ -209,7 +215,12 @@
   <p class="lede rise d4">Most prompts fail before the AI reads them. Not because the model is wrong. Because the request doesn't give it enough to do the task right.</p>
 </header>
 
-<section class="rise d5">
+<div class="quick-cta rise d5">
+  <span class="quick-cta-label">Already know the framework? Skip straight to the tool.</span>
+  <a class="quick-cta-link" href="builder/">Open The Brief <span>&rarr;</span></a>
+</div>
+
+<section>
 
   <div class="section-label">The gap</div>
   <h2 class="section-head">Vague in, vague out.</h2>
