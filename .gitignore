@@ -22,6 +22,10 @@
 !prompts/
 !prompts/**
 
+# Allow about/ and its contents
+!about/
+!about/**
+
 # wrangler files
 .wrangler
 .dev.vars*
