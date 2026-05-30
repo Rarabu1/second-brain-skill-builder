@@ -2,7 +2,7 @@
 
 A hands-on skill-builder for setting up a Claude-powered personal knowledge system using Obsidian.
 
-**Live site:** https://second-brain-skill-builder.rarabur.workers.dev
+**Live site:** https://secondbrain.training
 
 ---
 
