@@ -236,7 +236,7 @@
 <header class="hero">
   <div class="eyebrow rise d2">Module 01 &middot; Terminal basics</div>
   <h1 class="rise d3">Hello, <em>Terminal</em>.</h1>
-  <p class="lede rise d4">A short, hands-on introduction to the command line. Nine exercises in a safe practice terminal, then a quick run through the real thing. No prior knowledge, no setup, nothing to install.</p>
+  <p class="lede rise d4">A short, hands-on introduction to the command line. Nine exercises in a safe in-browser sandbox, then a quick run through the real thing. No prior knowledge, no setup, nothing to install.</p>
   <div class="meta rise d5">
     <span>9 EXERCISES</span>
     <span>~20 MIN</span>
@@ -261,8 +261,8 @@
 
 <section id="sandbox">
   <p class="eyebrow">Module 01</p>
-  <h2>Your practice terminal</h2>
-  <p class="sub">Type into the box below the terminal and press <kbd>Enter</kbd>. This is a safe practice space &mdash; type <code>help</code> any time to see the commands available here (that list is specific to this page).</p>
+  <h2>The sandbox</h2>
+  <p class="sub">Type into the box below the terminal and press <kbd>Enter</kbd>. Type <code>help</code> any time to see the commands available here &mdash; that list is specific to this page.</p>
 
   <div class="terminal-shell">
     <div class="terminal-titlebar">
@@ -505,7 +505,7 @@ function updatePrompt() {
 
 function termIntro() {
   term.innerHTML = '';
-  termWrite('<span class="dim">A safe practice terminal. Nothing you type here can affect your real computer.</span>');
+  termWrite('<span class="dim">A safe in-browser shell. Nothing you type here can affect your real computer.</span>');
   termWrite('<span class="dim">Try <span class="ok">echo hello world</span> to start, or <span class="ok">help</span> to see the commands available here.</span>');
   updatePrompt();
 }
@@ -516,7 +516,7 @@ function termReset() {
   document.querySelectorAll('.exercise').forEach(e => e.classList.remove('done'));
   updateProgress();
   termIntro();
-  termInput.focus();
+  termInput.focus({ preventScroll: true });
 }
 
 function termHelp() {
@@ -789,7 +789,7 @@ document.querySelectorAll('.check-row input[type="checkbox"]').forEach(cb => {
   });
 });
 
-termInput.focus();
+termInput.focus({ preventScroll: true });
 </script>
 </body>
 </html>
