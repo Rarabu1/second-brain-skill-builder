@@ -344,11 +344,11 @@
     </div>
     <div class="item">
       <h4>2. <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a>, installed and ready</h4>
-      <p><code>npm install -g @anthropic-ai/claude-code</code>, or <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">download the installer</a>. From Obsidian's Terminal pane, <code>cd</code> into your vault and run <code>claude</code>. You're now in a session that can read and write every file in the vault. Obsidian's file watcher picks up changes instantly &mdash; you'll see new files appear in the explorer as Claude writes them.</p>
+      <p><code>npm install -g @anthropic-ai/claude-code</code>, or <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">download the installer</a>. Once it's installed, open the Terminal pane inside Obsidian, make sure you're in your vault folder, and type <code>claude</code> to start. You're now in a session that can read and write every file in the vault. Obsidian's file watcher picks up changes instantly &mdash; you'll see new files appear in the explorer as Claude writes them.</p>
     </div>
     <div class="item">
-      <h4>3. MCPs for the tools you live in</h4>
-      <p>Where Cowork has a connectors panel, Claude Code uses MCP servers. Install the ones you need &mdash; Gmail, Calendar, Slack, GitHub, whichever you live in &mdash; with <code>claude mcp add</code> or via the MCP registry. Each authorizes once and persists. Chapters 3+ rely on these. Prefer read-only scopes.</p>
+      <h4>3. Hosted connectors for the tools you live in</h4>
+      <p>Claude Code now ships with hosted connectors for Gmail, Google Calendar, Google Drive, GitHub, and more &mdash; nothing to install. The first time a routine tries to use one, Claude prompts you in the terminal to authenticate via browser. Authorize once and it persists across sessions. Pick read-only scopes when the OAuth screen offers them. (If you need a service that doesn't have a hosted connector, you can self-host an MCP server with <code>claude mcp add &lt;name&gt; -- &lt;command&gt;</code>, but most people don't need this.)</p>
     </div>
     <div class="item">
       <h4>4. Cowork, for two specific jobs (later)</h4>
@@ -357,7 +357,7 @@
   </div>
 
   <div class="callout">
-    <strong>First-time setup:</strong> Install <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a>, open your vault, enable the Terminal plugin, install <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a>, then in the terminal pane run <code>cd /path/to/vault && claude</code>. Install MCPs for Gmail, Calendar, and your chat tool. You're ready for Chapter 1.
+    <strong>Before your first session:</strong> The goal is one folder on your computer that both Obsidian and Claude can see. Install <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a> and open (or create) a vault folder &mdash; this becomes your Second Brain. From Obsidian's community plugins, install <strong>Terminal</strong>. Then install <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a>. Open the Terminal pane inside Obsidian, confirm you're in your vault folder, and type <code>claude</code>. Claude now sees every file in the vault. Add connectors for Gmail, Calendar, and your chat tool when you reach Chapter 3.
   </div>
 </section>
 
@@ -373,7 +373,7 @@
     <div class="problem"><p>Every Claude session starts from zero. You explain your role, your projects, your terminology, how you like to communicate. Every. Single. Time. Then Claude invents a definition for one of your internal programs that's completely wrong, and you spend five minutes correcting it. Multiply that by three sessions a day.</p></div>
 
     <h3>What you build</h3>
-    <p>A workspace with two files Claude reads automatically at the start of every session: <code>CLAUDE.md</code> (your identity, projects, preferences, rules) and <code>soul.md</code> (how Claude should behave). Plus the PARA folder structure that gives every future file a clear home.</p>
+    <p>A workspace with two files Claude reads automatically at the start of every session: <code>CLAUDE.md</code> (your identity, projects, preferences, rules) and <code>soul.md</code> (how Claude should behave). Plus a PARA folder structure &mdash; Projects, Areas, Resources, Archives &mdash; that gives every future file a clear home and keeps the vault from becoming a dumping ground.</p>
 
     <div class="ba">
       <div class="panel"><p class="lbl">Before</p><p>"Hi Claude, I'm a product marketing manager at a fintech. I lead positioning for our payments product. We have an initiative called LIFTOFF for new merchant onboarding and another called ANCHOR for retention &mdash; please don't conflate them. My manager is Priya. I'm working on three things right now…"</p></div>
@@ -518,9 +518,9 @@ After creating everything, remind me to fill in About Me, Key Contacts, and Doma
     <div class="tips">
       <h4>Tips</h4>
       <ul>
-        <li><strong>Initialize git for rollback safety.</strong> Cloud sync is not backup. Have Claude run <code>git init && git add -A && git commit -m "V1: foundation"</code> in your vault, then commit after each chapter. You can roll back any of Claude's edits.</li>
+        <li><strong>Initialize git for rollback safety.</strong> Git is version control &mdash; it takes a timestamped snapshot of your files on demand so you can undo anything Claude writes. Cloud sync is not backup; it just mirrors the current state. Have Claude run <code>git init && git add -A && git commit -m "V1: foundation"</code> in your vault, then commit after each chapter. You can roll back any of Claude's edits.</li>
         <li><strong>soul.md is worth the effort.</strong> Without it, Claude defaults to assistant-mode ("Great question! I'd be happy to help!"). With it, you get a collaborator that challenges bad ideas and does the obvious next thing without asking permission.</li>
-        <li><strong>Use a SessionStart hook to auto-load soul.md.</strong> In <code>.claude/settings.json</code>, add a SessionStart hook that <code>cat</code>s soul.md at the start of every session. That way the personality config is always loaded without you having to remember to reference it. (See Appendix A for the snippet.)</li>
+        <li><strong>Use a SessionStart hook to auto-load soul.md.</strong> Claude Code can run a small script automatically when each session starts. One line in a settings file tells it to load soul.md without you having to remember. (See Appendix A for the exact snippet to paste in &mdash; it takes two minutes.)</li>
         <li><strong>Don't overthink the project list.</strong> Start with zero projects. You'll create your first one in Chapter 2.</li>
       </ul>
     </div>
@@ -668,7 +668,7 @@ Update the root CLAUDE.md Active Projects table. Also add these output tracking 
     </div>
 
     <div class="callout">
-      <strong>Before you start:</strong> This chapter uses the MCPs you set up earlier &mdash; Gmail, Calendar, Slack (or your chat tool). If you haven't installed them yet, do it now (<code>claude mcp add &lt;name&gt;</code>). The triage routines won't work without read access.
+      <strong>Before you start:</strong> The triage routines use Claude Code's hosted connectors for Gmail, Calendar, and your chat tool. You don't install anything &mdash; the first time a routine fires, Claude prompts you in the terminal to authenticate each connector via browser. Click through and authorize read access. Done in 60 seconds, once.
     </div>
 
     <details class="prompt-card">
@@ -1034,7 +1034,7 @@ Also add to root CLAUDE.md AI Agent Instructions: "Maintain people files in 03_r
     </div>
 
     <h4>Scheduled briefs with launchd (Mac)</h4>
-    <p>The idea: launchd starts <code>claude</code> in non-interactive mode, hands it the morning-brief prompt, restricts it to read-only tools, and lets it write the triage file. Your laptop has to be awake at 8 AM &mdash; if you sleep with it closed, switch to Cowork's scheduled tasks for this one job.</p>
+    <p>launchd is macOS's built-in job scheduler &mdash; it can run a script automatically at any time you set, even while you're asleep or away from the computer. The idea here: launchd wakes at 7:55 AM, starts <code>claude</code> in non-interactive mode, hands it the morning-brief prompt, restricts it to read-only tools, and lets it write the triage file. Your laptop has to be awake &mdash; if you sleep with it closed, Cowork's scheduled tasks handle this without needing the machine on.</p>
 
     <details class="prompt-card" open>
       <summary>
@@ -1175,7 +1175,7 @@ Add this as the final step of the morning brief.</pre>
 Reply "send" to confirm.</pre>
     </div>
     <p>Add this rule to root CLAUDE.md Communication Rules. <strong>Autonomous action boundaries</strong>: Claude reads files, sorts inbox, updates people files, flags items, writes triage files without asking. Claude always asks first before sending messages, archiving projects, deleting files, or closing follow-ups.</p>
-    <p><strong>Read-only MCPs.</strong> When you install MCP servers, prefer read-only scopes wherever offered. Triage and scheduled briefs only need to read. The <code>--allowedTools</code> flag in your launchd plist enforces this at the tool-permission layer too &mdash; the daemon literally cannot call a write/send tool even if Claude tried.</p>
+    <p><strong>Read-only connectors.</strong> When the OAuth screen asks for scopes during authentication, pick read-only wherever offered. Triage and scheduled briefs only need to read. The <code>--allowedTools</code> flag in your launchd plist enforces this at the tool-permission layer too &mdash; the daemon literally cannot call a write/send tool even if Claude tried.</p>
 
     <div class="callout">
       <strong>A note on thresholds.</strong> The graduation signals (4 of 5) and incubator promotion criteria (3+ context additions) are reasonable defaults, not researched thresholds. Adjust based on experience. If projects linger after meeting the criteria, lower the bar. If ideas get promoted too early, raise it.
@@ -1411,8 +1411,8 @@ Why this meeting happened.
   <ol style="font-size:16px;line-height:1.7;color:var(--ink-1);margin:24px 0;">
     <li>Install <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a>. Open (or create) your vault. Install the <strong>Terminal</strong>, <strong>Tasks</strong>, and (optional) <strong>Dataview</strong> <a href="https://obsidian.md/plugins" target="_blank" rel="noopener noreferrer">community plugins</a>.</li>
     <li>Install <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a>: <code>npm install -g @anthropic-ai/claude-code</code>.</li>
-    <li>In Obsidian's terminal pane, <code>cd</code> into your vault and run <code>claude</code>.</li>
-    <li>Install the MCPs you need: <code>claude mcp add gmail</code>, <code>claude mcp add calendar</code>, <code>claude mcp add slack</code> (read-only scopes).</li>
+    <li>Open the Terminal pane inside Obsidian. Confirm you're in your vault folder, then type <code>claude</code> to start your first session.</li>
+    <li>Nothing to install for connectors &mdash; Gmail, Calendar, and chat are hosted. The first time a routine uses one, Claude prompts you to authenticate via browser. Pick read-only scopes when asked.</li>
     <li>Paste the <a href="#chapter-1">Chapter 1 prompt</a>. Fill in About Me, Key Contacts, and Domain Knowledge.</li>
     <li>Start using it.</li>
   </ol>

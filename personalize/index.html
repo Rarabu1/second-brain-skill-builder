@@ -526,7 +526,7 @@
 
   <div class="field" style="margin-top:28px;">
     <label>Tools you live in <span class="opt">(select all that apply)</span></label>
-    <div class="hint">These go into your morning brief routine and MCP setup notes.</div>
+    <div class="hint">These go into your morning brief routine. Claude will read from the ones you select when triaging your day.</div>
     <div class="checkbox-group">
       <label class="check-chip"><input type="checkbox" name="tools" value="gmail"> Gmail</label>
       <label class="check-chip"><input type="checkbox" name="tools" value="gcal"> Google Calendar</label>
@@ -565,7 +565,7 @@
 <div id="output">
   <div class="output-hero">
     <h2>Your files are ready.</h2>
-    <p>Copy each file and save it at the path shown, starting from your vault root. Or use the Claude Code prompt at the bottom to write everything at once.</p>
+    <p>For each file below: copy the content and save it in your vault at the path shown. The easiest option is the Claude Code prompt at the bottom &mdash; paste it into Claude Code and it writes all files at once.</p>
   </div>
 
   <div id="outputFiles"></div>
@@ -1022,7 +1022,7 @@ function genMorningBrief(d) {
 'Active project files:\n' + projNames + '\n\n';
 
   const toolsNote = d.tools.length
-    ? 'Requires MCP connectors for: ' + d.tools.map(t => TOOL_LABELS[t] || t).join(', ') + '. Install with `claude mcp add <name>` if not yet configured.\n\n'
+    ? 'Uses the hosted connectors for: ' + d.tools.map(t => TOOL_LABELS[t] || t).join(', ') + '. The first time this routine runs, Claude will prompt you in the terminal to authenticate each one via browser. Authorize read-only scopes when offered.\n\n'
     : '';
 
   return '# Morning Brief\n\n' +
