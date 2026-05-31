@@ -74,7 +74,7 @@
   .issue { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
 
   /* Hero */
-  header.hero { padding: 72px 0 48px; }
+  header.hero { padding: 72px 0 24px; }
   header.hero .eyebrow { display: inline-flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 28px; }
   header.hero .eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
   header.hero h1 {
@@ -104,7 +104,8 @@
   header.hero .skip { margin-top: 20px; font-family: var(--serif); font-size: 14.5px; color: var(--ink-3); }
 
   /* Sticky progress */
-  .progress-wrap { position: sticky; top: 0; background: rgba(243, 245, 248, 0.92); backdrop-filter: saturate(180%) blur(12px); -webkit-backdrop-filter: saturate(180%) blur(12px); padding: 14px 0; border-bottom: 0.5px solid var(--rule); z-index: 50; margin-bottom: 48px; }
+  .progress-wrap { position: sticky; top: 0; background: rgba(243, 245, 248, 0.92); backdrop-filter: saturate(180%) blur(12px); -webkit-backdrop-filter: saturate(180%) blur(12px); padding: 14px 0; border-bottom: 0.5px solid var(--rule); z-index: 50; margin-bottom: 16px; }
+  .progress-wrap + section { margin-top: 0; }
   .progress { display: flex; align-items: center; gap: 14px; font-family: var(--mono); font-size: 10px; color: var(--ink-3); letter-spacing: 0.14em; text-transform: uppercase; }
   .progress .pills { display: flex; gap: 6px; flex: 1; }
   .progress .pill { flex: 1; height: 2px; background: var(--rule); transition: background 0.4s ease, opacity 0.4s; }
@@ -527,7 +528,6 @@ After creating everything, remind me to fill in About Me, Key Contacts, and Doma
 
     <div class="complete-row">
       <button class="btn primary" onclick="toggleChapter(1, this)">Mark chapter complete</button>
-      <span class="note">Saved to this browser. Won't sync across devices.</span>
     </div>
   </article>
 </section>
