@@ -11,6 +11,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  /* Set OS before paint so OS-specific content never flashes. Saved choice wins; else guess from UA. */
+  document.documentElement.setAttribute('data-os',
+    localStorage.getItem('sb-os') || (/Win/i.test(navigator.userAgent) ? 'win' : 'mac'));
+</script>
 <style>
   :root {
     /* Surfaces */
@@ -54,6 +59,19 @@
   .wrap { max-width: 1080px; width: 100%; margin: 0 auto; padding: 0 24px; }
 
   /* ============================================================
+     OS PICKER (drives mac-only / win-only content site-wide)
+     ============================================================ */
+  [data-os="mac"] .win-only { display: none !important; }
+  [data-os="win"] .mac-only { display: none !important; }
+
+  .os-picker { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 0 0 40px; }
+  .os-toggle { display: inline-flex; background: var(--paper-2); border: 0.5px solid var(--rule); border-radius: 4px; padding: 3px; }
+  .os-btn { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); background: transparent; border: 0; border-radius: 3px; padding: 8px 16px; cursor: pointer; transition: background 0.2s, color 0.2s; }
+  .os-btn:hover { color: var(--ink); }
+  .os-btn[aria-pressed="true"] { background: var(--accent); color: #fff; }
+  .os-picker-note { font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; color: var(--ink-3); }
+
+  /* ============================================================
      SITE HEADER (wordmark + issue line)
      ============================================================ */
   .site-header { padding: 22px 0; border-bottom: 0.5px solid var(--rule); }
@@ -63,6 +81,10 @@
   .wordmark .mark::after { content: ""; position: absolute; top: -2.5px; right: -2.5px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
   .wordmark-text { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); }
   .issue { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+  .header-right { display: inline-flex; align-items: center; gap: 20px; }
+  .header-nav-link { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); border-bottom: 1px solid var(--accent-soft); padding-bottom: 2px; transition: border-color 0.2s; }
+  .header-nav-link:hover { border-color: var(--accent); }
+  @media (max-width: 480px) { .header-right .issue { display: none; } }
 
   /* ============================================================
      HERO
@@ -221,7 +243,10 @@
         <div class="mark">SB</div>
         <span class="wordmark-text">Skill Builder</span>
       </div>
-      <span class="issue rise d1">Field Manual &middot; Vol. 01</span>
+      <div class="header-right rise d1">
+        <a class="header-nav-link" href="about/">About</a>
+        <span class="issue">Field Manual &middot; Vol. 01</span>
+      </div>
     </div>
   </div>
 </div>
@@ -232,6 +257,13 @@
   <div class="eyebrow rise d2">A working second brain in an afternoon</div>
   <h1 class="headline rise d3">Build Your <em>Second</em> Brain.</h1>
   <p class="lede rise d4">Two hands-on lessons, a personal file generator, a prompt-writing guide, and a prompt builder. From never-touched-a-terminal to a working Second Brain in an afternoon.</p>
+  <div class="os-picker rise d4">
+    <div class="os-toggle" role="group" aria-label="Choose your operating system">
+      <button type="button" class="os-btn" data-os-set="mac" aria-pressed="true">macOS</button>
+      <button type="button" class="os-btn" data-os-set="win" aria-pressed="false">Windows</button>
+    </div>
+    <span class="os-picker-note">Sets the install steps throughout. Change it anytime.</span>
+  </div>
   <div class="stats rise d5">
     <div class="stat"><span class="stat-num">04</span><span class="stat-label">modules</span></div>
     <div class="stat"><span class="stat-num">~105</span><span class="stat-label">minutes total</span></div>
@@ -251,11 +283,11 @@
       </div>
       <h2 class="lesson-title">Hello, Terminal.</h2>
       <div class="terminal" aria-hidden="true">
-        <div class="terminal-header"><span class="terminal-dot"></span><span class="terminal-path">~/sandbox</span></div>
+        <div class="terminal-header"><span class="terminal-dot"></span><span class="terminal-path">~</span></div>
         <div class="terminal-body">
-          <div><span class="prompt">you@mac</span> <span class="dim">~ &rsaquo;</span> echo <span class="string">"hello world"</span></div>
+          <div><span class="prompt"><span class="mac-only">you@mac</span><span class="win-only">you@pc</span></span> <span class="dim">~ &rsaquo;</span> echo <span class="string">"hello world"</span></div>
           <div class="output">hello world</div>
-          <div><span class="prompt">you@mac</span> <span class="dim">~ &rsaquo;</span> find ~ -name <span class="string">"*.pdf"</span></div>
+          <div><span class="prompt"><span class="mac-only">you@mac</span><span class="win-only">you@pc</span></span> <span class="dim">~ &rsaquo;</span> find ~ -name <span class="string">"*.pdf"</span></div>
           <div class="output">~/Documents/taxes-2025.pdf</div>
           <div class="output">~/Downloads/invoice-april.pdf</div>
         </div>
@@ -281,8 +313,9 @@
         <div class="chapter-row"><span class="ch-num">03</span><span class="ch-name">Morning Autopilot</span></div>
         <div class="chapter-row"><span class="ch-num">04</span><span class="ch-name">Meeting Prep</span></div>
         <div class="chapter-row"><span class="ch-num">05</span><span class="ch-name">Automation</span></div>
+        <div class="chapter-row"><span class="ch-num">&plus;</span><span class="ch-name">Obsidian Web Clipper</span></div>
       </div>
-      <p class="lesson-desc">Five chapters that walk you through the full system: PARA folders, persistent memory, morning triage, meeting prep, and automated briefs. Includes the <a href="https://obsidian.md/clipper" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">Obsidian Web Clipper</a> for saving anything you read directly to your inbox. Designed around Obsidian + Claude Code, with Cowork where it earns its keep.</p>
+      <p class="lesson-desc">Five chapters that walk you through the full system: PARA folders (Projects, Areas, Resources, Archives), persistent memory, morning triage, meeting prep, and automated briefs &mdash; plus the <strong>Obsidian Web Clipper</strong> for saving anything you read straight to your inbox. Designed around Obsidian + Claude Code, with Cowork where it earns its keep.</p>
       <div class="lesson-meta">
         <span class="lesson-meta-item">5 chapters</span>
         <span class="lesson-meta-item">~1 hour</span>
@@ -384,6 +417,26 @@
     </div>
   </div>
 </footer>
+
+<script>
+  /* OS picker: persist choice and reflect it live across the page. */
+  (function () {
+    function apply(os) {
+      document.documentElement.setAttribute('data-os', os);
+      document.querySelectorAll('[data-os-set]').forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.getAttribute('data-os-set') === os));
+      });
+    }
+    apply(document.documentElement.getAttribute('data-os') || 'mac');
+    document.querySelectorAll('[data-os-set]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var os = b.getAttribute('data-os-set');
+        localStorage.setItem('sb-os', os);
+        apply(os);
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>

@@ -147,7 +147,7 @@
   .terminal-body .dim { color: var(--terminal-dim); }
   .terminal-body .err { color: var(--terminal-err); }
   .terminal-body .ok { color: var(--terminal-green); }
-  .terminal-body .dir { color: var(--terminal-amber); }
+  .terminal-body .dir { color: #5AA9E6; }
   .terminal-input-row { display: flex; align-items: center; background: var(--terminal-bg); padding: 0 18px 16px; font-family: var(--mono); font-size: 12.5px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; margin-top: -10px; }
   .terminal-input-row .prompt { color: var(--terminal-amber); margin-right: 10px; white-space: nowrap; }
   .terminal-input-row input { flex: 1; background: transparent; border: 0; outline: 0; color: var(--terminal-text); font-family: var(--mono); font-size: 12.5px; padding: 0; caret-color: var(--terminal-amber); }
@@ -262,7 +262,7 @@
 <section id="sandbox">
   <p class="eyebrow">Module 01</p>
   <h2>The sandbox</h2>
-  <p class="sub">Type into the box below the terminal and press <kbd>Enter</kbd>. Try <code>help</code> any time to see what commands are available.</p>
+  <p class="sub">Type into the box below the terminal and press <kbd>Enter</kbd>. Type <code>help</code> any time to see the commands available here &mdash; that list is specific to this page.</p>
 
   <div class="terminal-shell">
     <div class="terminal-titlebar">
@@ -282,9 +282,9 @@
 
   <div class="exercise" data-ex="1">
     <p class="label"><span class="dot"></span>Exercise 1 — say hello<span class="check"></span></p>
-    <h4>Type <code>echo "hello world"</code> and press Enter.</h4>
+    <h4>Type <code>echo hello world</code> and press Enter.</h4>
     <p><code>echo</code> simply prints whatever you give it back to the screen. It's the universal "first command" in any new environment &mdash; a quick sanity check that the system is listening.</p>
-    <p class="hint">The quotes group the words together. You'd get the same result without them here, but quotes matter when your text has special characters.</p>
+    <p class="hint">Quotes are optional here: <code>echo hello world</code> and <code>echo "hello world"</code> print the same thing. Quotes only start to matter when your text has special characters &mdash; for now, type it whichever way you like.</p>
   </div>
 
   <div class="exercise" data-ex="2">
@@ -321,7 +321,7 @@
   <div class="exercise" data-ex="7">
     <p class="label"><span class="dot"></span>Exercise 7 — move into a folder<span class="check"></span></p>
     <h4>Type <code>cd Documents</code>, then <code>ls</code>.</h4>
-    <p><code>cd</code> means "change directory." Think of it as double-clicking a folder in Finder. The prompt updates to show your new location.</p>
+    <p><code>cd</code> means "change directory." Think of it as double-clicking a folder in Finder. <code>Documents</code> is one of the folders <code>ls</code> just listed &mdash; type its name exactly, capital D included. The prompt updates to show your new location.</p>
     <p class="hint">To go back up one level, type <code>cd ..</code> &mdash; two dots mean "the folder above this one."</p>
   </div>
 
@@ -334,7 +334,7 @@
   <div class="exercise" data-ex="9">
     <p class="label"><span class="dot"></span>Exercise 9 — find a file anywhere<span class="check"></span></p>
     <h4>Type <code>find ~ -name "*.pdf"</code> and press Enter.</h4>
-    <p>This searches your entire home folder for files ending in <code>.pdf</code>. The <code>*</code> is a wildcard that matches anything. <code>find</code> is the single most useful command for "I know I have that file somewhere but I forget where."</p>
+    <p>This searches your entire home folder for files ending in <code>.pdf</code>. Piece by piece: <code>~</code> is your home folder (where to start looking), <code>-name</code> tells <code>find</code> to match by file name, and <code>"*.pdf"</code> is the pattern &mdash; the <code>*</code> is a wildcard standing in for any characters, so this means "anything ending in .pdf." <code>find</code> is the single most useful command for "I know I have that file somewhere but I forget where."</p>
     <p class="hint">Try a few variations: <code>find ~ -name "*.jpg"</code>, or <code>find ~/Downloads -name "*.pdf"</code> to search only one folder.</p>
   </div>
 </section>
@@ -506,7 +506,7 @@ function updatePrompt() {
 function termIntro() {
   term.innerHTML = '';
   termWrite('<span class="dim">A safe in-browser shell. Nothing you type here can affect your real computer.</span>');
-  termWrite('<span class="dim">Try <span class="ok">echo "hello world"</span> to start, or <span class="ok">help</span> to see all available commands.</span>');
+  termWrite('<span class="dim">Try <span class="ok">echo hello world</span> to start, or <span class="ok">help</span> to see the commands available here.</span>');
   updatePrompt();
 }
 
@@ -516,11 +516,24 @@ function termReset() {
   document.querySelectorAll('.exercise').forEach(e => e.classList.remove('done'));
   updateProgress();
   termIntro();
-  termInput.focus();
+  termInput.focus({ preventScroll: true });
 }
 
 function termHelp() {
-  termWrite('<span class="dim">Available: echo, whoami, date, cal, pwd, ls, cd, cat, find, clear, help</span>');
+  const help = 'Real commands (these work in any terminal):\n' +
+    '  echo    print text back to you\n' +
+    '  whoami  show which user you are\n' +
+    '  date    print the current date and time\n' +
+    '  cal     print this month as a calendar\n' +
+    '  pwd     print the folder you are in\n' +
+    '  ls      list the files and folders here\n' +
+    '  cd      move into a folder (cd .. goes up)\n' +
+    '  cat     print the contents of a file\n' +
+    '  find    search for files by name\n' +
+    '  clear   wipe the screen (your files stay)\n\n' +
+    'Just for this practice page:\n' +
+    '  help    show this list   (the Reset button restarts the warmup)';
+  termWrite('<span class="dim">' + help + '</span>');
 }
 
 const exDone = {};
@@ -776,7 +789,7 @@ document.querySelectorAll('.check-row input[type="checkbox"]').forEach(cb => {
   });
 });
 
-termInput.focus();
+termInput.focus({ preventScroll: true });
 </script>
 </body>
 </html>
