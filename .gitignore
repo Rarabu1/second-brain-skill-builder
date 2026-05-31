@@ -5,6 +5,8 @@
 !index.html
 !README.md
 !.gitignore
+!wrangler.jsonc
+!.assetsignore
 
 # Allow warmup/ and its contents
 !warmup/
