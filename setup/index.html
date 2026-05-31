@@ -8,6 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  /* Set OS before paint so OS-specific content never flashes. Saved choice (from any page) wins; else guess from UA. */
+  document.documentElement.setAttribute('data-os',
+    localStorage.getItem('sb-os') || (/Win/i.test(navigator.userAgent) ? 'win' : 'mac'));
+</script>
 <style>
   :root {
     --paper: #F3F5F8;
@@ -63,6 +68,23 @@
   code, kbd { font-family: var(--mono); }
   p code, li code, label code { background: var(--paper-2); color: var(--ink); padding: 2px 6px; border-radius: 2px; font-size: 0.88em; border: 0.5px solid var(--rule); }
   kbd { background: var(--paper-2); color: var(--ink); padding: 2px 7px; border-radius: 2px; font-size: 0.82em; border: 0.5px solid var(--rule); font-weight: 500; }
+
+  /* OS picker (drives mac-only / win-only content) */
+  [data-os="mac"] .win-only { display: none !important; }
+  [data-os="win"] .mac-only { display: none !important; }
+  .os-picker { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 0 0 28px; padding: 16px 18px; background: var(--paper-2); border: 0.5px solid var(--rule); border-radius: 4px; }
+  .os-toggle { display: inline-flex; background: var(--paper); border: 0.5px solid var(--rule); border-radius: 4px; padding: 3px; }
+  .os-btn { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); background: transparent; border: 0; border-radius: 3px; padding: 8px 16px; cursor: pointer; transition: background 0.2s, color 0.2s; }
+  .os-btn:hover { color: var(--ink); }
+  .os-btn[aria-pressed="true"] { background: var(--accent); color: #fff; }
+  .os-picker .note { font-family: var(--mono); font-size: 10px; letter-spacing: 0.04em; color: var(--ink-3); }
+  .verify { display: block; margin-top: 6px; font-size: 0.92em; color: var(--ink-3); }
+
+  /* Chapter jump-nav */
+  .toc { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: 0 0 8px; padding: 18px 20px; background: var(--paper-2); border: 0.5px solid var(--rule); border-radius: 8px; }
+  .toc .toc-label { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); margin-right: 4px; }
+  .toc a { font-family: var(--mono); font-size: 12px; color: var(--accent); border-bottom: 0; }
+  .toc a:hover { border-bottom: 1px solid var(--accent); }
 
   /* Site header */
   .site-header { padding: 22px 0; border-bottom: 0.5px solid var(--rule); }
@@ -338,14 +360,25 @@
   <h2>Obsidian is the dashboard. Claude Code is the steering wheel.</h2>
   <p class="sub">This guide treats Obsidian as your editor and visual surface, and Claude Code &mdash; running inside Obsidian's integrated terminal &mdash; as the thing that reads, writes, and decides. Same vault folder, two interfaces on it. Cowork shows up later for the specific jobs it does better.</p>
 
+  <div class="os-picker" role="group" aria-label="Choose your operating system">
+    <div class="os-toggle">
+      <button type="button" class="os-btn" data-os-set="mac" aria-pressed="true">macOS</button>
+      <button type="button" class="os-btn" data-os-set="win" aria-pressed="false">Windows</button>
+    </div>
+    <span class="note">Install commands below match your pick. Change it anytime.</span>
+  </div>
+
   <div class="preface">
     <div class="item">
       <h4>1. <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a></h4>
       <p>Free markdown editor. Your vault is just a folder of <code>.md</code> files &mdash; nothing proprietary. From <a href="https://obsidian.md/plugins" target="_blank" rel="noopener noreferrer">Community Plugins</a>, install <strong>Terminal</strong> (integrated terminal pane), <strong>Tasks</strong> (checkbox tracking), and optional <strong>Dataview</strong> (live queries over your files). Also install the <a href="https://obsidian.md/clipper" target="_blank" rel="noopener noreferrer">Obsidian Web Clipper</a> browser extension &mdash; it lets you save any article, page, or highlighted passage directly to your inbox while you're reading. Context that would otherwise vanish ends up in your vault instead.</p>
+      <p class="win-only" style="font-size:14px;color:var(--ink-2);"><strong>Windows note:</strong> the Terminal plugin's integrated pane needs Python 3.9+ installed, plus <code>pip install psutil pywinctl typing_extensions</code>. Set the Python path in the plugin's settings and click its "Check" button to confirm. (Macs already ship with a usable Python.)</p>
     </div>
     <div class="item">
       <h4>2. <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a>, installed and ready</h4>
-      <p><code>npm install -g @anthropic-ai/claude-code</code>, or <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">download the installer</a>. Once it's installed, open the Terminal pane inside Obsidian, make sure you're in your vault folder, and type <code>claude</code> to start. You're now in a session that can read and write every file in the vault. Obsidian's file watcher picks up changes instantly &mdash; you'll see new files appear in the explorer as Claude writes them.</p>
+      <p class="mac-only">Open the Terminal pane inside Obsidian (or Terminal.app) and run <code>curl -fsSL https://claude.ai/install.sh | bash</code>. The native installer is a standalone binary &mdash; no Node.js, no Xcode tools, no admin password. Then type <code>claude</code> to start. <span class="verify">Verify: <code>claude --version</code> prints a version number. If you get <code>command not found</code>, close and reopen the terminal so it picks up the new command, then retry.</span></p>
+      <p class="win-only">Open <strong>PowerShell</strong> (not CMD) and run <code>irm https://claude.ai/install.ps1 | iex</code>. The native installer is a standalone binary &mdash; no Node.js, no WSL, no Administrator. Then type <code>claude</code> to start. <span class="verify">Verify: <code>claude --version</code> prints a version number. If you see <code>'irm' is not recognized</code>, you're in CMD &mdash; switch to PowerShell (its prompt starts with <code>PS C:\</code>).</span></p>
+      <p>Run it inside Obsidian's Terminal pane with your vault folder open and you're in a session that can read and write every file in the vault. Obsidian's file watcher picks up changes instantly &mdash; new files appear in the explorer as Claude writes them. <strong>Claude Code requires a paid Claude plan</strong> (Pro, Max, Team, or Enterprise) or an API key &mdash; the free Claude.ai plan doesn't include it. The first time you run <code>claude</code> it opens your browser to sign in.</p>
     </div>
     <div class="item">
       <h4>3. Hosted connectors for the tools you live in</h4>
@@ -358,8 +391,17 @@
   </div>
 
   <div class="callout">
-    <strong>Before your first session:</strong> The goal is one folder on your computer that both Obsidian and Claude can see. Install <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a> and open (or create) a vault folder &mdash; this becomes your Second Brain. From Obsidian's community plugins, install <strong>Terminal</strong>. Then install <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a>. Open the Terminal pane inside Obsidian, confirm you're in your vault folder, and type <code>claude</code>. Claude now sees every file in the vault. Add connectors for Gmail, Calendar, and your chat tool when you reach Chapter 3.
+    <strong>Before your first session:</strong> The goal is one folder on your computer that both Obsidian and Claude can see. Install <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a> and open (or create) a vault folder &mdash; this becomes your Second Brain. From Obsidian's community plugins, install <strong>Terminal</strong>. Then install <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a> <span class="mac-only">with <code>curl -fsSL https://claude.ai/install.sh | bash</code></span><span class="win-only">in PowerShell with <code>irm https://claude.ai/install.ps1 | iex</code></span>. Open the Terminal pane inside Obsidian, confirm you're in your vault folder, and type <code>claude</code> &mdash; it opens your browser to sign in. <strong>A paid Claude plan is required</strong> (Pro/Max/Team/Enterprise); the free plan doesn't include Claude Code. Claude now sees every file in the vault. Add connectors for Gmail, Calendar, and your chat tool when you reach Chapter 3.
   </div>
+
+  <nav class="toc" aria-label="Chapter navigation">
+    <span class="toc-label">The five chapters</span>
+    <a href="#chapter-1">01 &middot; The Foundation</a>
+    <a href="#chapter-2">02 &middot; Memory + First Project</a>
+    <a href="#chapter-3">03 &middot; Morning Autopilot</a>
+    <a href="#chapter-4">04 &middot; Meeting Prep</a>
+    <a href="#chapter-5">05 &middot; Automation</a>
+  </nav>
 </section>
 
 <!-- ===================== CHAPTER 1 ===================== -->
@@ -1418,8 +1460,8 @@ Why this meeting happened.
   <p class="eyebrow">Quick Start</p>
   <h2>If you read this far and just want to start.</h2>
   <ol style="font-size:16px;line-height:1.7;color:var(--ink-1);margin:24px 0;">
-    <li>Install <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a>. Open (or create) your vault. Install the <strong>Terminal</strong>, <strong>Tasks</strong>, and (optional) <strong>Dataview</strong> <a href="https://obsidian.md/plugins" target="_blank" rel="noopener noreferrer">community plugins</a>.</li>
-    <li>Install <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a>: <code>npm install -g @anthropic-ai/claude-code</code>.</li>
+    <li>Install <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a>. Open (or create) your vault. Install the <strong>Terminal</strong>, <strong>Tasks</strong>, and (optional) <strong>Dataview</strong> <a href="https://obsidian.md/plugins" target="_blank" rel="noopener noreferrer">community plugins</a>. <span class="win-only">On Windows, the Terminal plugin also needs Python 3.9+ and <code>pip install psutil pywinctl typing_extensions</code>.</span></li>
+    <li>Install <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a><span class="mac-only"> (macOS): <code>curl -fsSL https://claude.ai/install.sh | bash</code></span><span class="win-only"> (Windows, in PowerShell): <code>irm https://claude.ai/install.ps1 | iex</code></span>. Requires a paid Claude plan (Pro/Max/Team/Enterprise); the free plan doesn't include it.</li>
     <li>Open the Terminal pane inside Obsidian. Confirm you're in your vault folder, then type <code>claude</code> to start your first session.</li>
     <li>Nothing to install for connectors &mdash; Gmail, Calendar, and chat are hosted. The first time a routine uses one, Claude prompts you to authenticate via browser. Pick read-only scopes when asked.</li>
     <li>Paste the <a href="#chapter-1">Chapter 1 prompt</a>. Fill in About Me, Key Contacts, and Domain Knowledge.</li>
@@ -1435,6 +1477,26 @@ Why this meeting happened.
 </footer>
 
 </div>
+
+<script>
+  /* OS picker: persist choice and reflect it live across pages. */
+  (function () {
+    function apply(os) {
+      document.documentElement.setAttribute('data-os', os);
+      document.querySelectorAll('[data-os-set]').forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.getAttribute('data-os-set') === os));
+      });
+    }
+    apply(document.documentElement.getAttribute('data-os') || 'mac');
+    document.querySelectorAll('[data-os-set]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var os = b.getAttribute('data-os-set');
+        localStorage.setItem('sb-os', os);
+        apply(os);
+      });
+    });
+  })();
+</script>
 
 <script>
 const STORAGE_KEY = 'sb_setup_state_v1';
