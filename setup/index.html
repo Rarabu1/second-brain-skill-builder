@@ -1181,6 +1181,15 @@ Reply "send" to confirm.</pre>
       <strong>A note on thresholds.</strong> The graduation signals (4 of 5) and incubator promotion criteria (3+ context additions) are reasonable defaults, not researched thresholds. Adjust based on experience. If projects linger after meeting the criteria, lower the bar. If ideas get promoted too early, raise it.
     </div>
 
+    <div class="tips">
+      <h4>Which model to use</h4>
+      <ul>
+        <li><strong>Haiku for scheduled runs.</strong> Fast and cheap. Use it for the launchd daemon — it reads files, runs the brief, writes the triage output. You don't need Sonnet's reasoning for that job.</li>
+        <li><strong>Sonnet for daily interactive work.</strong> Triage, drafting, meeting prep, most prompts. The right default for sessions where you're doing real work.</li>
+        <li><strong>Opus for high-stakes output.</strong> Complex analysis, anything where judgment matters more than speed, drafts that go to leadership. Slower and more expensive — worth it when it counts.</li>
+      </ul>
+    </div>
+
     <div class="complete-row">
       <button class="btn primary" onclick="toggleChapter(5, this)">Mark chapter complete</button>
       <span class="note">You're done. The system runs itself from here.</span>
