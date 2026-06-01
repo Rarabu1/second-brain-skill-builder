@@ -1096,7 +1096,7 @@ Also add to root CLAUDE.md AI Agent Instructions: "Maintain people files in 03_r
 
 It should:
 - Run `claude -p "Execute 02_areas/routines/morning_brief.md and write the output to 00_inbox/triage/$(date +%Y_%m_%d).md"`
-- Use `--allowedTools "Read,Glob,Grep,Write,Bash,mcp__gmail__*,mcp__calendar__*,mcp__slack__*"` (adjust to my installed MCPs)
+- Use `--allowedTools "Read,Glob,Grep,Write,mcp__gmail__*,mcp__calendar__*,mcp__slack__*"` (adjust to my installed MCPs; do not add `Bash` here, since one Bash tool can run any command and would undo the read-only setup)
 - Use `--model claude-sonnet-4-6` to keep daemon runs cheaper
 - Set the working directory to my vault
 - Skip weekends (Mon–Fri only)
