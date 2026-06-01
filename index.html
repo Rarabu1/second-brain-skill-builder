@@ -12,9 +12,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script>
-  /* Set OS before paint so OS-specific content never flashes. Saved choice wins; else guess from UA. */
-  document.documentElement.setAttribute('data-os',
-    localStorage.getItem('sb-os') || (/Win/i.test(navigator.userAgent) ? 'win' : 'mac'));
+  /* Set OS before paint so OS-specific content never flashes. Saved choice wins; else guess from UA.
+     localStorage can throw in private/sandboxed contexts, so fall back to the UA guess. */
+  (function () {
+    var os;
+    try { os = localStorage.getItem('sb-os'); } catch (e) { os = null; }
+    if (os !== 'mac' && os !== 'win') os = /Win/i.test(navigator.userAgent) ? 'win' : 'mac';
+    document.documentElement.setAttribute('data-os', os);
+  })();
 </script>
 <style>
   :root {
@@ -61,7 +66,9 @@
   /* ============================================================
      OS PICKER (drives mac-only / win-only content site-wide)
      ============================================================ */
-  [data-os="mac"] .win-only { display: none !important; }
+  /* Default (no JS, or localStorage blocked): show macOS, hide Windows. JS flips to win when chosen. */
+  .win-only { display: none !important; }
+  [data-os="win"] .win-only { display: revert !important; }
   [data-os="win"] .mac-only { display: none !important; }
 
   .os-picker { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 0 0 40px; }
@@ -285,7 +292,7 @@
       <div class="terminal" aria-hidden="true">
         <div class="terminal-header"><span class="terminal-dot"></span><span class="terminal-path">~</span></div>
         <div class="terminal-body">
-          <div><span class="prompt"><span class="mac-only">you@mac</span><span class="win-only">you@pc</span></span> <span class="dim">~ &rsaquo;</span> echo <span class="string">"hello world"</span></div>
+          <div><span class="prompt"><span class="mac-only">you@mac</span><span class="win-only">you@pc</span></span> <span class="dim">~ &rsaquo;</span> echo <span class="string">hello world</span></div>
           <div class="output">hello world</div>
           <div><span class="prompt"><span class="mac-only">you@mac</span><span class="win-only">you@pc</span></span> <span class="dim">~ &rsaquo;</span> find ~ -name <span class="string">"*.pdf"</span></div>
           <div class="output">~/Documents/taxes-2025.pdf</div>
@@ -313,7 +320,7 @@
         <div class="chapter-row"><span class="ch-num">03</span><span class="ch-name">Morning Autopilot</span></div>
         <div class="chapter-row"><span class="ch-num">04</span><span class="ch-name">Meeting Prep</span></div>
         <div class="chapter-row"><span class="ch-num">05</span><span class="ch-name">Automation</span></div>
-        <div class="chapter-row"><span class="ch-num">&plus;</span><span class="ch-name">Obsidian Web Clipper</span></div>
+        <div class="chapter-row"><span class="ch-num">+</span><span class="ch-name">Obsidian Web Clipper</span></div>
       </div>
       <p class="lesson-desc">Five chapters that walk you through the full system: PARA folders (Projects, Areas, Resources, Archives), persistent memory, morning triage, meeting prep, and automated briefs &mdash; plus the <strong>Obsidian Web Clipper</strong> for saving anything you read straight to your inbox. Designed around Obsidian + Claude Code, with Cowork where it earns its keep.</p>
       <div class="lesson-meta">
@@ -431,8 +438,8 @@
     document.querySelectorAll('[data-os-set]').forEach(function (b) {
       b.addEventListener('click', function () {
         var os = b.getAttribute('data-os-set');
-        localStorage.setItem('sb-os', os);
         apply(os);
+        try { localStorage.setItem('sb-os', os); } catch (e) {}
       });
     });
   })();

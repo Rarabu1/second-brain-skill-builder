@@ -267,7 +267,7 @@
   <div class="terminal-shell">
     <div class="terminal-titlebar">
       <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-      <span class="label">you@mac &mdash; ~</span>
+      <span class="label" id="termTitle">you@mac ~</span>
     </div>
     <div class="terminal-body" id="term"></div>
   </div>
@@ -457,6 +457,13 @@ const HOME = '/Users/you';
 const term = document.getElementById('term');
 const termInput = document.getElementById('termInput');
 const promptLabel = document.getElementById('promptLabel');
+const termTitle = document.getElementById('termTitle');
+
+/* Reflect the OS chosen on the landing/setup pages (same-origin localStorage). Default to mac. */
+let osPref;
+try { osPref = localStorage.getItem('sb-os'); } catch (e) { osPref = null; }
+if (osPref !== 'mac' && osPref !== 'win') osPref = /Win/i.test(navigator.userAgent) ? 'win' : 'mac';
+const HOST = osPref === 'win' ? 'you@pc' : 'you@mac';
 
 function resolvePath(p) {
   if (!p || p === '~') return HOME;
@@ -500,7 +507,8 @@ function termWrite(html, cls) {
 }
 
 function updatePrompt() {
-  promptLabel.textContent = 'you@mac ' + shortPath(cwd) + ' ›';
+  promptLabel.textContent = HOST + ' ' + shortPath(cwd) + ' ›';
+  if (termTitle) termTitle.textContent = HOST + ' ~';
 }
 
 function termIntro() {
@@ -730,7 +738,7 @@ function cmdFind(args) {
 
 function runCommand(raw) {
   const input = raw.trim();
-  termWrite('<span class="prompt">you@mac ' + escapeHtml(shortPath(cwd)) + ' ›</span> ' + escapeHtml(input));
+  termWrite('<span class="prompt">' + HOST + ' ' + escapeHtml(shortPath(cwd)) + ' ›</span> ' + escapeHtml(input));
   if (!input) return;
   const args = parseArgs(input);
   const cmd = args.shift();
