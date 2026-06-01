@@ -379,6 +379,7 @@
     <div class="item">
       <h4>1. <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a></h4>
       <p>Free markdown editor. Your vault is just a folder of <code>.md</code> files &mdash; nothing proprietary. From <a href="https://obsidian.md/plugins" target="_blank" rel="noopener noreferrer">Community Plugins</a>, install <strong>Terminal</strong> (integrated terminal pane), <strong>Tasks</strong> (checkbox tracking), and optional <strong>Dataview</strong> (live queries over your files). Also install the <a href="https://obsidian.md/clipper" target="_blank" rel="noopener noreferrer">Obsidian Web Clipper</a> browser extension &mdash; it lets you save any article, page, or highlighted passage directly to your inbox while you're reading. Context that would otherwise vanish ends up in your vault instead.</p>
+      <p style="font-size:14px;color:var(--ink-3);"><strong>A note on plugins:</strong> Obsidian community plugins run with full access to your vault and your computer, not in a sandbox. Terminal runs real shell commands and Templater can execute code, so only install plugins you trust, stick to well-known ones, and keep them updated. The four above are widely used and open source.</p>
       <p class="win-only" style="font-size:14px;color:var(--ink-2);"><strong>Windows note:</strong> the Terminal plugin's integrated pane needs Python 3.9+ installed, plus <code>pip install psutil pywinctl typing_extensions</code>. Set the Python path in the plugin's settings and click its "Check" button to confirm. (Macs already ship with a usable Python.)</p>
     </div>
     <div class="item">
@@ -389,7 +390,7 @@
     </div>
     <div class="item">
       <h4>3. Hosted connectors for the tools you live in</h4>
-      <p>Claude Code now ships with hosted connectors for Gmail, Google Calendar, Google Drive, GitHub, and more &mdash; nothing to install. The first time a routine tries to use one, Claude prompts you in the terminal to authenticate via browser. Authorize once and it persists across sessions. Pick read-only scopes when the OAuth screen offers them. (If you need a service that doesn't have a hosted connector, you can self-host an MCP server with <code>claude mcp add &lt;name&gt; -- &lt;command&gt;</code>, but most people don't need this.)</p>
+      <p>Claude Code now ships with hosted connectors for Gmail, Google Calendar, Google Drive, GitHub, and more &mdash; nothing to install. The first time a routine tries to use one, Claude prompts you in the terminal to authenticate via browser. Authorize once and it persists across sessions, which means a long-lived access token is stored on your machine (under <code>~/.claude</code>), so treat that folder like a password and revoke the connector from the provider's account settings if the machine is ever lost or shared. Pick read-only scopes when the OAuth screen offers them. (If you need a service that doesn't have a hosted connector, you can self-host an MCP server with <code>claude mcp add &lt;name&gt; -- &lt;command&gt;</code>, but most people don't need this.)</p>
     </div>
     <div class="item">
       <h4>4. Cowork, for two specific jobs (later)</h4>
