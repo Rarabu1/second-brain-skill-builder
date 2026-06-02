@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Experiment responsibly &middot; Field Notes &middot; Second Brain Skill Builder</title>
+<meta name="description" content="I think about how technology gets misused for a living. That is exactly why I want you to go play with this. Where to experiment, what to click, and what to never do at work yet.">
+<meta property="og:title" content="Experiment responsibly &middot; Field Notes">
+<meta property="og:description" content="Where to experiment, what to click, and what to never do at work yet. Engaging with the real risks instead of waving them away.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F3F5F8;
+    --paper-2: #E8ECF2;
+    --paper-3: #DDE2EB;
+    --ink: #0D1218;
+    --ink-2: #3A4356;
+    --ink-3: #7B8294;
+    --rule: #D3D8E1;
+    --accent: #1B3A6B;
+    --accent-2: #2A4F8C;
+    --accent-soft: rgba(27, 58, 107, 0.5);
+    --accent-dim: rgba(27, 58, 107, 0.08);
+    --sans: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
+    --serif: 'Newsreader', Georgia, serif;
+    --italic: 'Fraunces', Georgia, serif;
+    --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+  body { font-family: var(--serif); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; min-height: 100vh; display: flex; flex-direction: column; }
+  ::selection { background: var(--accent-dim); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+  p { font-family: var(--serif); font-size: 15.5px; line-height: 1.65; color: var(--ink-2); margin: 0 0 20px; max-width: 65ch; }
+  em { font-family: var(--italic); font-style: italic; font-variation-settings: 'opsz' 24, 'wght' 500; }
+  strong { font-weight: 600; color: var(--ink); }
+
+  .wrap { max-width: 1080px; width: 100%; margin: 0 auto; padding: 0 24px; }
+  .content-col { max-width: 720px; margin: 0 auto; }
+
+  /* SITE HEADER */
+  .site-header { padding: 22px 0; border-bottom: 0.5px solid var(--rule); }
+  .site-header .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .wordmark { display: inline-flex; align-items: center; gap: 10px; }
+  .wordmark .mark { position: relative; width: 24px; height: 24px; border: 1.5px solid var(--ink); display: inline-flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--ink); letter-spacing: 0.04em; }
+  .wordmark .mark::after { content: ""; position: absolute; top: -2.5px; right: -2.5px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+  .wordmark-text { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); }
+  .header-right { display: inline-flex; align-items: center; gap: 20px; }
+  .header-nav-link { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); border-bottom: 1px solid var(--accent-soft); padding-bottom: 2px; transition: border-color 0.2s; }
+  .header-nav-link:hover { border-color: var(--accent); }
+
+  /* SUBNAV */
+  .subnav { padding: 11px 0; border-bottom: 0.5px solid var(--rule); }
+  .subnav-back { font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+  .subnav-back:hover { color: var(--accent); }
+
+  /* HERO */
+  header.hero { padding: 72px 0 24px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 28px; }
+  .eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
+  h1.headline { font-family: var(--sans); font-optical-sizing: auto; font-variation-settings: 'opsz' 96, 'wght' 800; font-weight: 800; font-size: clamp(44px, 10vw, 80px); line-height: 0.95; letter-spacing: -0.035em; color: var(--ink); margin: 0 0 32px; max-width: 15ch; }
+  h1.headline em { font-family: var(--italic); font-variation-settings: 'opsz' 96, 'wght' 700; font-style: italic; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; }
+  .lede { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); margin: 0; max-width: 56ch; }
+
+  /* SECTION LABEL */
+  .section-label { display: flex; align-items: center; gap: 14px; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); margin: 48px 0 20px; }
+  .section-label::after { content: ""; flex: 1; height: 0.5px; background: var(--rule); }
+
+  /* BODY */
+  .prose p:last-child { margin-bottom: 0; }
+  h2.sub { font-family: var(--sans); font-variation-settings: 'opsz' 36, 'wght' 700; font-weight: 700; font-size: 27px; line-height: 1.12; letter-spacing: -0.02em; color: var(--ink); margin: 0 0 16px; }
+
+  /* THE MOVE: recommendation callout after a risk */
+  .take { position: relative; padding: 16px 20px 16px 20px; margin: 4px 0 28px; border-left: 2px solid var(--accent); background: linear-gradient(90deg, var(--accent-dim) 0%, rgba(255,255,255,0) 75%); }
+  .take-label { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 7px; }
+  .take p { font-family: var(--serif); font-size: 15.5px; line-height: 1.6; color: var(--ink); margin: 0; max-width: 62ch; }
+  .take p em { color: var(--accent); }
+
+  /* CONTACT */
+  .contact-section { margin: 56px 0 80px; }
+  .contact-intro { font-family: var(--serif); font-size: 15.5px; line-height: 1.65; color: var(--ink-2); margin: 0 0 24px; max-width: 65ch; }
+  .contact-links { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .contact-link { display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: var(--paper-2); border: 0.5px solid var(--rule); border-radius: 4px; transition: border-color 0.2s, background 0.2s, transform 0.2s; }
+  .contact-link:hover { border-color: var(--accent-soft); background: var(--paper-3); transform: translateY(-1px); }
+  .contact-link-icon { width: 32px; height: 32px; border-radius: 4px; background: var(--accent-dim); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--accent); flex-shrink: 0; }
+  .contact-link-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 3px; }
+  .contact-link-handle { font-family: var(--mono); font-size: 12px; color: var(--ink); font-weight: 500; }
+
+  /* FOOTER */
+  footer { margin-top: auto; padding: 40px 0 48px; border-top: 0.5px solid var(--rule); }
+  .footer-text { font-family: var(--serif); font-size: 14px; color: var(--ink-3); margin: 0; text-align: center; }
+  .footer-text em { font-family: var(--italic); font-variation-settings: 'opsz' 24, 'wght' 500; font-style: italic; color: var(--ink-2); }
+  .footer-text a { color: var(--ink-3); border-bottom: 0.5px solid var(--rule); }
+
+  /* MOTION */
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .rise { animation: rise 0.7s ease-out backwards; }
+  .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.12s; } .d3 { animation-delay: 0.2s; } .d4 { animation-delay: 0.28s; }
+
+  /* MOBILE */
+  @media (max-width: 480px) {
+    .wrap { padding: 0 20px; }
+    header.hero { padding: 52px 0 32px; }
+    h1.headline { font-size: clamp(36px, 11vw, 56px); }
+    .lede { font-size: 17px; }
+    h2.sub { font-size: 23px; }
+    .contact-links { grid-template-columns: 1fr; }
+    .site-header { padding: 16px 0; }
+    .wordmark-text { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="wrap">
+    <div class="header-inner">
+      <a href="../../" class="wordmark rise d1">
+        <div class="mark">SB</div>
+        <span class="wordmark-text">Skill Builder</span>
+      </a>
+      <div class="header-right rise d1">
+        <a class="header-nav-link" href="../">Field Notes</a>
+        <a class="header-nav-link" href="../../about/">About</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="subnav">
+  <div class="wrap">
+    <a class="subnav-back" href="../">&larr; All field notes</a>
+  </div>
+</div>
+
+<div class="wrap">
+<div class="content-col">
+
+<header class="hero">
+  <div class="eyebrow rise d2">Field Note 01 &middot; Experiment responsibly</div>
+  <h1 class="headline rise d3">Go break something. <em>Carefully.</em></h1>
+  <p class="lede rise d4">I think about how technology gets misused, broken, and exploited for a living. That is exactly why I want you to go play with this. The instinct to be careful is a good one. Let me show you where to point it.</p>
+</header>
+
+<section class="prose">
+  <div class="section-label">First, the spirit of this</div>
+  <p>The fastest way to learn these tools is to use them on something real. The safest way is to do that somewhere a mistake costs you nothing. Those two facts are not in tension. You just set up the second one before you go chasing the first.</p>
+  <p>None of what follows is a disclaimer. I am not asking you to sign anything, and I am not absolving myself of anything. I work in adversarial security: my job is to imagine how things go wrong and then deal with it. So this is simply what I would do, in the order I would do it, if I were standing where you are.</p>
+</section>
+
+<section class="prose">
+  <div class="section-label">Where to play</div>
+  <h2 class="sub">If you have an old computer, that is your best friend.</h2>
+  <p>Got a laptop sitting in a drawer? Wipe it. Reinstall the operating system clean and start from zero. Now you have a sandbox where the worst case is that you reinstall again. Run every command. Accept every prompt. Let it touch every file on the machine. You cannot hurt anything that matters, which means you can stop being precious and actually learn. That freedom is worth more than the inconvenience of digging the old thing out of the drawer.</p>
+  <p>No spare machine? Your main one is fine too. The trade is that you have to stay awake at the moments that matter. These tools are useful <em>precisely because</em> they can do things: read your files, run commands, send messages on your behalf. Every time something asks you to <strong>accept</strong> or <strong>allow</strong>, that is not red tape getting in your way. That is the system showing you exactly where it is about to reach.</p>
+  <div class="take">
+    <div class="take-label">The move</div>
+    <p>Build the habit that is the opposite of the one the rest of software trained into you: <em>do not reflexively click accept.</em> Read the request. Decide. The entire skill is knowing what you just said yes to.</p>
+  </div>
+</section>
+
+<section class="prose">
+  <div class="section-label">The one hard rule</div>
+  <h2 class="sub">Do not do this at work. Not yet.</h2>
+  <p>If you work at a large company, stop before you install anything on a work machine or point any of this at work data. Talk to your security organization first.</p>
+  <p>Not mainly because you might get in trouble, although you might. The better reason is that they may have already done the hard part for you. Plenty of enterprises have an approved version, an agreement that changes what happens to your data, a sanctioned path to do the exact thing you are trying to do. You find that out by asking, not by guessing. Walking in with <em>"I want to use this, what is our approved way"</em> is a good look. Getting discovered after the fact is not.</p>
+  <div class="take">
+    <div class="take-label">The move</div>
+    <p>Keep work out of it until work says otherwise. Ask your security team what is sanctioned, and let them hand you the safe version instead of inventing your own.</p>
+  </div>
+</section>
+
+<section class="prose">
+  <div class="section-label">The questions worth actually asking</div>
+  <p>Here is what I would want answered before any sensitive information goes near a tool like this. None of these are reasons not to do it. They are the difference between doing it well and doing it carelessly.</p>
+  <h2 class="sub">Privilege.</h2>
+  <p>If you are a lawyer, or you handle privileged material, running it through a third party can waive attorney&ndash;client privilege. That is not a vibe, it is a doctrine, and a waiver can be very hard to walk back. Know how your tool treats your inputs before a privileged document ever touches it.</p>
+  <h2 class="sub">Training.</h2>
+  <p>Where does what you type actually go, and is it used to train future models? Consumer terms and enterprise terms can be worlds apart on this exact point, and the setting that controls it is usually a toggle you can find in about a minute. Find it. Choose deliberately, instead of by default.</p>
+  <h2 class="sub">Confidentiality.</h2>
+  <p>NDAs, regulated data, client information, anything you are contractually or legally bound to protect. The tool does not know what it is looking at. You do. That boundary is yours to hold, and no setting holds it for you.</p>
+</section>
+
+<section class="prose">
+  <div class="section-label">All of this is solvable</div>
+  <p>I would not have built this if the risks were not manageable. They are. There are enterprise agreements that contractually take training off the table. There are models you can run locally, so nothing ever leaves your machine. There is data residency, redaction as a habit, and the plain discipline of keeping privileged and personal work on separate rails. None of it is exotic. It is the difference between a tool you control and a tool that quietly controls you.</p>
+  <p>If you are one person: practice on a throwaway machine or stay awake on your own one, keep work out of it until work says yes, and know where your data goes. That covers most of the risk for most people.</p>
+  <p>If you are a team or an organization trying to draw these lines properly, that is literally my job. Tell me what you are trying to do and what you are bound to protect, and I will help you find the version of this that is both genuinely useful and safe.</p>
+</section>
+
+<div class="contact-section">
+  <div class="section-label">Talk to me about the mitigations</div>
+  <p class="contact-intro">I am happy to get into any of this in detail: privilege, training terms, local models, what a safe enterprise rollout actually looks like. If your team is trying to figure out where the lines are, reach out and tell me what you need.</p>
+  <div class="contact-links">
+    <a class="contact-link" href="https://www.linkedin.com/in/raulaburgos/" target="_blank" rel="noopener noreferrer">
+      <div class="contact-link-icon">in</div>
+      <div>
+        <div class="contact-link-label">LinkedIn</div>
+        <div class="contact-link-handle">raulaburgos</div>
+      </div>
+    </a>
+    <a class="contact-link" href="mailto:Raul@secondbrain.training">
+      <div class="contact-link-icon">@</div>
+      <div>
+        <div class="contact-link-label">Email &middot; Work with me</div>
+        <div class="contact-link-handle">Raul@secondbrain.training</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+</div><!-- /content-col -->
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p class="footer-text">A companion to <em>Build Your Second Brain with Claude</em>. Share freely. &middot; <a href="../">Field Notes</a> &middot; <a href="../../about/">About</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

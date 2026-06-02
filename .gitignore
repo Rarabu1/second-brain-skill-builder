@@ -28,6 +28,10 @@
 !about/
 !about/**
 
+# Allow field-notes/ and its contents
+!field-notes/
+!field-notes/**
+
 # wrangler files
 .wrangler
 .dev.vars*
