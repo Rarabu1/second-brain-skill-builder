@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Field Notes &middot; Second Brain Skill Builder</title>
+<meta name="description" content="Thoughts from the work: building this, using it, and not getting burned. Written by Ra&uacute;l Burgos as he goes.">
+<meta property="og:title" content="Field Notes &middot; Second Brain Skill Builder">
+<meta property="og:description" content="Thoughts from the work: building this, using it, and not getting burned.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F3F5F8;
+    --paper-2: #E8ECF2;
+    --paper-3: #DDE2EB;
+    --ink: #0D1218;
+    --ink-2: #3A4356;
+    --ink-3: #7B8294;
+    --rule: #D3D8E1;
+    --accent: #1B3A6B;
+    --accent-2: #2A4F8C;
+    --accent-soft: rgba(27, 58, 107, 0.5);
+    --accent-dim: rgba(27, 58, 107, 0.08);
+    --sans: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
+    --serif: 'Newsreader', Georgia, serif;
+    --italic: 'Fraunces', Georgia, serif;
+    --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); }
+  body { font-family: var(--serif); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; min-height: 100vh; display: flex; flex-direction: column; }
+  ::selection { background: var(--accent-dim); color: var(--ink); }
+  a { color: inherit; text-decoration: none; }
+  p { font-family: var(--serif); font-size: 15.5px; line-height: 1.65; color: var(--ink-2); margin: 0 0 20px; max-width: 65ch; }
+  em { font-family: var(--italic); font-style: italic; font-variation-settings: 'opsz' 24, 'wght' 500; }
+
+  .wrap { max-width: 1080px; width: 100%; margin: 0 auto; padding: 0 24px; }
+  .content-col { max-width: 760px; margin: 0 auto; }
+
+  /* SITE HEADER */
+  .site-header { padding: 22px 0; border-bottom: 0.5px solid var(--rule); }
+  .site-header .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .wordmark { display: inline-flex; align-items: center; gap: 10px; }
+  .wordmark .mark { position: relative; width: 24px; height: 24px; border: 1.5px solid var(--ink); display: inline-flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--ink); letter-spacing: 0.04em; }
+  .wordmark .mark::after { content: ""; position: absolute; top: -2.5px; right: -2.5px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+  .wordmark-text { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); }
+  .header-right { display: inline-flex; align-items: center; gap: 20px; }
+  .header-nav-link { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); border-bottom: 1px solid var(--accent-soft); padding-bottom: 2px; transition: border-color 0.2s; }
+  .header-nav-link:hover { border-color: var(--accent); }
+
+  /* SUBNAV */
+  .subnav { padding: 11px 0; border-bottom: 0.5px solid var(--rule); }
+  .subnav-back { font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+  .subnav-back:hover { color: var(--accent); }
+
+  /* HERO */
+  header.hero { padding: 72px 0 28px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 28px; }
+  .eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--accent); display: inline-block; }
+  h1.headline { font-family: var(--sans); font-optical-sizing: auto; font-variation-settings: 'opsz' 96, 'wght' 800; font-weight: 800; font-size: clamp(48px, 11vw, 86px); line-height: 0.95; letter-spacing: -0.035em; color: var(--ink); margin: 0 0 30px; max-width: 14ch; }
+  h1.headline em { font-family: var(--italic); font-variation-settings: 'opsz' 96, 'wght' 700; font-style: italic; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; }
+  .lede { font-family: var(--serif); font-size: 19px; line-height: 1.6; color: var(--ink-2); margin: 0; max-width: 54ch; }
+
+  /* SECTION LABEL */
+  .section-label { display: flex; align-items: center; gap: 14px; font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-3); margin: 44px 0 20px; }
+  .section-label::after { content: ""; flex: 1; height: 0.5px; background: var(--rule); }
+
+  /* ENTRY LIST */
+  .entries { display: flex; flex-direction: column; gap: 14px; margin: 0 0 8px; }
+  .entry-card { display: block; background: var(--paper-2); border: 0.5px solid var(--rule); border-radius: 4px; padding: 26px 24px; transition: border-color 0.25s, transform 0.25s, background 0.25s, box-shadow 0.25s; }
+  .entry-card:hover { border-color: var(--accent-soft); transform: translateY(-1px); background: var(--paper-3); box-shadow: 0 4px 24px rgba(13, 18, 24, 0.06); }
+  .entry-card:hover .entry-cta { gap: 14px; }
+  .entry-head { display: flex; align-items: center; gap: 12px; margin: 0 0 14px; flex-wrap: wrap; }
+  .entry-num { display: inline-block; font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--accent); background: var(--accent-dim); padding: 4px 8px; border-radius: 2px; letter-spacing: 0.08em; }
+  .entry-date { font-family: var(--mono); font-size: 10px; font-weight: 500; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.14em; }
+  .entry-title { font-family: var(--sans); font-variation-settings: 'opsz' 40, 'wght' 700; font-weight: 700; font-size: 28px; line-height: 1.08; letter-spacing: -0.025em; color: var(--ink); margin: 0 0 12px; }
+  .entry-dek { font-family: var(--serif); font-size: 15.5px; line-height: 1.55; color: var(--ink-2); margin: 0 0 20px; max-width: 60ch; }
+  .entry-cta { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 3px; transition: gap 0.25s; }
+
+  .more-note { font-family: var(--italic); font-style: italic; font-variation-settings: 'opsz' 24, 'wght' 400; font-size: 15px; line-height: 1.55; color: var(--ink-3); margin: 28px 0 0; }
+
+  /* FOOTER */
+  footer { margin-top: auto; padding: 40px 0 48px; border-top: 0.5px solid var(--rule); }
+  .footer-text { font-family: var(--serif); font-size: 14px; color: var(--ink-3); margin: 0; text-align: center; }
+  .footer-text em { font-family: var(--italic); font-variation-settings: 'opsz' 24, 'wght' 500; font-style: italic; color: var(--ink-2); }
+  .footer-text a { color: var(--ink-3); border-bottom: 0.5px solid var(--rule); }
+
+  /* MOTION */
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .rise { animation: rise 0.7s ease-out backwards; }
+  .d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.12s; } .d3 { animation-delay: 0.2s; } .d4 { animation-delay: 0.28s; } .d5 { animation-delay: 0.36s; }
+
+  /* MOBILE */
+  @media (max-width: 480px) {
+    .wrap { padding: 0 20px; }
+    header.hero { padding: 52px 0 36px; }
+    h1.headline { font-size: clamp(40px, 13vw, 60px); }
+    .lede { font-size: 17px; }
+    .entry-title { font-size: 23px; }
+    .site-header { padding: 16px 0; }
+    .wordmark-text { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="wrap">
+    <div class="header-inner">
+      <a href="../" class="wordmark rise d1">
+        <div class="mark">SB</div>
+        <span class="wordmark-text">Skill Builder</span>
+      </a>
+      <div class="header-right rise d1">
+        <a class="header-nav-link" href="../about/">About</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="subnav">
+  <div class="wrap">
+    <a class="subnav-back" href="../">&larr; All modules</a>
+  </div>
+</div>
+
+<div class="wrap">
+<div class="content-col">
+
+<header class="hero">
+  <div class="eyebrow rise d2">Field Notes</div>
+  <h1 class="headline rise d3">Thoughts from the <em>work.</em></h1>
+  <p class="lede rise d4">The longer notes that do not fit on the lesson pages: how I think about building this, using it, and not getting burned. Written as I go, and meant to be argued with.</p>
+</header>
+
+<section class="rise d5">
+  <div class="section-label">Latest</div>
+  <div class="entries">
+
+    <a class="entry-card" href="experiment-responsibly/">
+      <div class="entry-head">
+        <span class="entry-num">No. 01</span>
+        <span class="entry-date">Jun 2026</span>
+      </div>
+      <h2 class="entry-title">Experiment responsibly.</h2>
+      <p class="entry-dek">I think about how technology gets misused for a living, which is exactly why I want you to go play with this. Where to experiment, what to click, the one thing not to do at work yet, and the real questions about privilege and your data. Engaging with the risks instead of waving them away.</p>
+      <span class="entry-cta">Read the note <span>&rarr;</span></span>
+    </a>
+
+  </div>
+  <p class="more-note">More notes as I write them. If there is something you want me to think out loud about, <a href="../about/" style="color:var(--accent);border-bottom:1px solid var(--accent-soft);">tell me</a>.</p>
+</section>
+
+</div><!-- /content-col -->
+</div><!-- /wrap -->
+
+<footer>
+  <div class="wrap">
+    <p class="footer-text">A companion to <em>Build Your Second Brain with Claude</em>. Share freely. &middot; <a href="../about/">About</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
