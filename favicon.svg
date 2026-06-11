@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect x="3.5" y="3.5" width="25" height="25" fill="#F3F5F8" stroke="#0D1218" stroke-width="2"/>
+  <text x="16" y="20.5" font-family="'JetBrains Mono', Menlo, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.5" text-anchor="middle" fill="#0D1218">SB</text>
+  <circle cx="28.5" cy="3.5" r="3.5" fill="#1B3A6B"/>
+</svg>

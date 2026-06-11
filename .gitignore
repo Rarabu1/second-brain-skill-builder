@@ -39,3 +39,19 @@
 !.dev.vars.example
 .env*
 !.env.example
+
+# Held-back field notes (02-05): not yet reviewed, keep out of the public repo.
+# When a note publishes, delete its line here in the same commit that lifts
+# its .assetsignore hold.
+field-notes/where-to-play/
+field-notes/read-before-you-accept/
+field-notes/untrusted-input/
+field-notes/before-something-sensitive/
+
+# Track deploy config and public root assets (were disk-only before).
+!favicon.svg
+!robots.txt
+!sitemap.xml
+!_headers
+!predeploy-check.sh
+!deploy.sh
