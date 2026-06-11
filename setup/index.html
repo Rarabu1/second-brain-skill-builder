@@ -3,8 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Build Your Second Brain with Claude</title>
+<title>The Five-Chapter Setup &middot; Second Brain Skill Builder</title>
 <meta name="description" content="A guided walk-through for turning Claude into a persistent collaborator that knows your work. Five chapters, each a checkpoint.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="canonical" href="https://secondbrain.training/setup/">
+<meta property="og:title" content="The Five-Chapter Setup &middot; Second Brain Skill Builder">
+<meta property="og:description" content="A guided walk-through for turning Claude into a persistent collaborator that knows your work. Five chapters, each a checkpoint.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://secondbrain.training/setup/">
+<meta property="og:image" content="https://secondbrain.training/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Five-Chapter Setup &middot; Second Brain Skill Builder">
+<meta name="twitter:description" content="A guided walk-through for turning Claude into a persistent collaborator that knows your work. Five chapters, each a checkpoint.">
+<meta name="twitter:image" content="https://secondbrain.training/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -25,7 +36,7 @@
     --paper-3: #DDE2EB;
     --ink: #0D1218;
     --ink-2: #3A4356;
-    --ink-3: #7B8294;
+    --ink-3: #5B6375;
     --rule: #D3D8E1;
     --accent: #1B3A6B;
     --accent-2: #2A4F8C;
@@ -35,7 +46,7 @@
     --terminal-green: #93D85A;
     --terminal-amber: #F0C84A;
     --terminal-text: #DCD6C7;
-    --terminal-dim: #6b6557;
+    --terminal-dim: #8A8270;
 
     /* Legacy aliases so old class rules keep working */
     --bg: var(--paper);
@@ -375,6 +386,8 @@
     <span class="note">Install commands below match your pick. Change it anytime.</span>
   </div>
 
+  <p style="font-size:13.5px;color:var(--ink-3);margin-top:10px;">Works on macOS 13+ and Windows 10 (1809) or newer with 4 GB of RAM. An older machine is the most common silent failure; check this first.</p>
+
   <div class="preface">
     <div class="item">
       <h4>1. <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a></h4>
@@ -384,9 +397,10 @@
     </div>
     <div class="item">
       <h4>2. <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a>, installed and ready</h4>
-      <p class="mac-only">Open the Terminal pane inside Obsidian (or Terminal.app) and run <code>curl -fsSL https://claude.ai/install.sh | bash</code>. The native installer is a standalone binary &mdash; no Node.js, no Xcode tools, no admin password. Then type <code>claude</code> to start. <span class="verify"><strong>Before you paste it:</strong> this downloads a script from Anthropic and runs it on the spot, so only ever pipe a web address into your shell when you trust the source. If you use Homebrew, <code>brew install --cask claude-code</code> is a signed alternative that checks the download for you.</span> <span class="verify">Verify: <code>claude --version</code> prints a version number. If you get <code>command not found</code>, close and reopen the terminal so it picks up the new command, then retry.</span></p>
-      <p class="win-only">Open <strong>PowerShell</strong> (not CMD) and run <code>irm https://claude.ai/install.ps1 | iex</code>. The native installer is a standalone binary &mdash; no Node.js, no WSL, no Administrator. Then type <code>claude</code> to start. <span class="verify"><strong>Before you paste it:</strong> this downloads a script from Anthropic and runs it on the spot, so only run it when you trust the source. <code>winget install Anthropic.ClaudeCode</code> is a signed alternative that checks the download for you.</span> <span class="verify">Verify: <code>claude --version</code> prints a version number. If you see <code>'irm' is not recognized</code>, you're in CMD &mdash; switch to PowerShell (its prompt starts with <code>PS C:\</code>).</span></p>
-      <p>Run it inside Obsidian's Terminal pane with your vault folder open and you're in a session that can read and write every file in the vault. Obsidian's file watcher picks up changes instantly &mdash; new files appear in the explorer as Claude writes them. <strong>Claude Code requires a paid Claude plan</strong> (Pro, Max, Team, or Enterprise) or an API key &mdash; the free Claude.ai plan doesn't include it. The first time you run <code>claude</code> it opens your browser to sign in.</p>
+      <p class="mac-only">Open the Terminal pane inside Obsidian (or Terminal.app) and run <code>curl -fsSL https://claude.ai/install.sh | bash</code>. The native installer is a standalone binary &mdash; no Node.js, no Xcode tools, no admin password. Then type <code>claude</code> to start. <span class="verify"><strong>Before you paste it:</strong> this downloads a script from Anthropic and runs it on the spot, so only ever pipe a web address into your shell when you trust the source. If you use Homebrew, <code>brew install --cask claude-code</code> is a signed alternative that checks the download for you. (One trade-off: Homebrew installs don't auto-update; run <code>brew upgrade claude-code</code> now and then.)</span> <span class="verify">Verify: <code>claude --version</code> prints a version number, and <code>claude doctor</code> runs a fuller health check. If you get <code>command not found</code>, close and reopen the terminal so it picks up the new command, then retry.</span> <span class="verify">Want to check what you got? The binary is code-signed by Anthropic: <code>codesign --verify --verbose ~/.local/bin/claude</code> confirms it.</span></p>
+      <p class="win-only">Open <strong>PowerShell</strong> (not CMD) and run <code>irm https://claude.ai/install.ps1 | iex</code>. The native installer is a standalone binary &mdash; no Node.js, no WSL, no Administrator. Then type <code>claude</code> to start. <span class="verify"><strong>Before you paste it:</strong> this downloads a script from Anthropic and runs it on the spot, so only run it when you trust the source. <code>winget install Anthropic.ClaudeCode</code> is a signed alternative that checks the download for you. (One trade-off: winget installs don't auto-update; run <code>winget upgrade Anthropic.ClaudeCode</code> now and then.)</span> <span class="verify">Verify: <code>claude --version</code> prints a version number, and <code>claude doctor</code> runs a fuller health check. If you see <code>'irm' is not recognized</code>, you're in CMD &mdash; switch to PowerShell (its prompt starts with <code>PS C:\</code>).</span> <span class="verify">Want to check what you got? The binary is code-signed by Anthropic: <code>Get-AuthenticodeSignature "$env:USERPROFILE\.local\bin\claude.exe"</code> should report Anthropic, PBC.</span></p>
+      <p class="win-only" style="font-size:14px;color:var(--ink-2);"><strong>Rather stay in CMD?</strong> There's an installer for that too: <code>curl -fsSL https://claude.ai/install.cmd -o install.cmd &amp;&amp; install.cmd &amp;&amp; del install.cmd</code>. And one advanced note: Claude Code's OS-level sandboxing works inside WSL2 only, not on native Windows. If sandboxed command execution matters to you, that's the one real reason to take the WSL detour.</p>
+      <p>Run it inside Obsidian's Terminal pane with your vault folder open and you're in a session that can read and write every file in the vault. Obsidian's file watcher picks up changes instantly &mdash; new files appear in the explorer as Claude writes them. <strong>Claude Code requires a paid Claude plan</strong> (Pro, Max, Team, or Enterprise) or an API key &mdash; the free Claude.ai plan doesn't include it. The first time you run <code>claude</code> it opens your browser to sign in. Native installs auto-update in the background, so there's no "keep it updated" chore. Prefer fewer surprises over newest features? Add <code>"autoUpdatesChannel": "stable"</code> to your settings.json and you'll trail about a week behind, skipping releases with major regressions.</p>
     </div>
     <div class="item">
       <h4>3. Hosted connectors for the tools you live in</h4>
@@ -400,6 +414,10 @@
 
   <div class="callout">
     <strong>Before your first session:</strong> The goal is one folder on your computer that both Obsidian and Claude can see. Install <a href="https://obsidian.md" target="_blank" rel="noopener noreferrer">Obsidian</a> and open (or create) a vault folder &mdash; this becomes your Second Brain. From Obsidian's community plugins, install <strong>Terminal</strong>. Then install <a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer">Claude Code</a> <span class="mac-only">with <code>curl -fsSL https://claude.ai/install.sh | bash</code></span><span class="win-only">in PowerShell with <code>irm https://claude.ai/install.ps1 | iex</code></span>. Open the Terminal pane inside Obsidian, confirm you're in your vault folder, and type <code>claude</code> &mdash; it opens your browser to sign in. <strong>A paid Claude plan is required</strong> (Pro/Max/Team/Enterprise); the free plan doesn't include Claude Code. Claude now sees every file in the vault. Add connectors for Gmail, Calendar, and your chat tool when you reach Chapter 3.
+  </div>
+
+  <div class="callout">
+    <strong>Terminal-averse? There's a no-terminal path.</strong> The Claude Desktop app runs Claude Code with a graphical interface: same vault, same files, no shell. This guide assumes the terminal because the warmup teaches it in twenty minutes, but if that's the dealbreaker, install the <a href="https://claude.com/download" target="_blank" rel="noopener noreferrer">Desktop app</a> and follow the chapters from inside it. The prompts are identical.
   </div>
 
   <nav class="toc" aria-label="Chapter navigation">
@@ -1077,12 +1095,13 @@ Also add to root CLAUDE.md AI Agent Instructions: "Maintain people files in 03_r
     <div class="problem"><p>Up to here, Claude only runs when you have a session open. If you want a brief waiting when you wake up, someone has to start the session and run the prompt. That someone is you. At 8 AM. Before coffee.</p></div>
 
     <h3>What you build</h3>
-    <p>Three things, in order of effort. <strong>Scheduled briefs</strong> via launchd so the morning brief writes itself before you wake up. <strong>A live "Today" view</strong> built with Obsidian's Dataview plugin, or a static HTML report Claude regenerates on demand. <strong>PARA maintenance</strong>: a routine that runs as part of the morning brief and keeps the workspace from accumulating cruft.</p>
+    <p>Three things, in order of effort. <strong>Scheduled briefs</strong> via launchd on a Mac or Task Scheduler on Windows, so the morning brief writes itself before you wake up. <strong>A live "Today" view</strong> built with Obsidian's Dataview plugin, or a static HTML report Claude regenerates on demand. <strong>PARA maintenance</strong>: a routine that runs as part of the morning brief and keeps the workspace from accumulating cruft.</p>
 
     <div class="callout">
-      <strong>Heads up:</strong> This is the chapter where Cowork starts pulling ahead for two specific jobs &mdash; scheduled tasks on Anthropic's infrastructure (no laptop required) and live dashboards that re-query connectors. If the launchd approach below feels like overkill, jump to <a href="#cowork">Appendix B</a> for the Cowork path. Both work against the same vault.
+      <strong>Heads up:</strong> This is the chapter where Cowork starts pulling ahead for two specific jobs &mdash; scheduled tasks on Anthropic's infrastructure (no laptop required) and live dashboards that re-query connectors. If the scheduler approach below feels like overkill, jump to <a href="#cowork">Appendix B</a> for the Cowork path. Both work against the same vault.
     </div>
 
+    <div class="mac-only">
     <h4>Scheduled briefs with launchd (Mac)</h4>
     <p>launchd is macOS's built-in job scheduler &mdash; it can run a script automatically at any time you set, even while you're asleep or away from the computer. The idea here: launchd wakes at 7:55 AM, starts <code>claude</code> in non-interactive mode, hands it the morning-brief prompt, restricts it to a minimal set of tools, and lets it write the triage file. Your laptop has to be awake &mdash; if you sleep with it closed, Cowork's scheduled tasks handle this without needing the machine on.</p>
 
@@ -1112,6 +1131,39 @@ Also create midday (12:00) and EOD (17:30) variants.</pre>
       </div>
     </details>
     <p style="font-size:14px;color:var(--ink-2);">launchd runs even when no user is logged in (as a LaunchDaemon) or only when you're logged in (as a LaunchAgent &mdash; what's above). The agent path is fine for personal use and doesn't require root.</p>
+    </div>
+
+    <div class="win-only">
+    <h4>Scheduled briefs with Task Scheduler (Windows)</h4>
+    <p>Task Scheduler is Windows' built-in job scheduler, the same role launchd plays on a Mac: it runs a script at any time you set, no session open. The idea here: Task Scheduler wakes at 7:55 AM, starts <code>claude</code> in non-interactive mode, hands it the morning-brief prompt, restricts it to a minimal set of tools, and lets it write the triage file. Your machine has to be awake &mdash; if it sleeps overnight, Cowork's scheduled tasks handle this without needing the machine on.</p>
+
+    <details class="prompt-card" open>
+      <summary>
+        <span class="tag">prompt 5A</span>
+        <span class="title">Generate the scheduled task for me</span>
+        <button class="copybtn" onclick="copyPrompt(event, this)">Copy</button>
+      </summary>
+      <div class="body">
+<pre>Generate a Windows Task Scheduler setup that runs my morning brief at 8 AM on weekdays.
+
+It should:
+- Run `claude -p "Execute 02_areas/routines/morning_brief.md and write the output to 00_inbox/triage/&lt;today as YYYY_MM_DD&gt;.md"`
+- Use `--allowedTools "Read,Glob,Grep,Write,mcp__gmail__*,mcp__calendar__*,mcp__slack__*"` (adjust to my installed connectors; do NOT add Bash or the PowerShell tool, since either one can run any command and would undo the read-only setup)
+- Use `--model claude-sonnet-4-6` to keep scheduled runs cheaper
+- Set the working directory to my vault folder
+- Run Monday through Friday only
+- Append output to a log file at %USERPROFILE%\.claude\logs\morning_brief.log
+
+Give me one PowerShell snippet using Register-ScheduledTask (New-ScheduledTaskAction, New-ScheduledTaskTrigger with -DaysOfWeek, New-ScheduledTaskSettingsSet) that I can paste once. No Administrator. Then give me the commands to:
+1. Verify it's registered (Get-ScheduledTask)
+2. Run it once now to test (Start-ScheduledTask)
+3. Remove it later if I change my mind (Unregister-ScheduledTask)
+
+Also create midday (12:00) and EOD (17:30) variants.</pre>
+      </div>
+    </details>
+    <p style="font-size:14px;color:var(--ink-2);">One Windows-specific catch: without Git for Windows, Claude Code's shell tool is PowerShell rather than Bash, so the read-only advice means leaving the PowerShell tool out of <code>--allowedTools</code> too. The prompt above already does.</p>
+    </div>
 
     <h4>How the interactive session uses the scheduled output</h4>
     <p>At the start of each interactive triage, Claude should: read the scheduled task's latest brief, extract observations as raw data, discard the scheduled task's priority classifications (stale snapshots without full context), run a fresh scan, merge with the observations, verify each item, and apply independent priority classification using full context.</p>
@@ -1225,7 +1277,7 @@ Add this as the final step of the morning brief.</pre>
 Reply "send" to confirm.</pre>
     </div>
     <p>Add this rule to root CLAUDE.md Communication Rules. <strong>Autonomous action boundaries</strong>: Claude reads files, sorts inbox, updates people files, flags items, writes triage files without asking. Claude always asks first before sending messages, archiving projects, deleting files, or closing follow-ups.</p>
-    <p><strong>Least-privilege connectors.</strong> When the OAuth screen asks for scopes during authentication, pick read-only wherever offered. Triage and scheduled briefs only need to read. The <code>--allowedTools</code> flag in your launchd plist narrows what Claude can reach to the tools you list, so keep that list minimal and leave <code>Bash</code> out: a single Bash tool can run any command, which defeats a read-only setup. Treat this as a strong default, not an unbreakable wall.</p>
+    <p><strong>Least-privilege connectors.</strong> When the OAuth screen asks for scopes during authentication, pick read-only wherever offered. Triage and scheduled briefs only need to read. The <code>--allowedTools</code> flag in your launchd plist narrows what Claude can reach to the tools you list, so keep that list minimal and leave <code>Bash</code> out: a single Bash tool can run any command, which defeats a read-only setup. Treat this as a strong default, not an unbreakable wall. Two refinements if you want it tighter: a permission rule in <code>.claude/settings.json</code> can pin <code>Write</code> to the triage folder so a misbehaving run can't touch anything else, and on native Windows without Git Bash the PowerShell tool plays Bash's role, so leave it out of <code>--allowedTools</code> for the same reason.</p>
     <p><strong>Watch what the daemon reads, not just what it sends.</strong> A scheduled run ingests untrusted outside content: emails, calendar invites, messages. Someone who can send you any of those can plant instructions in that content, hoping an unattended agent acts on them. This is why the daemon stays read-only and Bash-free, and why you should read its triage output before acting on it. The pre-send verification above protects outbound messages; this protects against malicious inbound content.</p>
 
     <div class="callout">
@@ -1235,7 +1287,7 @@ Reply "send" to confirm.</pre>
     <div class="tips">
       <h4>Which model to use</h4>
       <ul>
-        <li><strong>Haiku for scheduled runs.</strong> Fast and cheap. Use it for the launchd daemon — it reads files, runs the brief, writes the triage output. You don't need Sonnet's reasoning for that job.</li>
+        <li><strong>Haiku for scheduled runs.</strong> Fast and cheap. Use it for the scheduled daemon — it reads files, runs the brief, writes the triage output. You don't need Sonnet's reasoning for that job.</li>
         <li><strong>Sonnet for daily interactive work.</strong> Triage, drafting, meeting prep, most prompts. The right default for sessions where you're doing real work.</li>
         <li><strong>Opus for high-stakes output.</strong> Complex analysis, anything where judgment matters more than speed, drafts that go to leadership. Slower and more expensive — worth it when it counts.</li>
       </ul>
@@ -1257,7 +1309,7 @@ Reply "send" to confirm.</pre>
   <div class="timeline">
     <div class="event">
       <p class="time">7:55 AM</p>
-      <p class="what">The <strong>launchd job</strong> fires. <code>claude -p</code> runs the morning brief routine non-interactively, reads chat and email via MCPs, scans your calendar, and writes <code>00_inbox/triage/2026_05_29.md</code>. Three items marked Action Required, eight FYI.</p>
+      <p class="what">The <strong>scheduled job</strong> fires (launchd on a Mac, Task Scheduler on Windows). <code>claude -p</code> runs the morning brief routine non-interactively, reads chat and email via MCPs, scans your calendar, and writes <code>00_inbox/triage/2026_05_29.md</code>. Three items marked Action Required, eight FYI.</p>
     </div>
     <div class="event">
       <p class="time">8:15 AM</p>
@@ -1432,7 +1484,7 @@ Why this meeting happened.
   <div class="preface">
     <div class="item">
       <h4>Scheduled briefs while your laptop sleeps</h4>
-      <p>Cowork's scheduled tasks run on Anthropic's infrastructure. An 8 AM morning brief fires whether your machine is awake or not. launchd needs your laptop on and online. If you close your laptop at night, this is the single best reason to keep Cowork around.</p>
+      <p>Cowork's scheduled tasks run on Anthropic's infrastructure. An 8 AM morning brief fires whether your machine is awake or not. launchd and Task Scheduler both need your machine on and online. If you close your laptop at night, this is the single best reason to keep Cowork around.</p>
     </div>
     <div class="item">
       <h4>A live "Today" dashboard you check five times a day</h4>
@@ -1440,7 +1492,7 @@ Why this meeting happened.
     </div>
     <div class="item">
       <h4>Sharing the system with non-technical colleagues</h4>
-      <p>Most people won't install Node, configure MCPs, or learn launchd. Cowork's connectors panel is a one-click OAuth flow. If you want a partner or a less-technical friend running the same Second Brain pattern, point them at Cowork &mdash; same prompts, same chapters, no terminal.</p>
+      <p>Most people won't install Node, configure MCPs, or learn a job scheduler. Cowork's connectors panel is a one-click OAuth flow. If you want a partner or a less-technical friend running the same Second Brain pattern, point them at Cowork &mdash; same prompts, same chapters, no terminal.</p>
     </div>
     <div class="item">
       <h4>Connector quality for Google Drive, Notion, Asana</h4>
@@ -1458,7 +1510,7 @@ Why this meeting happened.
   <details class="template">
     <summary>Migrating a single job to Cowork (without leaving Claude Code)</summary>
     <div class="body">
-      <p style="font-size:14.5px;"><strong>The scheduled morning brief.</strong> Disable the launchd plist (<code>launchctl unload ~/Library/LaunchAgents/com.user.secondbrain.morningbrief.plist</code>). In Cowork, create a scheduled task with the same prompt body. The output path stays the same &mdash; Cowork writes to <code>00_inbox/triage/YYYY_MM_DD.md</code> in your vault, Obsidian renders it, your interactive Claude Code session reads it the same way.</p>
+      <p style="font-size:14.5px;"><strong>The scheduled morning brief.</strong> <span class="mac-only">Disable the launchd plist (<code>launchctl unload ~/Library/LaunchAgents/com.user.secondbrain.morningbrief.plist</code>).</span><span class="win-only">Disable the scheduled task (<code>Unregister-ScheduledTask -TaskName SecondBrain-MorningBrief</code>, adjusting to the task name you registered).</span> In Cowork, create a scheduled task with the same prompt body. The output path stays the same &mdash; Cowork writes to <code>00_inbox/triage/YYYY_MM_DD.md</code> in your vault, Obsidian renders it, your interactive Claude Code session reads it the same way.</p>
       <p style="font-size:14.5px;"><strong>The "Today" view.</strong> Keep the Dataview note for the static cross-vault rollup. Add a Cowork artifact for the live connector data (calendar, unread Action Required, @-mentions). They cover different jobs &mdash; Dataview for your own files, the artifact for live external state.</p>
     </div>
   </details>

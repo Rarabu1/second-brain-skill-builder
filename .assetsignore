@@ -1,4 +1,42 @@
-wrangler.jsonc
-.assetsignore
-.gitignore
-README.md
+# .assetsignore controls what wrangler DEPLOYS and serves publicly.
+# It is separate from .gitignore. wrangler serves this whole directory,
+# so this MUST be a strict allowlist: deny everything, then re-include
+# only the real public site. Anything not re-included below is NOT served.
+
+# Deny everything by default.
+*
+
+# Re-include only the public site.
+# (_headers is consumed by Cloudflare for response headers, not served as a file.)
+!_headers
+!index.html
+!robots.txt
+!sitemap.xml
+!og.png
+!favicon.svg
+!warmup/
+!warmup/**
+!setup/
+!setup/**
+!personalize/
+!personalize/**
+!prompts/
+!prompts/**
+!about/
+!about/**
+!field-notes/
+!field-notes/**
+
+# Belt-and-suspenders: never serve VCS, tooling, or working files,
+# even if a future edit loosens the rules above.
+.git/
+.git/**
+.wrangler/
+.wrangler/**
+
+# Field Notes 02-05: written but held back until reviewed. Remove these
+# four lines to publish them.
+field-notes/where-to-play/
+field-notes/read-before-you-accept/
+field-notes/untrusted-input/
+field-notes/before-something-sensitive/

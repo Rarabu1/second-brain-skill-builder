@@ -7,6 +7,7 @@
 !.gitignore
 !wrangler.jsonc
 !.assetsignore
+!og.png
 
 # Allow warmup/ and its contents
 !warmup/

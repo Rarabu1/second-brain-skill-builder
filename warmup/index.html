@@ -3,8 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hello, Terminal</title>
+<title>Hello, Terminal &middot; Second Brain Skill Builder</title>
 <meta name="description" content="A friendly, hands-on introduction to the macOS terminal. Nine exercises, about twenty minutes, no setup required.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="canonical" href="https://secondbrain.training/warmup/">
+<meta property="og:title" content="Hello, Terminal &middot; Second Brain Skill Builder">
+<meta property="og:description" content="A friendly, hands-on introduction to the macOS terminal. Nine exercises, about twenty minutes, no setup required.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://secondbrain.training/warmup/">
+<meta property="og:image" content="https://secondbrain.training/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hello, Terminal &middot; Second Brain Skill Builder">
+<meta name="twitter:description" content="A friendly, hands-on introduction to the macOS terminal. Nine exercises, about twenty minutes, no setup required.">
+<meta name="twitter:image" content="https://secondbrain.training/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -18,7 +29,7 @@
     /* Ink */
     --ink: #0D1218;
     --ink-2: #3A4356;
-    --ink-3: #7B8294;
+    --ink-3: #5B6375;
     --rule: #D3D8E1;
 
     /* Accent */
@@ -32,7 +43,7 @@
     --terminal-green: #93D85A;
     --terminal-amber: #F0C84A;
     --terminal-text: #DCD6C7;
-    --terminal-dim: #6b6557;
+    --terminal-dim: #8A8270;
     --terminal-err: #ff7b72;
 
     /* Legacy aliases for existing markup */
@@ -348,7 +359,7 @@
     <p class="label">Step 1 — Open Terminal (macOS)</p>
     <h3>Press <kbd>⌘</kbd> + <kbd>Space</kbd>, type <em>Terminal</em>, press <kbd>Enter</kbd>.</h3>
     <p>A window opens with a prompt that looks like the one above. You're now in your real home folder. The specific commands you practiced only read and look around &mdash; they never change or delete, so they're safe to run here. The terminal itself isn't automatically safe, though: other commands can move, overwrite, or delete files. The rule that keeps you out of trouble is simple &mdash; only run a command when you understand what it does, especially one you copied from somewhere.</p>
-    <p style="font-size:14px;color:var(--ink-3);margin-top:8px;"><strong>Windows?</strong> Press <kbd>Win</kbd> + <kbd>S</kbd>, search for <em>Windows Terminal</em> or <em>PowerShell</em>, and open it. <strong>Linux?</strong> Look for Terminal in your applications menu. All the commands above work the same way.</p>
+    <p style="font-size:14px;color:var(--ink-3);margin-top:8px;"><strong>Windows?</strong> Press <kbd>Win</kbd> + <kbd>S</kbd>, search for <em>Windows Terminal</em> or <em>PowerShell</em>, and open it. PowerShell speaks a slightly different dialect: most of the commands below work as-is, and where one differs there's a Windows line under it. <strong>Linux?</strong> Look for Terminal in your applications menu; everything works the same way.</p>
   </div>
 
   <div class="real">
@@ -366,6 +377,8 @@ ls</pre>
     </div>
 
     <p>Each one should feel familiar. The output is real this time &mdash; your actual username, today's actual date, the contents of your real home folder.</p>
+
+    <p style="font-size:14px;color:var(--ink-3);margin-top:8px;"><strong>Windows?</strong> Five of the six work as-is. <code>cal</code> isn't a PowerShell command; skip it, or try <code>Get-Date -Format MMMM</code> for a first taste of the local dialect.</p>
 
     <div class="check-row">
       <input type="checkbox" id="real1">
@@ -392,6 +405,8 @@ ls</pre>
 
     <p>If you see permission errors scroll by, ignore them &mdash; they're folders the system protects. Your results are still in there.</p>
 
+    <p style="font-size:14px;color:var(--ink-3);margin-top:8px;"><strong>Windows?</strong> <code>find</code> means something different in PowerShell. Same idea, local spelling: <code>Get-ChildItem ~ -Recurse -Filter "*.pdf" -ErrorAction SilentlyContinue</code>. Swap the filter the same way (<code>"*resume*"</code> works there too). Once Claude Code is installed you won't translate by hand &mdash; you describe what you want and it picks the right command for your system.</p>
+
     <div class="check-row">
       <input type="checkbox" id="real2">
       <label for="real2">I found a real file on my computer using <code>find</code>.</label>
@@ -402,7 +417,7 @@ ls</pre>
 <section id="wrap-up">
   <p class="eyebrow">That's it</p>
   <h2>You can use a terminal now.</h2>
-  <p>Nine commands isn't everything, but it's a real foundation. <code>echo</code>, <code>date</code>, <code>cal</code>, <code>whoami</code>, <code>pwd</code>, <code>ls</code>, <code>cd</code>, <code>find</code>, and <code>clear</code> &mdash; that's most of what people actually type day to day.</p>
+  <p>Eight commands isn't everything, but it's a real foundation. <code>echo</code>, <code>whoami</code>, <code>date</code>, <code>cal</code>, <code>pwd</code>, <code>ls</code>, <code>cd</code>, and <code>find</code> &mdash; that's most of what people actually type day to day. (Plus <code>clear</code>, which you may have met in <code>help</code>: it wipes the screen and nothing else.)</p>
   <p>Everything else builds from the same pattern: type the name of a tool, give it some inputs, press Enter, read the output. The commands you don't know yet work exactly the same way as the ones you do.</p>
   <p>If you want to keep going, the next useful commands are <code>mkdir</code> (make a folder), <code>cp</code> (copy a file), <code>mv</code> (move or rename), and <code>grep</code> (search inside files). Same pattern, slightly more powerful.</p>
 </section>
